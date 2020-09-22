@@ -3,7 +3,6 @@ const rescue = require('express-rescue');
 const Boom = require('boom');
 
 const { usersServices } = require('../services');
-const users = require('../models/users');
 
 const { SECRET = "preguicaDeCriarUmSegredo" } = process.env;
 
@@ -41,7 +40,35 @@ const getUser = rescue(async (req, res) => {
   return res.status(200).json({ ...user });
 });
 
+const validate = (req, _res, next) => {
+  const userObj = { email, name, password, role } = req.body;
+
+  if (!email || !name || !password) return next(Boom.badData('Faltando informacoes'));
+
+  const { error, value } = usersServices.userSchema.validate(userObj);
+  
+  if (error) return next(Boom.badData(error));
+
+  req.validated = value;
+  return next();
+};
+
+const register = rescue(async (req, res, next) => {
+  const { email, password, role, name } = req.validated;
+
+  const { id } = await usersServices.getUserByEmail(email);
+
+  if (id) return next(Boom.conflict('email ja existe'));
+
+  const newUser = await usersServices.createUser({ email, name, password, role });
+
+  res.status(200).json({ ...newUser });
+});
+
 module.exports = {
   login,
   getUser,
+  register,
+  validate,
+  register,
 };
