@@ -9,7 +9,7 @@ const ProductCard = (props) => {
   const { id, name, price, photo, index } = props;
 
   useEffect(() => {
-    if (sellingQuantity !== 0) {
+    if (operator !== '') {
       const arr = JSON.parse(localStorage.getItem('sellingProducts'));
       
       if (arr.length === 0 || !arr.some((product) => product.id === id)) {
@@ -33,6 +33,7 @@ const ProductCard = (props) => {
     const localStorageSell = JSON.parse(localStorage.getItem('sellingProducts'));
     const productQuantity = localStorageSell.find((product) => product.id === id) || 0;
     setQuantity(productQuantity);
+
   }, [sellingQuantity]);
 
   return (
