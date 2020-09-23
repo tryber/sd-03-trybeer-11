@@ -6,6 +6,7 @@ const { errorMiddleware } = require('./middleware');
 
 const app = express();
 
+app.use((req, _res, next) => { console.log(req.path); next(); });
 app.use(bodyParser.json());
 app.use(cors());
 
