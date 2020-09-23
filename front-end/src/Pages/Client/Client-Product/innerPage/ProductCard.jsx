@@ -13,7 +13,7 @@ const ProductCard = (props) => {
       const arr = JSON.parse(localStorage.getItem('sellingProducts'));
       
       if (arr.length === 0 || !arr.some((product) => product.id === id)) {
-        arr.push({ id, sellingQuantity })
+        arr.push({ id, sellingQuantity });
         localStorage.setItem('sellingProducts', JSON.stringify(arr));
 
         const localStorageSell = JSON.parse(localStorage.getItem('sellingProducts'));
@@ -34,6 +34,7 @@ const ProductCard = (props) => {
     const productQuantity = localStorageSell.find((product) => product.id === id) || 0;
     setQuantity(productQuantity);
   }, [sellingQuantity]);
+
   return (
     <div>
       <section>
