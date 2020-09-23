@@ -65,9 +65,24 @@ const register = rescue(async (req, res, next) => {
   res.status(200).json({ ...newUser });
 });
 
+const changeUser = rescue(async (req, res, next) => {
+  const { name } = req.body;
+  const { id } = req.user;
+
+  const { error } = usersServices.nameSchema.validate(name);
+
+  if (error) return next(Boom.badData(error));
+  const changedUser = await usersServices.changeUserName(name, { id });
+
+  if (changeUser.error) return next(Boom.internal(error));
+
+  return res.status(200).json({ ...changedUser });
+});
+
 module.exports = {
   login,
   getUser,
   validate,
   register,
+  changeUser,
 };
