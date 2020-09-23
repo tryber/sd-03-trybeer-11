@@ -1,13 +1,14 @@
 const mysqlx = require('@mysql/xdevapi');
 const frisby = require('frisby');
-const joi = require('joi');
+const Joi = frisby.Joi;
 require('dotenv/config');
 
 const {
   HOST,
   USER_MYSQL,
   PASSWORD,
-  PORT_DB
+  PORT_DB,
+  PORT,
 } = process.env;
 
 const config = {
@@ -16,6 +17,8 @@ const config = {
   password: PASSWORD,
   port: PORT_DB,
 };
+
+const URL_BASE = `http://localhost:${PORT}`;
 
 describe('register', () => {
   let conn;
@@ -37,19 +40,22 @@ describe('register', () => {
     await table.delete().where('TRUE').execute();
   });
 
-  test.skip('Is possible create an commom user', async () => {
-    await frisby.post('http://localhost:3001', {
+  test('Is possible create an commom user', async () => {
+    const user = {
       name: 'exampleGrande',
-      email: 'example@example',
+      email: 'example@example.com',
       password: '123456',
-      role: true,
-    })
+      role: false,
+    };
+
+    await frisby.post(`${URL_BASE}/user`, user)
+      .inspectJSON()
       .expect('status', 201)
-      .expect('json', {
+      .expect('jsonTypes', {
+        id: Joi.number().required(),
+        email: 'example@example.com',
         name: 'exampleGrande',
-        email: 'example@example',
-        password: '123456',
-        role: true,
+        role: 'client',
       });
   });
 });

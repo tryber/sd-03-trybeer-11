@@ -62,7 +62,7 @@ const register = rescue(async (req, res, next) => {
 
   const newUser = await usersServices.createUser({ email, name, password, role });
 
-  res.status(200).json({ ...newUser });
+  res.status(201).json({ ...newUser });
 });
 
 const changeUser = rescue(async (req, res, next) => {
