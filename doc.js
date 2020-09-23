@@ -66,7 +66,7 @@ const PUT_profile = {
       message: "pelo menos 12 caracteres, não pode conter numeros nem caracteres especiais",
     },
     "token invalido": {
-      message: "autenticacao invalido",
+      message: "autenticacao invalida",
     }
   }
 };
