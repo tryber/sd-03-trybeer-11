@@ -1,6 +1,6 @@
 export const ADD_QUANTITY = 'ADD_QUANTITY';
 
-export const quantiyAction = (productObj) => ({
+export const quantityAction = (productsArr) => ({
   type: ADD_QUANTITY,
-  newProductObj: productObj
-})
+  newProductArr: productsArr,
+});

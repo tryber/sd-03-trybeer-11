@@ -8,10 +8,12 @@ const ClientProduct = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (!localStorage.getItem('sellingProducts')) {
+      localStorage.setItem('sellingProducts', JSON.stringify([]))
+    }
     dispatch(getApiData());
   }, []);
 
-  console.log(products)
   return (
     <div>
       {products.map(({ id, name, price, urlImage }, index) => (

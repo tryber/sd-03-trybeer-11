@@ -1,24 +1,17 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { quantityAction } from '../../../../Redux/action/plusMinusActions';
+import React, { useState, useEffect } from 'react';
 
-const PlusMinus = ({ id, index }) => {
-  const products = useSelector(state => state.apiProductsReducer.data);
-  const [quantity, setQuantity] = useState(0);
-  const dispatch = useDispatch();
 
-  const product = products.find((product) => product.id === id); 
+const PlusMinus = ({ sellingQuantity, index, setSellingQuantity, setOperator }) => {
 
-  const qntAlter = (action) => {
-    setQuantity(eval(`${quantity} ${action} ${1}`))
-    product.quantity = quantity;
-    dispatch()
+  const changeQuantity = (action) => {
+    setOperator(action);
+    setSellingQuantity(eval(`${sellingQuantity} ${action} ${1}`));
   }
   
   return (
     <div>
-      <button onClick={() => qntAlter('-')}data-testid={`${index}-product-minus`}>-</button>
-      <button onClick={() => qntAlter('+')} data-testid={`${index}-product-plus`}>+</button>
+      <button onClick={() => changeQuantity('-')} data-testid={`${index}-product-minus`}>-</button>
+      <button onClick={() => changeQuantity('+')} data-testid={`${index}-product-plus`}>+</button>
     </div>
   );
 }
