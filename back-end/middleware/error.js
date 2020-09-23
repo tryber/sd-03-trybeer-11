@@ -1,4 +1,4 @@
-const Boom = require("boom");
+const Boom = require('boom');
 
 module.exports = (err, _req, res, _next) => {
   if (Boom.isBoom(err)) {
