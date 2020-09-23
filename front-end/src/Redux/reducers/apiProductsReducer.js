@@ -19,7 +19,7 @@ const apiProductsReducer = (state = INITIAL_STATE, action) => {
     case API_RECEIVE_SUCCESS:
       return {
         ...state,
-        data: [...state.data, action.data],
+        data: [...state.data, ...action.data],
         loading: false,
       };
     case API_RECEIVE_FAILURE:
@@ -28,6 +28,11 @@ const apiProductsReducer = (state = INITIAL_STATE, action) => {
         error: action.errorMessage,
         loading: false,
       };
+    case ADD_QUANTITY:
+      return {
+        ...state,
+        data: [...state.data, action.newProductObj]
+      }
     default:
       return state;
   }
