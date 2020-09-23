@@ -8,6 +8,6 @@ const products = express.Router();
 products.use('/images', express.static(path.join(__dirname, '../images')));
 
 products
-  .get('/', productsControllers.getAll)
+  .get('/', productsControllers.getAll);
 
 module.exports = products;
