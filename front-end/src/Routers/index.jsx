@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom';
 import { Login, Profile } from '../Pages/index'; 
 
-
 const Routers = () => {
   return (
     <Router>

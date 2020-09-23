@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: flex-start;
   margin: auto;
-  width: 60vw;
+  max-width: 1000px;
   min-height: 100vh;
 }
 

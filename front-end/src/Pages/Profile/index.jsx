@@ -20,8 +20,6 @@ const Profile = () => {
           setLoading(false);
         })
         .catch((err) => {
-          console.log(err);
-
           setError(err);
           setLoading(false);
         });
@@ -31,14 +29,14 @@ const Profile = () => {
   useEffect(() => {
     if (changeLoading) {
       changeName(name)
-      .then((result) => {
-        setResult(result);
-        setChangeLoading(false);
-      })
-      .catch((err) => {
-        setError(err);
-        setChangeLoading(false);
-      });
+        .then((result) => {
+          setResult(result);
+          setChangeLoading(false);
+        })
+        .catch((err) => {
+          setError(err);
+          setChangeLoading(false);
+        });
     }
   }, [changeLoading, name]);
 
