@@ -14,6 +14,20 @@ const getUserByEmail = async (emailToSearch) => connection()
     role,
   }));
 
+const getUserById = async (idToSearch) => connection()
+  .then((db) => db.getTable('users'))
+  .then((table) => table.select().where('id = :id')
+    .bind('id', idToSearch)
+    .execute())
+  .then((conn) => conn.fetchAll()[0] || [])
+  .then(([id, name, email, password, role]) => ({
+    id,
+    name,
+    email,
+    password,
+    role,
+  }));
+
 const createUser = async ({ email, name, password, role }) => connection()
   .then((db) => db.getTable('users'))
   .then((usersTable) => usersTable
@@ -28,7 +42,28 @@ const createUser = async ({ email, name, password, role }) => connection()
     role,
   }));
 
+const changeUserNameById = async (id, name) => connection()
+  .then((db) => db.getTable('users'))
+  .then((table) => table
+    .update()
+    .set('name', name)
+    .where('id = :id')
+    .bind('id', id)
+    .execute());
+
+const changeUserNameByEmail = async (email, name) => connection()
+  .then((db) => db.getTable('users'))
+  .then((table) => table
+    .update()
+    .set('name', name)
+    .where('email = :email')
+    .bind('email', email)
+    .execute());
+
 module.exports = {
   getUserByEmail,
   createUser,
+  changeUserNameById,
+  changeUserNameByEmail,
+  getUserById,
 };
