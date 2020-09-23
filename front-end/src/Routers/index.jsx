@@ -4,7 +4,8 @@ import {
   Switch,
   Route
 } from 'react-router-dom';
-import { Login } from '../Pages/index'; 
+import { Login } from '../Pages/index';
+import { ClientProduct } from '../Pages/index'
 
 
 const Routers = () => {
@@ -12,6 +13,7 @@ const Routers = () => {
     <Router>
       <Switch>
         <Route path="/login" component={Login} />
+        <Route path="/products" component={ClientProduct} />
       </Switch>
     </Router>
   )
