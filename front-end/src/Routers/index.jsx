@@ -2,19 +2,19 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
 } from 'react-router-dom';
-import { Login } from '../Pages/index'; 
-
+import { Login, Register } from '../Pages/index';
 
 const Routers = () => {
   return (
     <Router>
       <Switch>
-        <Route path="/login" component={Login} />
+        <Route path="/login" component={ Login } />
+        <Route path="/Register" component={ Register } />
       </Switch>
     </Router>
-  )
+  );
 };
 
 export default Routers;
