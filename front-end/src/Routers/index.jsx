@@ -4,7 +4,7 @@ import {
   Switch,
   Route
 } from 'react-router-dom';
-import { Login } from '../Pages/index'; 
+import { Login, Profile } from '../Pages/index'; 
 
 
 const Routers = () => {
@@ -12,6 +12,7 @@ const Routers = () => {
     <Router>
       <Switch>
         <Route path="/login" component={Login} />
+        <Route path="/profile" component={Profile} />
       </Switch>
     </Router>
   )

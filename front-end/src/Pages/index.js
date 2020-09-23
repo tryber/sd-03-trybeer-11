@@ -1,3 +1,2 @@
-import Login from './Login/index';
-
-export default { Login };
+export { default as Login } from './Login/index';
+export { default as Profile } from './Profile';
