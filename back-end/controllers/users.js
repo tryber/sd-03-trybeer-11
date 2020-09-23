@@ -4,7 +4,7 @@ const Boom = require('boom');
 
 const { usersServices } = require('../services');
 
-const { SECRET = "preguicaDeCriarUmSegredo" } = process.env;
+const { SECRET = 'preguicaDeCriarUmSegredo' } = process.env;
 
 const options = {
   expiresIn: '1d',
@@ -31,7 +31,7 @@ const login = rescue(async (req, res, next) => {
   }
 });
 
-const getUser = rescue(async (req, res) => {
+const getUser = rescue(async (req, res, next) => {
   const { email } = req.user;
 
   const { password, ...user } = await usersServices.getUserByEmail(email);
@@ -41,12 +41,12 @@ const getUser = rescue(async (req, res) => {
 });
 
 const validate = (req, _res, next) => {
-  const userObj = { email, name, password, role } = req.body;
+  const { email, name, password, role } = req.body;
 
   if (!email || !name || !password) return next(Boom.badData('Faltando informacoes'));
 
-  const { error, value } = usersServices.userSchema.validate(userObj);
-  
+  const { error, value } = usersServices.userSchema.validate({ email, name, password, role });
+
   if (error) return next(Boom.badData(error));
 
   req.validated = value;
@@ -68,7 +68,6 @@ const register = rescue(async (req, res, next) => {
 module.exports = {
   login,
   getUser,
-  register,
   validate,
   register,
 };
