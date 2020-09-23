@@ -2,16 +2,22 @@ import React, { useState, useEffect } from 'react';
 import './index.css';
 
 import { getUser, changeName } from '../../Services/apiUserRequests';
+import { Redirect } from 'react-router-dom';
 
 const Profile = () => {
   const [name, setName] = useState('');
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
-  const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [result, setResult] = useState(null);
   const [changeLoading, setChangeLoading] = useState(false);
+  const [shouldRedirect, setShouldRedirect] = useState(false);
 
   useEffect(() => {
+    const { token } = JSON.parse(localStorage.getItem('user')) || {};
+
+    if (!token) setShouldRedirect(true);
+
     if (loading) {
       getUser()
         .then((user) => {
@@ -28,6 +34,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (changeLoading) {
+      setResult(null);
       changeName(name)
         .then((result) => {
           setResult(result);
@@ -40,6 +47,7 @@ const Profile = () => {
     }
   }, [changeLoading, name]);
 
+  if (shouldRedirect) return <Redirect to="/login" />
   if (changeLoading || loading) return <h1>Loading</h1>;
 
   return (
@@ -78,6 +86,7 @@ const Profile = () => {
       </form>
       <div className="change-user-feedback">
         {error && <h2>{error}</h2>}
+        {result && <h2>Nome alterado para: {result.name}</h2>}
       </div>
     </div>
   );
