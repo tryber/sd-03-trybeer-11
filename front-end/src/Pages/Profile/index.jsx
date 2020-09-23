@@ -52,7 +52,9 @@ const Profile = () => {
 
   return (
     <div className="chage-user-container">
-      <h1 className="change-user-title">Profile</h1>
+      <h1 data-testid="top-title" className="change-user-title">
+        Profile
+      </h1>
       <form
         className="change-user-form"
         onSubmit={(e) => {
@@ -63,6 +65,7 @@ const Profile = () => {
         <label className="change-user-label" htmlFor="name">
           <h2 className="change-user-label-text">Name</h2>
           <input
+            data-testid="profile-name-input"
             className="change-user-input"
             name="name"
             id="name"
@@ -73,6 +76,7 @@ const Profile = () => {
         <label className="change-user-label" htmlFor="email">
           <h2 className="change-user-label-text">Email</h2>
           <input
+            data-testid="profile-email-input"
             className="change-user-input"
             type="email"
             id="email"
@@ -82,7 +86,13 @@ const Profile = () => {
           />
         </label>
 
-        <button className="change-user-button" type="submit">Change Name</button>
+        <button
+          data-testid="profile-save-btn"
+          className="change-user-button"
+          type="submit"
+        >
+          Salvar
+        </button>
       </form>
       <div className="change-user-feedback">
         {error && <h2>{error}</h2>}
