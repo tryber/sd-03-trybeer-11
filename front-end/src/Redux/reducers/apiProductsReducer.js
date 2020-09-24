@@ -3,7 +3,6 @@ import {
   API_RECEIVE_SUCCESS,
   API_RECEIVE_FAILURE,
 } from '../action/apiProductsAction';
-import { ADD_QUANTITY } from '../action/plusMinusActions';
 
 const INITIAL_STATE = {
   data: [],
@@ -28,11 +27,6 @@ const apiProductsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         error: action.errorMessage,
         loading: false,
-      };
-    case ADD_QUANTITY:
-      return {
-        ...state,
-        data: [...action.newProductArr],
       };
     default:
       return state;
