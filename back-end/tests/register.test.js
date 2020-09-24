@@ -124,4 +124,25 @@ describe('register', () => {
       })
       .then(() => done());
   });
+
+  test('email should not exists', async () => {
+    const user = {
+      name: 'abcdefghijkl',
+      email: 'example@exa.com',
+      password: 'abcdef',
+      role: 'false',
+    };
+
+    const user2 = {
+      name: 'mnopqrstuvwxyz',
+      email: 'example@exa.com',
+      password: 'abcdef',
+      role: 'false',
+    };
+
+    await frisby.post(`${URL_BASE}/user`, user)
+      .expect('status', 200)
+    
+    await frisby.post(`${URL_BASE}/user`, user)
+  });
 });
