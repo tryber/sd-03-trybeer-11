@@ -10,9 +10,7 @@ const ClientProduct = () => {
   const shoppingList = useSelector(state => state.shoppingListReducer.data);
   const dispatch = useDispatch();
   
-  const totalPrice = shoppingList.reduce((acc, { price, sellingQnt }) => {
-    return acc + price * sellingQnt
-  }, 0);
+  const totalPrice = shoppingList.reduce((acc, { price, sellingQnt }) => acc + price * sellingQnt, 0);
 
   const totalPriceBRL = totalPrice.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}); 
   // https://pt.stackoverflow.com/questions/181922/formatar-moeda-brasileira-em-javascript/186798
