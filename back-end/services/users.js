@@ -20,7 +20,7 @@ const nameSchema = Joi.string().regex(/^[a-zA-Z]*$/)
   .error(() => new Error(
     'pelo menos 12 caracteres, não pode conter numeros nem caracteres especiais',
   ));
-const roleSchema = Joi.string().custom((value) => (value ? 'administrador' : 'client'));
+const roleSchema = Joi.boolean().custom((value) => (value ? 'administrador' : 'client'));
 
 const loginSchema = Joi.object({
   email: emailSchema,

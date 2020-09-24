@@ -1,0 +1,76 @@
+.logo {
+    width: 131px;
+    height: 131px;
+    margin-bottom: 50px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    box-shadow: 0px 0px 50px -5px rgba(0,0,0,0.75);
+}
+
+.nome {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 50px;
+}
+
+.email {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 50px;
+}
+
+.senha {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 50px;
+}
+
+.queroVender {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    height: 50px;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+}
+
+.register {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+
+span {
+    color: #FF7816;
+    margin-left: 7px;
+    margin-bottom: 2px;
+}
+
+.erro {
+  color: red;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  margin-top: 10px;
+  max-width: 280px;
+}
