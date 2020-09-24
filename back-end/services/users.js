@@ -1,4 +1,12 @@
+const jwt = require('jsonwebtoken');
 const Joi = require('joi');
+
+const { SECRET = 'preguicaDeCriarUmSegredo' } = process.env;
+
+const options = {
+  expiresIn: '1d',
+  algorithm: 'HS256',
+};
 
 const { usersModel } = require('../models');
 
@@ -18,6 +26,17 @@ const loginSchema = Joi.object({
   email: emailSchema,
   password: passwordSchema,
 });
+
+const generateToken = (userObj) => {
+  try {
+    if (userObj.password) return 'Não foi possível gerar a autenticacao';
+    const { password, ...user } = userObj;
+    const token = jwt.sign(user, SECRET, options);
+    return { token };
+  } catch (err) {
+    return { error: 'Não foi possível gerar a autenticacao' };
+  }
+};
 
 const userSchema = Joi.object({
   email: emailSchema.error(
@@ -56,4 +75,5 @@ module.exports = {
   getUserByEmail,
   createUser,
   changeUserName,
+  generateToken,
 };
