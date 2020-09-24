@@ -11,9 +11,7 @@ const ClientProduct = () => {
   const shoppingList = useSelector(state => state.shoppingListReducer.data);
   const dispatch = useDispatch();
   
-  const totalPrice = shoppingList.reduce((acc, { price, sellingQnt }) => {
-    return acc + price * sellingQnt
-  }, 0);
+  const totalPrice = shoppingList.reduce((acc, { price, sellingQnt }) => acc + price * sellingQnt, 0);
 
   const totalPriceBRL = convertBRL(totalPrice)
 
