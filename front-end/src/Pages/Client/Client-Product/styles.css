@@ -67,3 +67,18 @@
 .plus-minus-icons:hover {
   color: #ff9f00;
 }
+
+.checkout-button {
+  border: none;
+  background-color: #FF9F00;
+  color: #faf7f4;
+  width: 300px;
+  height: 40px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.general-container {
+  margin-bottom: 25px;
+}
