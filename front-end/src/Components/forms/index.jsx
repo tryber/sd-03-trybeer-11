@@ -5,21 +5,29 @@ import axios from 'axios';
 import "./styles.css";
 
 const Forms = ({ register }) => {
+  const [isAdmin, setIsAdmin] = React.useState(false);
 
   const handleLogin = (event) => {
     event.preventDefault();
     return axios.post('http://localhost:3001/user/login', {
     email: event.target.email.value,
     password: event.target.password.value})
-    .then((res) => console.log(res.data))
-    .catch((err) => console.log(err))
+    .then((res) => localStorage.setItem("token", res.data.token))
+    .catch((err) => console.log(err.response.data.message))
 }
 
 const handleRegister = (event) => {
-  event.preventDefault();
-  return axios.post('http://localhost:3001/user/register', {
 
+  event.preventDefault();
+  return axios.post('http://localhost:3001/user', {
+    email: event.target.email.value,
+    password: event.target.password.value,
+    name: event.target.nome.value,
+    token: event.target.email.value,
+    role: isAdmin,
   })
+  .then((res) => console.log(res.data))
+  .catch((err) => console.log(err))
 }
 
   return (
@@ -44,7 +52,7 @@ const handleRegister = (event) => {
 
         {register && (
           <div className="queroVender">
-            <input type="checkbox" name="isAdmin" data-testid="signup-seller"/>
+            <input type="checkbox" data-testid="signup-seller" onClick={() => setIsAdmin(!isAdmin)}/>
             <p>Quero vender!</p>
           </div>
         )}
