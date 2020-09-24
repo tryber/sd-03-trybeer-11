@@ -60,7 +60,7 @@ const register = rescue(async (req, res, next) => {
 
   if (error) return next(Boom.unauthorized(error));
 
-  res.status(200).json({ ...newUser, token });
+  res.status(201).json({ ...newUser, token });
 });
 
 const changeUser = rescue(async (req, res, next) => {
