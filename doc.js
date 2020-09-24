@@ -45,7 +45,7 @@ const POST_register = {
       message: "pelo menos 12 caracteres, não pode conter numeros nem caracteres especiais",
     },
     "email ja existente": {
-      message: "email ja existe",
+      message: "E-mail already in database.",
     },
     "error interno de token": {
       message: "Não foi possível gerar a autenticacao",

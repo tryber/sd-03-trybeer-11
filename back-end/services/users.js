@@ -14,13 +14,13 @@ const emailSchema = Joi.string().email()
   .required();
 const passwordSchema = Joi.string().min(6)
   .required();
-const nameSchema = Joi.string().regex(/^[a-zA-Z]*$/)
+const nameSchema = Joi.string().regex(/^[a-zA-Z ]{12}[a-zA-Z ]*$/)
   .min(12)
   .required()
   .error(() => new Error(
     'pelo menos 12 caracteres, não pode conter numeros nem caracteres especiais',
   ));
-const roleSchema = Joi.boolean().custom((value) => (value ? 'administrador' : 'client'));
+const roleSchema = Joi.boolean().custom((value) => (value ? 'administrator' : 'client'));
 
 const loginSchema = Joi.object({
   email: emailSchema,

@@ -6,7 +6,7 @@ const PrivateRoute = ({ component: Component, redPath = '/login', restrict = fal
   const user = JSON.parse(localStorage.getItem('user')) || {};
 
   const block = user.role !== 'administrator' && restrict;
-
+  console.log('component', Component)
   return (
     <Route  {...rest} render={(props) =>
       !token || block ? <Redirect to={token ? redPath : '/login'} /> : <Component {...props} />

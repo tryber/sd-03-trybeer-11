@@ -7,9 +7,11 @@ import "./styles.css";
 const EMAIL_REGEX = /^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/
 // https://pt.stackoverflow.com/questions/1386/express%C3%A3o-regular-para-valida%C3%A7%C3%A3o-de-e-mail 
 
+const NAME_REGEX = /^[a-zA-Z ]{12}[a-zA-Z ]*$/;
+
 const Forms = ({ register }) => {
   const [isAdmin, setIsAdmin] = React.useState(false);
-  const [errorLogin, setErrorLogin] = React.useState();
+  const [errorLogin, setErrorLogin] = React.useState('');
   const [nameIsEmpty, setNameIsEmpty] = React.useState(register);
   const [emailIsEmpty, setEmailIsEmpty] = React.useState(true);
   const [passwordIsEmpty, setPasswordIsEmpty] = React.useState(true);
@@ -25,7 +27,7 @@ const Forms = ({ register }) => {
       })
       .then((res) => {
         localStorage.setItem("token", res.data.token);
-        console.log('return from api', res.data)
+        
         return history.push(res.data.role === 'administrator' ? '/admin/orders' : "/products");
       })
       .catch((err) => setErrorLogin(err.response.data.message));
@@ -43,7 +45,8 @@ const Forms = ({ register }) => {
       })
       .then((res) => {
         localStorage.setItem("token", res.data.token);
-        return history.push("/");
+        console.log('data', res.data)
+        return history.push(res.data.role === 'administrator' ? '/admin/orders' : "/products");
       })
       .catch((err) => setErrorLogin(err.response.data.message));
   };
@@ -64,7 +67,7 @@ const Forms = ({ register }) => {
               name="nome"
               placeholder="Digite seu nome"
               data-testid="signup-name"
-              onChange={({ target }) => setNameIsEmpty(!target.value)}
+              onChange={({ target }) => setNameIsEmpty(!NAME_REGEX.test(target.value))}
             />
           </div>
         )}
@@ -97,7 +100,7 @@ const Forms = ({ register }) => {
               data-testid="signup-seller"
               onClick={() => setIsAdmin(!isAdmin)}
             />
-            <p>Quero vender!</p>
+            <p>Quero Vender!</p>
           </div>
         )}
 
@@ -116,7 +119,7 @@ const Forms = ({ register }) => {
             data-testid={register ? "signup-btn" : "signin-btn"}
             type="submit"
           >
-            {register ? 'CADASTRAR' : 'ENTRAR'}
+            {register ? 'Cadastrar' : 'ENTRAR'}
           </button>
         </div>
         {errorLogin && <span className="erro">{errorLogin}</span>}
