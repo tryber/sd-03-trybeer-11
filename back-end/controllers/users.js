@@ -15,9 +15,9 @@ const login = rescue(async (req, res, next) => {
   if (reqPassword !== password) return next(Boom.unauthorized('email ou senha inválido'));
 
   try {
-    const { token, error } = usersServices.generateToken(user);
+    const { token, error: errorToken } = usersServices.generateToken(user);
 
-    if (error) return next(Boom.unauthorized(error));
+    if (errorToken) return next(Boom.unauthorized(error));
 
     return res.status(200).json({ token });
   } catch (err) {
