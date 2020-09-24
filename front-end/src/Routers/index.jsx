@@ -4,9 +4,7 @@ import {
   Switch,
   Route
 } from 'react-router-dom';
-import { Login } from '../Pages/index';
-import { ClientProduct } from '../Pages/index'
-
+import { Login, ClientProduct } from '../Pages/index';
 
 const Routers = () => {
   return (

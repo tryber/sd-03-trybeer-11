@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getApiData } from '../../../Redux/action/apiProductsAction';
 import ProductCard from './innerPage/ProductCard';
+import convertBRL from '../../../Services/BRLFunction';
 import './styles.css';
 
 const ClientProduct = () => {
@@ -14,8 +15,7 @@ const ClientProduct = () => {
     return acc + price * sellingQnt
   }, 0);
 
-  const totalPriceBRL = totalPrice.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}); 
-  // https://pt.stackoverflow.com/questions/181922/formatar-moeda-brasileira-em-javascript/186798
+  const totalPriceBRL = convertBRL(totalPrice)
 
   const goCart = () => {
     localStorage.setItem('sellingProducts', JSON.stringify(shoppingList));
@@ -45,7 +45,7 @@ const ClientProduct = () => {
       </div>
       <span data-testid="checkout-bottom-btn-value">{`Total: ${totalPriceBRL}`}</span>
     </div>
-  )
+  );
 }
 
 

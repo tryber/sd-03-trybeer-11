@@ -11,7 +11,7 @@ const PlusMinus = ({ index, id, name, photo, price, sellingQuantity, setSellingQ
   const dispatch = useDispatch();
   const shoppingList = useSelector(state => state.shoppingListReducer.data);
 
-  const changeReduxShoppingList = (operator) => {
+  const changeReduxShoppingList = (value) => {
     if (shoppingList.length > 0) {
       if (shoppingList.some((product) => product.id === id)) {
         return shoppingList.map((product) => {
@@ -21,7 +21,7 @@ const PlusMinus = ({ index, id, name, photo, price, sellingQuantity, setSellingQ
               name,
               price,
               photo,
-              sellingQnt: eval(`${product.sellingQnt} ${operator} ${1}`),
+              sellingQnt: value,
             };
           }
           return product;
@@ -33,7 +33,7 @@ const PlusMinus = ({ index, id, name, photo, price, sellingQuantity, setSellingQ
         name,
         price,
         photo,
-        sellingQnt: eval(`${sellingQuantity} ${operator} ${1}`),
+        sellingQnt: value,
       });
       return newList;
     }
@@ -42,18 +42,17 @@ const PlusMinus = ({ index, id, name, photo, price, sellingQuantity, setSellingQ
       name,
       price,
       photo,
-      sellingQnt: eval(`${sellingQuantity} ${operator} ${1}`),
+      sellingQnt: value,
     }];
   }
 
-  const changeQuantity = (operator) => {
-    setSellingQuantity(eval(`${sellingQuantity} ${operator} ${1}`));
-    dispatch(shoppingListAction(changeReduxShoppingList(operator)))
+  const changeQuantity = (value) => {
+    setSellingQuantity(value);
+    dispatch(shoppingListAction(changeReduxShoppingList(value)));
   }
 
   useEffect(() => {
-    if (sellingQuantity <= 0) return setDisable(true);
-    setDisable(false);
+    sellingQuantity <= 0 ? setDisable(true) : setDisable(false);
   }, [sellingQuantity])
 
   return (
@@ -61,7 +60,7 @@ const PlusMinus = ({ index, id, name, photo, price, sellingQuantity, setSellingQ
       <AiOutlineMinusCircle
         className="plus-minus-icons"
         size="20"
-        onClick={() => !disable && changeQuantity('-')}
+        onClick={() => !disable && changeQuantity(sellingQuantity - 1)}
         data-testid={`${index}-product-minus`}
       >
         -
@@ -70,7 +69,7 @@ const PlusMinus = ({ index, id, name, photo, price, sellingQuantity, setSellingQ
       <AiOutlinePlusCircle
         className="plus-minus-icons"
         size="20"
-        onClick={() => changeQuantity('+')}
+        onClick={() => changeQuantity(sellingQuantity + 1)}
         data-testid={`${index}-product-plus`}
       >
         +

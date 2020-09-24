@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import PlusMinus from './PlusMinus';
 import img from './imgTest.jpg'
+import convertBRL from '../../../../Services/BRLFunction';
 
 const ProductCard = (props) => {
   const [sellingQuantity, setSellingQuantity] = useState(0);
 
   const { id, name, price, photo, index } = props;
 
-  const brlPrice = price.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}); 
-  // https://pt.stackoverflow.com/questions/181922/formatar-moeda-brasileira-em-javascript/186798
+  const brlPrice = convertBRL(price);
 
   return (
     <div className="products-card">
