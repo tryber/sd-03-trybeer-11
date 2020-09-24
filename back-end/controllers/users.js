@@ -19,7 +19,7 @@ const login = rescue(async (req, res, next) => {
 
     if (errorToken) return next(Boom.unauthorized(error));
 
-    return res.status(200).json({ token });
+    return res.status(200).json({ token, ...user });
   } catch (err) {
     return next(Boom.unauthorized('aqui email ou senha invalido'));
   }
