@@ -64,3 +64,13 @@ span {
     margin-left: 7px;
     margin-bottom: 2px;
 }
+
+.erro {
+  color: red;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  margin-top: 10px;
+  max-width: 280px;
+}
