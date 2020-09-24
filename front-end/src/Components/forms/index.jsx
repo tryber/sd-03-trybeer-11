@@ -31,8 +31,6 @@ const Forms = ({ register }) => {
       .catch((err) => setErrorLogin(err.response.data.message));
   };
 
-  const getToken = localStorage.getItem("token") || {};
-
   const handleRegister = (event) => {
     event.preventDefault();
     return axios

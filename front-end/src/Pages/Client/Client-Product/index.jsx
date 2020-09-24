@@ -35,6 +35,7 @@ const ClientProduct = () => {
           <button
             className="checkout-button"
             onClick={goCart}
+            disabled={totalPrice === 0}
             data-testid="checkout-bottom-btn"
           >
             Ver Carrinho

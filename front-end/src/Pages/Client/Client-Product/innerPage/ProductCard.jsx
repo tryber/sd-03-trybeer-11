@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PlusMinus from './PlusMinus';
-import img from './imgTest.jpg'
 import convertBRL from '../../../../Services/BRLFunction';
 
 const ProductCard = (props) => {
@@ -14,7 +13,7 @@ const ProductCard = (props) => {
     <div className="products-card">
       <section className="products-global">
         <div className="card-img">
-          <img className="image-photo" data-testid={`${index}-product-img`} src={img} alt="Cerveja" />
+          <img className="image-photo" data-testid={`${index}-product-img`} src={photo} alt="Cerveja" />
         </div>
         <div>
           <div className="products-content">
