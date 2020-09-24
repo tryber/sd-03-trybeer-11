@@ -47,6 +47,9 @@ const POST_register = {
     "email ja existente": {
       message: "email ja existe",
     },
+    "error interno de token": {
+      message: "Não foi possível gerar a autenticacao",
+    }
   }
 };
 

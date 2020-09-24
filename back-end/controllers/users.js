@@ -1,15 +1,7 @@
-const jwt = require('jsonwebtoken');
 const rescue = require('express-rescue');
 const Boom = require('boom');
 
 const { usersServices } = require('../services');
-
-const { SECRET = 'preguicaDeCriarUmSegredo' } = process.env;
-
-const options = {
-  expiresIn: '1d',
-  algorithm: 'HS256',
-};
 
 const login = rescue(async (req, res, next) => {
   const { email, password: reqPassword } = req.body || {};
@@ -23,7 +15,9 @@ const login = rescue(async (req, res, next) => {
   if (reqPassword !== password) return next(Boom.unauthorized('email ou senha inválido'));
 
   try {
-    const token = jwt.sign(user, SECRET, options);
+    const { token, error: errorToken } = usersServices.generateToken(user);
+
+    if (errorToken) return next(Boom.unauthorized(error));
 
     return res.status(200).json({ token });
   } catch (err) {
@@ -62,7 +56,11 @@ const register = rescue(async (req, res, next) => {
 
   const newUser = await usersServices.createUser({ email, name, password, role });
 
-  res.status(200).json({ ...newUser });
+  const { token, error } = usersServices.generateToken(newUser);
+
+  if (error) return next(Boom.unauthorized(error));
+
+  res.status(200).json({ ...newUser, token });
 });
 
 const changeUser = rescue(async (req, res, next) => {
