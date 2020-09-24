@@ -56,7 +56,7 @@ const register = rescue(async (req, res, next) => {
 
   const newUser = await usersServices.createUser({ email, name, password, role });
 
-  const { token, error } = usersServices.generateToken(user);
+  const { token, error } = usersServices.generateToken(newUser);
 
   if (error) return next(Boom.unauthorized(error));
 

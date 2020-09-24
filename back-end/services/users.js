@@ -27,9 +27,9 @@ const loginSchema = Joi.object({
   password: passwordSchema,
 });
 
-const generateToken = async (userObj) => {
+const generateToken = (userObj) => {
   try {
-    if (user.password) return 'Não foi possível gerar a autenticacao';
+    if (userObj.password) return 'Não foi possível gerar a autenticacao';
     const { password, ...user } = userObj;
     const token = jwt.sign(user, SECRET, options);
     return { token };
