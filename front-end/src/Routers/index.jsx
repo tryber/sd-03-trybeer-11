@@ -4,14 +4,14 @@ import {
   Switch,
   Route
 } from 'react-router-dom';
-import { Login } from '../Pages/index'; 
-
+import { Login, ClientProduct } from '../Pages/index';
 
 const Routers = () => {
   return (
     <Router>
       <Switch>
         <Route path="/login" component={Login} />
+        <Route path="/products" component={ClientProduct} />
       </Switch>
     </Router>
   )
