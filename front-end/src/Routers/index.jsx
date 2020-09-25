@@ -22,7 +22,7 @@ const Routers = () => {
             <Route path="/login" component={Login} />
             <Route path="/profile" component={Profile} />
             <Route path="/products">
-              <PrivateRoute path="/products" component={ClientProduct} />
+              <PrivateRoute component={ClientProduct} />
             </Route>
           </div>
         </React.Fragment>

@@ -28,7 +28,7 @@ TopMenu.propTypes = {
 };
 
 TopMenu.defaultProps = {
-  title: "Trybeer",
+  title: "TryBeer",
 };
 
 export default TopMenu;
