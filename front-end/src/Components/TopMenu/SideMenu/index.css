@@ -1,0 +1,7 @@
+.containers-buttons-menu {
+  align-items: center;
+  align-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

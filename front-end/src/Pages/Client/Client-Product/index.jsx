@@ -4,23 +4,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getApiData } from '../../../Redux/action/apiProductsAction';
 import ProductCard from './innerPage/ProductCard';
 import convertBRL from '../../../Services/BRLFunction';
+import { shoppingListAction } from '../../../Redux/action/shoppingListAction';
 import './styles.css';
 
 const ClientProduct = () => {
   const products = useSelector(state => state.apiProductsReducer.data);
   const shoppingList = useSelector(state => state.shoppingListReducer.data);
   const dispatch = useDispatch();
-  
+
   const totalPrice = shoppingList.reduce((acc, { price, sellingQnt }) => acc + price * sellingQnt, 0);
 
   const totalPriceBRL = convertBRL(totalPrice)
 
-  const goCart = () => {
-    localStorage.setItem('sellingProducts', JSON.stringify(shoppingList));
-  };
-
   useEffect(() => {
     dispatch(getApiData());
+      const shoppingListLocalStorage = JSON.parse(localStorage.getItem('sellingProducts'));
+      shoppingListLocalStorage && dispatch(shoppingListAction(shoppingListLocalStorage));
+    }
   }, []);
 
   return (
@@ -34,7 +34,6 @@ const ClientProduct = () => {
         <Link to="/checkout">
           <button
             className="checkout-button"
-            onClick={goCart}
             disabled={totalPrice === 0}
             data-testid="checkout-bottom-btn"
           >
