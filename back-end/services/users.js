@@ -1,4 +1,12 @@
+const jwt = require('jsonwebtoken');
 const Joi = require('joi');
+
+const { SECRET = 'preguicaDeCriarUmSegredo' } = process.env;
+
+const options = {
+  expiresIn: '1d',
+  algorithm: 'HS256',
+};
 
 const { usersModel } = require('../models');
 
@@ -6,18 +14,29 @@ const emailSchema = Joi.string().email()
   .required();
 const passwordSchema = Joi.string().min(6)
   .required();
-const nameSchema = Joi.string().regex(/^[a-zA-Z]*$/)
+const nameSchema = Joi.string().regex(/^[a-zA-Z ]{12}[a-zA-Z ]*$/)
   .min(12)
   .required()
   .error(() => new Error(
     'pelo menos 12 caracteres, não pode conter numeros nem caracteres especiais',
   ));
-const roleSchema = Joi.string().custom((value) => (value ? 'administrador' : 'client'));
+const roleSchema = Joi.boolean().custom((value) => (value ? 'administrator' : 'client'));
 
 const loginSchema = Joi.object({
   email: emailSchema,
   password: passwordSchema,
 });
+
+const generateToken = (userObj) => {
+  try {
+    if (userObj.password) return 'Não foi possível gerar a autenticacao';
+    const { password, ...user } = userObj;
+    const token = jwt.sign(user, SECRET, options);
+    return { token };
+  } catch (err) {
+    return { error: 'Não foi possível gerar a autenticacao' };
+  }
+};
 
 const userSchema = Joi.object({
   email: emailSchema.error(
@@ -56,4 +75,5 @@ module.exports = {
   getUserByEmail,
   createUser,
   changeUserName,
+  generateToken,
 };
