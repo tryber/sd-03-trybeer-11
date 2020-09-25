@@ -7,7 +7,7 @@ const Login = () => {
   return (
     <div className="Container">
       <Forms />
-      <img src={GrupoLogin} alt="Grupo feliz" />
+      {/* <img src={GrupoLogin} alt="Grupo feliz" /> */}
     </div>
   )
 }

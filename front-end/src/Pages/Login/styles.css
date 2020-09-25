@@ -1,3 +1,5 @@
-.container {
-    max-width: 350px;
+.Container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

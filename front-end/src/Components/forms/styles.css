@@ -9,8 +9,7 @@
     flex-direction: column;
     align-items: center;
     align-content: center;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 20px;
     background-color: #FFFFFF;
     border-radius: 5px;
     box-shadow: 0px 0px 50px -5px rgba(0,0,0,0.75);
@@ -73,4 +72,24 @@ span {
   justify-content: center;
   margin-top: 10px;
   max-width: 280px;
+}
+
+input {
+    border-radius: 3px;
+    border: #CCCC solid 1px;
+    padding: 5px;
+    outline: none;
+}
+
+input:focus {
+    border: #FF7816 1px solid;
+}
+
+.button-login {
+    background-color: #FF7816;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0px 0px 20px -5px rgba(0,0,0,0.75);
+    color: white;
+    padding: 7px 15px 7px 15px;
 }
