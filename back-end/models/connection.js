@@ -3,7 +3,7 @@ const mysqlx = require('@mysql/xdevapi');
 
 let schema;
 
-const { HOSTNAME, MYSQL_USER, MYSQL_PASSWORD, PORT_DB = 27017, DB_NAME = 'Trybeer' } = process.env;
+const { HOSTNAME, MYSQL_USER, MYSQL_PASSWORD, PORT_DB = 33060, DB_NAME = 'Trybeer' } = process.env;
 
 module.exports = () => {
   if (schema) return Promise.resolve(schema);
