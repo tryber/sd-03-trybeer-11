@@ -27,7 +27,7 @@ const ClientProduct = () => {
 
   return (
     <div className="general-container">
-      <div>
+      <div className="cards-button">
         <div className="cards-container">
           {products.map(({ id, name, price, urlImage }, index) => (
             <ProductCard key={id} id={id} photo={urlImage} name={name} price={price} index={index} />
@@ -49,4 +49,4 @@ const ClientProduct = () => {
 }
 
 
-export default ClientProduct
+export default ClientProduct;
