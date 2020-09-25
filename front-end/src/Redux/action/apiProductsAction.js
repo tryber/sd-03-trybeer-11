@@ -6,8 +6,9 @@ export const API_RECEIVE_FAILURE = 'API_RECEIVE_FAILURE';
 
 const apiRequestControl = () => ({ type: API_REQUEST });
 
-const receiveApiDataSuccess = ({ products = [] }) =>
-  ({ type: API_RECEIVE_SUCCESS, data: products });
+const receiveApiDataSuccess = ({ products = [] }) => (
+  { type: API_RECEIVE_SUCCESS, data: products }
+);
 
 const receiveApiDataFailure = (error) => ({ type: API_RECEIVE_FAILURE, errorMessage: error });
 
