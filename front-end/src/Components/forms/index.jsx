@@ -121,6 +121,7 @@ const Forms = ({ register }) => {
 
         <div className="button">
           <button
+            className="button-login"
             disabled={nameIsEmpty || emailIsEmpty || passwordIsEmpty}
             data-testid={register ? "signup-btn" : "signin-btn"}
             type="submit"
