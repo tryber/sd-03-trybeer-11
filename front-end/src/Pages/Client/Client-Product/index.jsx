@@ -18,9 +18,8 @@ const ClientProduct = () => {
 
   useEffect(() => {
     dispatch(getApiData());
-    if (localStorage.getItem('sellingProducts')) {
       const shoppingListLocalStorage = JSON.parse(localStorage.getItem('sellingProducts'));
-      dispatch(shoppingListAction(shoppingListLocalStorage));
+      shoppingListLocalStorage && dispatch(shoppingListAction(shoppingListLocalStorage));
     }
   }, []);
 
