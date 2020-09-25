@@ -5,3 +5,16 @@
   flex-direction: column;
   justify-content: center;
 }
+
+.containers-buttons-menu button {
+  background: #FF7816;
+  border: none;
+  margin: 1px;
+  box-shadow: 0px 0px 2px 0px rgba(255,225,186,1);
+  width: 100px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border-radius: 3px;
+  color: #ffe1ba;
+  margin: 10px;
+}
