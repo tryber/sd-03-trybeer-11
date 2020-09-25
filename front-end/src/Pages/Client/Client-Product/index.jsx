@@ -19,7 +19,7 @@ const ClientProduct = () => {
   useEffect(() => {
     dispatch(getApiData());
       const shoppingListLocalStorage = JSON.parse(localStorage.getItem('sellingProducts'));
-      shoppingListLocalStorage && dispatch(shoppingListAction(shoppingListLocalStorage));
+      if (shoppingListLocalStorage) dispatch(shoppingListAction(shoppingListLocalStorage));
   }, []);
 
   if (requestError === 'No connection') return <h1>Sem conexão com o servidor</h1>;
