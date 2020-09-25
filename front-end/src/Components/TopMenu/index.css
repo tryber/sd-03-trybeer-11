@@ -1,0 +1,27 @@
+.top-menu {
+  align-items: flex-start;
+  background-color: #ff7816;
+  display: flex;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.button-hamburgue {
+  color: #ffe1ba;
+  cursor: pointer;
+  font-size: 50px;
+  margin: 0;
+  padding-left: 10px;
+}
+
+.button-hamburgue:hover {
+  color: #ffb85b;
+}
+
+.header-title {
+  color: #ffe1ba;
+  margin: 10px auto;
+  text-align: center;
+  transform: translateX(-50%);
+}

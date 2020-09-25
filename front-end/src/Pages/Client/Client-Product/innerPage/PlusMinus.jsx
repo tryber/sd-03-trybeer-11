@@ -5,6 +5,7 @@ import {
   AiOutlineMinusCircle,
 } from 'react-icons/ai';
 import { shoppingListAction } from '../../../../Redux/action/shoppingListAction';
+import convertBRL from '../../../../Services/BRLFunction';
 
 const PlusMinus = ({ index, id, name, photo, price, sellingQuantity, setSellingQuantity }) => {
   const [disable, setDisable] = useState(false);
@@ -47,16 +48,23 @@ const PlusMinus = ({ index, id, name, photo, price, sellingQuantity, setSellingQ
   }
 
   const changeQuantity = (value) => {
+    const shoppingListArray = changeReduxShoppingList(value);
+    localStorage.setItem('sellingProducts', JSON.stringify(shoppingListArray));
     setSellingQuantity(value);
-    dispatch(shoppingListAction(changeReduxShoppingList(value)));
+    dispatch(shoppingListAction(shoppingListArray));
   }
 
   useEffect(() => {
     sellingQuantity <= 0 ? setDisable(true) : setDisable(false);
-  }, [sellingQuantity])
+  }, [sellingQuantity]);
+
+  const { sellingQnt } = shoppingList.find((product) => product.id === id) || {};
+
+  const brlPrice = convertBRL(price);
 
   return (
     <div className="plus-minus-buttons">
+      <span onClick={()=> changeQuantity(sellingQuantity + 1)} data-testid={`${index}-product-price`}>{brlPrice}</span>
       <AiOutlineMinusCircle
         className="plus-minus-icons"
         size="20"
@@ -65,7 +73,7 @@ const PlusMinus = ({ index, id, name, photo, price, sellingQuantity, setSellingQ
       >
         -
       </AiOutlineMinusCircle>
-      <span data-testid={`${index}-product-qtd`}>{sellingQuantity}</span>
+      <span data-testid={`${index}-product-qtd`}>{sellingQnt || 0}</span>
       <AiOutlinePlusCircle
         className="plus-minus-icons"
         size="20"

@@ -1,11 +1,12 @@
 import React from "react";
 import Logo from "../../utils/logo.svg";
 import { useHistory, Link } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 import axios from "axios";
 import "./styles.css";
 
 const EMAIL_REGEX = /^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/
-// https://pt.stackoverflow.com/questions/1386/express%C3%A3o-regular-para-valida%C3%A7%C3%A3o-de-e-mail 
+// https://pt.stackoverflow.com/questions/1386/express%C3%A3o-regular-para-valida%C3%A7%C3%A3o-de-e-mail
 
 const NAME_REGEX = /^[a-zA-Z ]{12}[a-zA-Z ]*$/;
 
@@ -27,7 +28,7 @@ const Forms = ({ register }) => {
       })
       .then((res) => {
         localStorage.setItem("token", res.data.token);
-        
+
         return history.push(res.data.role === 'administrator' ? '/admin/orders' : "/products");
       })
       .catch((err) => setErrorLogin(err.response.data.message));
@@ -45,7 +46,6 @@ const Forms = ({ register }) => {
       })
       .then((res) => {
         localStorage.setItem("token", res.data.token);
-        console.log('data', res.data)
         return history.push(res.data.role === 'administrator' ? '/admin/orders' : "/products");
       })
       .catch((err) => setErrorLogin(err.response.data.message));

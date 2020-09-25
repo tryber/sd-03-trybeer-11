@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import PlusMinus from './PlusMinus';
-import convertBRL from '../../../../Services/BRLFunction';
 
 const ProductCard = (props) => {
   const [sellingQuantity, setSellingQuantity] = useState(0);
 
   const { id, name, price, photo, index } = props;
-
-  const brlPrice = convertBRL(price);
 
   return (
     <div className="products-card">
@@ -20,7 +17,6 @@ const ProductCard = (props) => {
             <h4 data-testid={`${index}-product-name`}>{name}</h4>
           </div>
           <div className="price-count">
-            <span data-testid={`${index}-product-price`}>{brlPrice}</span>
             <PlusMinus
               id={id}
               name={name}

@@ -4,23 +4,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getApiData } from '../../../Redux/action/apiProductsAction';
 import ProductCard from './innerPage/ProductCard';
 import convertBRL from '../../../Services/BRLFunction';
+import { shoppingListAction } from '../../../Redux/action/shoppingListAction';
 import './styles.css';
 
 const ClientProduct = () => {
   const { data: products, error: requestError } = useSelector(state => state.apiProductsReducer);
   const shoppingList = useSelector(state => state.shoppingListReducer.data);
   const dispatch = useDispatch();
-  
+
   const totalPrice = shoppingList.reduce((acc, { price, sellingQnt }) => acc + price * sellingQnt, 0);
 
   const totalPriceBRL = convertBRL(totalPrice)
 
-  const goCart = () => {
-    localStorage.setItem('sellingProducts', JSON.stringify(shoppingList));
-  };
-
   useEffect(() => {
     dispatch(getApiData());
+      const shoppingListLocalStorage = JSON.parse(localStorage.getItem('sellingProducts'));
+      shoppingListLocalStorage && dispatch(shoppingListAction(shoppingListLocalStorage));
+    }
   }, []);
 
   if (requestError === 'No connection') return <h1>Sem conexão com o servidor</h1>;
@@ -37,7 +37,6 @@ const ClientProduct = () => {
         <Link to="/checkout">
           <button
             className="checkout-button"
-            onClick={goCart}
             disabled={totalPrice === 0}
             data-testid="checkout-bottom-btn"
           >
