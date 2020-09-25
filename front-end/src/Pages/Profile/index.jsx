@@ -9,8 +9,11 @@ const Profile = () => {
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(true);
+
   const [result, setResult] = useState(null);
   const [changeLoading, setChangeLoading] = useState(false);
+  const [oficialName, setOficialName] = useState('');
+  
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
   useEffect(() => {
@@ -21,6 +24,7 @@ const Profile = () => {
     if (loading) {
       getUser()
         .then((user) => {
+          setOficialName(user.name);
           setName(user.name);
           setEmail(user.email);
           setLoading(false);
@@ -87,6 +91,7 @@ const Profile = () => {
         </label>
 
         <button
+          disabled={name === oficialName}
           data-testid="profile-save-btn"
           className="change-user-button"
           type="submit"
@@ -96,7 +101,7 @@ const Profile = () => {
       </form>
       <div className="change-user-feedback">
         {error && <h2>{error}</h2>}
-        {result && <h2>Nome alterado para: {result.name}</h2>}
+        {result && <h2>Atualização concluída com sucesso</h2>}
       </div>
     </div>
   );
