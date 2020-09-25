@@ -17,7 +17,7 @@ const SideMenu = () => {
       <Link to="/login">
         <button
           data-testid="side-menu-item-logout"
-          onClick={() => localStorage.removeItem("user")}
+          onClick={() => localStorage.removeItem("token")}
         >
           Sair
         </button>
