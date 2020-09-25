@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getApiData } from '../../../Redux/action/apiProductsAction';
 import ProductCard from './innerPage/ProductCard';
@@ -7,7 +7,7 @@ import convertBRL from '../../../Services/BRLFunction';
 import './styles.css';
 
 const ClientProduct = () => {
-  const products = useSelector(state => state.apiProductsReducer.data);
+  const { data: products, error: requestError } = useSelector(state => state.apiProductsReducer);
   const shoppingList = useSelector(state => state.shoppingListReducer.data);
   const dispatch = useDispatch();
   
@@ -22,6 +22,9 @@ const ClientProduct = () => {
   useEffect(() => {
     dispatch(getApiData());
   }, []);
+
+  if (requestError === 'No connection') return <h1>Sem conexão com o servidor</h1>;
+  if (requestError) return <Redirect to="/login" />;
 
   return (
     <div className="general-container">
