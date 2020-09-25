@@ -4,7 +4,7 @@ const mysqlx = require('@mysql/xdevapi');
 let schema;
 
 const { HOSTNAME, MYSQL_USER, MYSQL_PASSWORD, PORT_DB = 33060, DB_NAME = 'Trybeer' } = process.env;
-
+console.log(HOSTNAME, MYSQL_PASSWORD, MYSQL_USER)
 module.exports = () => {
   if (schema) return Promise.resolve(schema);
   return mysqlx

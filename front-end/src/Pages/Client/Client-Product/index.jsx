@@ -14,13 +14,12 @@ const ClientProduct = () => {
 
   const totalPrice = shoppingList.reduce((acc, { price, sellingQnt }) => acc + price * sellingQnt, 0);
 
-  const totalPriceBRL = convertBRL(totalPrice)
+  const totalPriceBRL = convertBRL(totalPrice);
 
   useEffect(() => {
     dispatch(getApiData());
       const shoppingListLocalStorage = JSON.parse(localStorage.getItem('sellingProducts'));
       shoppingListLocalStorage && dispatch(shoppingListAction(shoppingListLocalStorage));
-    }
   }, []);
 
   if (requestError === 'No connection') return <h1>Sem conexão com o servidor</h1>;

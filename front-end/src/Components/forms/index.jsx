@@ -1,7 +1,6 @@
 import React from "react";
 import Logo from "../../utils/logo.svg";
 import { useHistory, Link } from "react-router-dom";
-import { useDispatch } from 'react-redux';
 import axios from "axios";
 import "./styles.css";
 
@@ -27,11 +26,15 @@ const Forms = ({ register }) => {
         password: event.target.password.value,
       })
       .then((res) => {
+        if (!res) return setErrorLogin('No connection');
         localStorage.setItem("token", res.data.token);
 
         return history.push(res.data.role === 'administrator' ? '/admin/orders' : "/products");
       })
-      .catch((err) => setErrorLogin(err.response.data.message));
+      .catch(({ response }) => {
+        if (!response) return setErrorLogin('No connection');
+        setErrorLogin(response.data.message);
+      });
   };
 
   const handleRegister = (event) => {
@@ -48,8 +51,11 @@ const Forms = ({ register }) => {
         localStorage.setItem("token", res.data.token);
         return history.push(res.data.role === 'administrator' ? '/admin/orders' : "/products");
       })
-      .catch((err) => setErrorLogin(err.response.data.message));
-  };
+      .catch(({ response }) => {
+        if (!response) return setErrorLogin('No connection');
+        setErrorLogin(response.data.message);
+      });
+    };
 
   return (
     <div className="container">
