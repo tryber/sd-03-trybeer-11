@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
-
 import { getUser, changeName } from '../../Services/apiUserRequests';
 import { Redirect } from 'react-router-dom';
+import Loading from '../../Components/loading/index';
 
 const Profile = () => {
   const [name, setName] = useState('');
@@ -14,7 +14,7 @@ const Profile = () => {
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
   useEffect(() => {
-    const { token } = JSON.parse(localStorage.getItem('user')) || {};
+    const token = localStorage.getItem('token');
 
     if (!token) setShouldRedirect(true);
 
@@ -48,7 +48,7 @@ const Profile = () => {
   }, [changeLoading, name]);
 
   if (shouldRedirect) return <Redirect to="/login" />
-  if (changeLoading || loading) return <h1>Loading</h1>;
+  if (changeLoading || loading) return <Loading />;
 
   return (
     <div className="chage-user-container">
