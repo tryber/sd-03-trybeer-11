@@ -3,15 +3,15 @@ const mysqlx = require('@mysql/xdevapi');
 
 let schema;
 
-const { HOST, USER_MYSQL, PASSWORD, PORT_DB, DB_NAME = 'trybeer'} = process.env;
+const { HOSTNAME, MYSQL_USER, MYSQL_PASSWORD, PORT_DB = 33060, DB_NAME = 'Trybeer' } = process.env;
 
 module.exports = () => {
   if (schema) return Promise.resolve(schema);
   return mysqlx
     .getSession({
-      host: HOST,
-      user: USER_MYSQL,
-      password: PASSWORD,
+      host: HOSTNAME,
+      user: MYSQL_USER,
+      password: MYSQL_PASSWORD,
       port: PORT_DB,
       socketPath: '/var/run/mysqld/mysqld.sock',
     })

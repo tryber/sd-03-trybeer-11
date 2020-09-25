@@ -1,0 +1,47 @@
+.chage-user-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: auto;
+  max-width: 1000px;
+  min-height: 100vh;
+}
+
+.change-user-feedback {
+  border-color: black;
+  background-color: rgb(255, 221, 159);
+  color: orange;
+  margin-top: 30px;
+}
+
+.change-user-label {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 10px;
+}
+
+.change-user-label-text {
+  margin: 0;
+}
+
+.change-user-input {
+  border-color: 2px solid black;
+  border-radius: 5px;
+  font-size: 1.2em;
+  margin: auto;
+  padding: 10px;
+  text-align: center;
+  width: 80%;
+}
+
+.change-user-button {
+  background-color: rgb(97, 194, 0);
+  border-color: 2px solid black;
+  border-radius: 5px;
+  box-shadow: 3px 3px 2px grey;
+  color: rgb(243, 235, 235);
+  font-size: 1.2em;
+  font-weight: 700;
+  padding: 10px;
+}
