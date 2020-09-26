@@ -19,7 +19,7 @@ const apiProductsReducer = (state = INITIAL_STATE, action) => {
     case API_RECEIVE_SUCCESS:
       return {
         ...state,
-        data: [...state.data, ...action.data],
+        data: [...action.data],
         loading: false,
       };
     case API_RECEIVE_FAILURE:
