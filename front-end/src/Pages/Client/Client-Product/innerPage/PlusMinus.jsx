@@ -58,9 +58,8 @@ const PlusMinus = ({ index, id, name, photo, price, sellingQuantity, setSellingQ
     sellingQuantity <= 0 ? setDisable(true) : setDisable(false);
   }, [sellingQuantity]);
 
-  const { sellingQnt } = shoppingList.find((product) => product.id === id) || {};
-
   const brlPrice = convertBRL(price);
+
 
   return (
     <div className="plus-minus-buttons">
@@ -73,7 +72,7 @@ const PlusMinus = ({ index, id, name, photo, price, sellingQuantity, setSellingQ
       >
         -
       </AiOutlineMinusCircle>
-      <span data-testid={`${index}-product-qtd`}>{sellingQnt || 0}</span>
+      <span data-testid={`${index}-product-qtd`}>{sellingQuantity}</span>
       <AiOutlinePlusCircle
         className="plus-minus-icons"
         size="20"

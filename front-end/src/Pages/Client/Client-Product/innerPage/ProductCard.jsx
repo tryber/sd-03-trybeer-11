@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import PlusMinus from './PlusMinus';
 
-const ProductCard = (props) => {
+const ProductCard = ({ id, name, price, photo, index }) => {
   const [sellingQuantity, setSellingQuantity] = useState(0);
+  const shoppingList = useSelector(state => state.shoppingListReducer.data);
 
-  const { id, name, price, photo, index } = props;
+  useEffect(() => {
+    const { sellingQnt } = shoppingList.find((product) => product.id === id) || {};
+    if (sellingQnt) setSellingQuantity(sellingQnt);
+  }, [])
 
   return (
     <div className="products-card">
