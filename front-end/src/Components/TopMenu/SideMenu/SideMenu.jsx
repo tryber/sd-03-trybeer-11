@@ -4,7 +4,7 @@ import './index.css';
 
 const SideMenu = () => {
   return (
-    <aside className="side-menu-container" className="containers-buttons-menu">
+    <aside className="side-menu-container">
       <Link to="/products">
         <button data-testid="side-menu-item-products">Produtos</button>
       </Link>
