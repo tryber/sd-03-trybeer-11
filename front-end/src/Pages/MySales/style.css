@@ -1,0 +1,11 @@
+.sales-cards-container {
+  display: flex;
+  flex-flow: 1;
+  margin: auto;
+  max-width: 1500px;
+  width: 80%;
+}
+
+.sales-cards-container:hover {
+  cursor: pointer;
+}

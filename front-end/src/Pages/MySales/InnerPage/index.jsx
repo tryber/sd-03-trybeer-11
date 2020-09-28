@@ -1,12 +1,22 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
+import convertBRL from '../../../Services/BRLFunction';
+
+import './style.css';
+
+const handleDate = (mili) => {
+  const date = new Date(mili);
+  return `${String(date.getDay()).padStart(2, '0')} / ${String(date.getMonth()).padStart(2, '0')}`;
+};
 
 const SaleCard = ({ id, date, value, index }) => {
   return (
-    <div>
-      <p data-testid={`${index}-order-number`}>{id}</p>
-      <p data-testid={`${index}-order-date`}>{date}</p>
-      <p data-testid={`${index}-order-total-value`}>{value}</p>
-    </div>
+    <Link to={`/orders/${id}`} className="sale-card">
+      <h3 className="sale-detail" data-testid={`${index}-order-number`}>Pedido {id}</h3>
+      <p className="sale-detail sale-date" data-testid={`${index}-order-date`}>{handleDate(date)}</p>
+      <p className="sale-detail" data-testid={`${index}-order-total-value`}>{convertBRL(value)}</p>
+    </Link>
   );
 };
 
