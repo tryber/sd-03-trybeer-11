@@ -21,8 +21,8 @@ const MySales = () => {
   return (
     <div className="sales-cards-container" data-testid="0-order-card-container">
       {info &&
-        info.map(({ id, date, value }, index) => (
-          <SaleCard date={date} id={id} index={index} key={id} value={value} />
+        info.map(({ id, number, date, value }, index) => (
+          <SaleCard date={date} id={id} number={number} index={index} key={id} value={value} />
         ))}
     </div>
   );
