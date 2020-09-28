@@ -13,7 +13,7 @@ const Profile = () => {
   const [result, setResult] = useState(null);
   const [changeLoading, setChangeLoading] = useState(false);
   const [oficialName, setOficialName] = useState('');
-  
+
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
   useEffect(() => {
@@ -54,6 +54,8 @@ const Profile = () => {
   if (shouldRedirect) return <Redirect to="/login" />
   if (changeLoading || loading) return <Loading />;
 
+  const role = localStorage.getItem('role');
+
   return (
     <div className="chage-user-container">
       <h1 data-testid="top-title" className="change-user-title">
@@ -69,18 +71,19 @@ const Profile = () => {
         <label className="change-user-label" htmlFor="name">
           <h2 className="change-user-label-text">Name</h2>
           <input
-            data-testid="profile-name-input"
+            data-testid={role == 'administrador' ? "profile-name" : "profile-name-input"}
             className="change-user-input"
             name="name"
             id="name"
             value={name}
             onChange={({ target }) => setName(target.value)}
+            readOnly={role == 'administrador'}
           />
         </label>
         <label className="change-user-label" htmlFor="email">
           <h2 className="change-user-label-text">Email</h2>
           <input
-            data-testid="profile-email-input"
+            data-testid={role == 'administrador' ? "profile-email" : "profile-email-input"}
             className="change-user-input"
             type="email"
             id="email"

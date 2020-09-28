@@ -6,7 +6,7 @@
   justify-content: center;
 }
 
-.containers-buttons-menu button {
+.side-menu-container button {
   background: #FF7816;
   border: none;
   margin: 1px;
@@ -17,4 +17,5 @@
   border-radius: 3px;
   color: #ffe1ba;
   margin: 10px;
+  cursor: pointer;
 }
