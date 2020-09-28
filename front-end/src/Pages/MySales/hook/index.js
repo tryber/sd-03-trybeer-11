@@ -9,7 +9,7 @@ const useRequisition = (requisition) => {
     if (loading) {
       requisition()
         .then(setInfo)
-        .catch(({ message }) => setError(message))
+        .catch(({ message }) => setError(message));
     }
     setLoading(false);
   }, [loading, requisition]);
