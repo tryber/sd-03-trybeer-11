@@ -6,6 +6,7 @@ const { authMiddleware } = require('../middleware');
 const salesRouter = Router();
 
 salesRouter
-  .get('/', authMiddleware(true), salesControllers.getAllSales);
+  .get('/', authMiddleware(true), salesControllers.getAllSales)
+  .get('/orders/:id', authMiddleware(true), salesControllers.getSale);
 
 module.exports = salesRouter;
