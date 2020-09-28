@@ -4,7 +4,7 @@ import './index.css';
 
 const SideMenu = () => {
   return (
-    <aside class="side-menu-container" className="containers-buttons-menu">
+    <aside className="side-menu-container">
       <Link to="/products">
         <button data-testid="side-menu-item-products">Produtos</button>
       </Link>
@@ -17,7 +17,7 @@ const SideMenu = () => {
       <Link to="/login">
         <button
           data-testid="side-menu-item-logout"
-          onClick={() => localStorage.removeItem("user")}
+          onClick={() => localStorage.removeItem("token")}
         >
           Sair
         </button>
