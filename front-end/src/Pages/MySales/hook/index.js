@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const useRequisition = (requisition) => {
   const [loading, setLoading] = useState(false);
@@ -10,8 +10,8 @@ const useRequisition = (requisition) => {
       requisition()
         .then(setInfo)
         .catch(({ message }) => setError(message))
-      .then(() => setLoading(false));
     }
+    setLoading(false);
   }, [loading, requisition]);
 
   return [{ loading, error, info }, { setLoading, setError, setInfo }];

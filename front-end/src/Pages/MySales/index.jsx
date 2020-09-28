@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import useRequisition from "./hook";
+import useRequisition from './hook/index';
 
 import { Loading } from "../../Components";
 import SaleCard from "./InnerPage";
@@ -10,8 +10,7 @@ const MySales = () => {
 
   useEffect(() => {
     setLoading(true);
-  }, []);
-  console.log(info, error, loading);
+  }, [setLoading]);
 
   if (loading) return <Loading />;
   if (error) return <h3>{error}</h3>;
