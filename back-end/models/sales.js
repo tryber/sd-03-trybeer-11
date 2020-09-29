@@ -1,7 +1,6 @@
 const connection = require('./connection');
 
 const addSale = async ({ userId, totalPrice, deliveryAddress, deliveryNumber, saleDate, status }) => {
-  console.log(saleDate)
   const db = await connection();
   const insertedSale = await db.getTable('sales')
     .insert(['user_id', 'total_price', 'delivery_address', 'delivery_number', 'sale_date', 'status'])
