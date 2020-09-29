@@ -2,7 +2,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
-const { productsRouter, usersRouter,salesRouter } = require('./routes');
+const { productsRouter, usersRouter, salesRouter } = require('./routes');
 const { errorMiddleware } = require('./middleware');
 
 const app = express();
