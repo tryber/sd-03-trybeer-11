@@ -121,4 +121,12 @@ const GET_sales_id = {
     status,
     products: [id, name, price, urlImage, quantity],
   },
+  erros: {
+    "sale não cadastrada nesse user": {
+      message: "Você nao tem permissão para ver essa compra",
+    },
+    "id não sendo um number": {
+      message: "not valid id",
+    },
+  },
 };
