@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { shoppingListAction, successfulMessageAction } from '../../../Redux/action/shoppingListAction';
 import CheckoutProductCard from './innerPage/CheckoutProductCard';
-// import convertBRL from '../../../Services/BRLFunction';
+import convertBRL from '../../../Services/BRLFunction';
 
 const CheckoutPage = () => {
   const history = useHistory();
@@ -90,7 +90,7 @@ const CheckoutPage = () => {
           updateLocalStorage={updateLocalStorage}
         />
       )}
-      <span data-testid="order-total-value">{`Total: R$ ${totalPrice.toFixed(2).replace('.', ',')}`}</span>
+      <span data-testid="order-total-value">{`Total: ${convertBRL(totalPrice)}`}</span>
       <h3>Endereço</h3>
       <form onSubmit={(event) => submitPurchase(event)}>
         <label htmlFor="address">
