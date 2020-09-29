@@ -2,16 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./index.css";
 
-const role = localStorage.getItem('role');
-
-console.log(role);
 
 const SideMenu = () => {
+
+  const role = localStorage.getItem('role');
+  // console.log(role)
+
   return (
     <aside className="side-menu-container">
-      {role === "administrador" ? (
+      {role === "administrator" ? (
         <>
-          <Link to="/">
+          <Link to="/admin/orders">
             <button data-testid="side-menu-item-orders">Pedidos</button>
           </Link>
           <Link to="/admin/profile">

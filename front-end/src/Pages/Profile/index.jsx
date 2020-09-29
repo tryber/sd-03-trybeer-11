@@ -77,7 +77,7 @@ const Profile = () => {
             id="name"
             value={name}
             onChange={({ target }) => setName(target.value)}
-            readOnly={role == 'administrador'}
+            readOnly={role == 'administrator'}
           />
         </label>
         <label className="change-user-label" htmlFor="email">
