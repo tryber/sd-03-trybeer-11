@@ -5,7 +5,6 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import { TopMenu } from '../Components/index';
 import PrivateRoute from './Components';
 import { Login, Profile, Register, ClientProduct, AdminOrders, AdminDetails, MySales } from '../Pages/index';
 import './styles.css';
@@ -16,7 +15,6 @@ const Routers = () => {
       {window.location.pathname === '/' && <Redirect to="/login" />}
       <Switch>
         <React.Fragment>
-          <TopMenu />
           <div className="all-routes">
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />

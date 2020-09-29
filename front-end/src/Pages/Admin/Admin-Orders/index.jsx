@@ -1,5 +1,5 @@
 import React from "react";
-import { Cards, Loading } from "../../../Components";
+import { Cards, Loading, TopMenu } from "../../../Components";
 import "./styles.css";
 import useRequisition from "../../../Services/hook";
 import takeSales from "../../../Services/apiSalesRequest";
@@ -15,21 +15,24 @@ const AdminOrders = () => {
   if (error) return <h3>{error}</h3>;
 
   return (
-    <div className="admin-orders">
-      {info &&
-        info.map(({ id, number, total, address, status }, index) => (
-          <Cards
-            endereco={ address }
-            numeroPedido={ number }
-            index={ index }
-            key={ id }
-            preco={ total }
-            status={ status }
-            index={ index }
-            id={ id }
-          />
-        ))}
-    </div>
+    <>
+    <TopMenu />
+      <div className="admin-orders">
+        {info &&
+          info.map(({ id, number, total, address, status }, index) => (
+            <Cards
+              endereco={ address }
+              numeroPedido={ number }
+              index={ index }
+              key={ id }
+              preco={ total }
+              status={ status }
+              index={ index }
+              id={ id }
+            />
+          ))}
+      </div>
+    </>
   );
 };
 

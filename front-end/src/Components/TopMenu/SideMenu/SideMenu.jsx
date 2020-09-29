@@ -6,10 +6,9 @@ import "./index.css";
 const SideMenu = () => {
 
   const role = localStorage.getItem('role');
-  // console.log(role)
 
   return (
-    <aside className="side-menu-container">
+    <aside className="side-menu-container" data-testid="side-menu-container">
       {role === "administrator" ? (
         <>
           <Link to="/admin/orders">
