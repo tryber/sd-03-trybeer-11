@@ -7,6 +7,6 @@ const salesRouter = Router();
 
 salesRouter
   .get('/', authMiddleware(true), salesControllers.getAllSales)
-  .get('/orders/:id', authMiddleware(true), salesControllers.getSale);
+  .get('/:id', authMiddleware(true), salesControllers.getSaleDetails);
 
 module.exports = salesRouter;

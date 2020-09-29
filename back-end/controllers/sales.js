@@ -7,19 +7,28 @@ const getAllSales = rescue(async (_req, res, _next) => {
   res.status(200).json({ sales });
 });
 
-const getSale = rescue(async (req, res, next) => {
+const getSaleDetails = rescue(async (req, res, next) => {
   const { id } = req.params;
-  const sale = await salesServices.getById(id);
+
+  const { error } = salesServices.idSchema.validate(id);
+
+  if (error) return next(Boom.badRequest(error.message));
+
+  const [sale, products] = await Promise.all([
+    salesServices.getById(id),
+    salesServices.getProducts(id),
+  ]);
+
   if (sale.error) return next(Boom.notFound(sale.message));
 
   if (req.user.id !== sale.userId) {
     return next(Boom.unauthorized("Você nao tem permissão para ver essa compra"));
   }
 
-  return res.status(200).json({ ...sale });
+  return res.status(200).json({ ...sale, products });
 });
 
 module.exports = {
   getAllSales,
-  getSale,
+  getSaleDetails,
 };

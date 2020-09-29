@@ -1,9 +1,10 @@
 const POST_login = {
   recebe: {
     email: "<name@dominio>",
-    password: "<string 6 len>"
+    password: "<string 6 len>",
   },
-  responde: { // user sem senha
+  responde: {
+    // user sem senha
     id,
     email,
     name,
@@ -13,7 +14,7 @@ const POST_login = {
   erros: {
     "senha / email invalido": {
       message: "email ou senha inválido",
-    },    
+    },
   },
 };
 
@@ -24,7 +25,8 @@ const POST_register = {
     password: "<string 6 len>",
     role: "<bool>",
   },
-  retorna: { // user sem senha
+  retorna: {
+    // user sem senha
     id,
     email,
     name,
@@ -42,15 +44,16 @@ const POST_register = {
       message: "senha de pelo menos 6 digitos",
     },
     "nome invalido": {
-      message: "pelo menos 12 caracteres, não pode conter numeros nem caracteres especiais",
+      message:
+        "pelo menos 12 caracteres, não pode conter numeros nem caracteres especiais",
     },
     "email ja existente": {
       message: "E-mail already in database.",
     },
     "error interno de token": {
       message: "Não foi possível gerar a autenticacao",
-    }
-  }
+    },
+  },
 };
 
 const PUT_profile = {
@@ -58,7 +61,8 @@ const PUT_profile = {
     token: "<token>",
     name: ">=12 len, no numbers or special",
   },
-  retorna: { // user sem senha
+  retorna: {
+    // user sem senha
     id,
     email,
     name,
@@ -66,19 +70,21 @@ const PUT_profile = {
   },
   erros: {
     "nome invalido": {
-      message: "pelo menos 12 caracteres, não pode conter numeros nem caracteres especiais",
+      message:
+        "pelo menos 12 caracteres, não pode conter numeros nem caracteres especiais",
     },
     "token invalido": {
       message: "autenticacao invalida",
-    }
-  }
+    },
+  },
 };
 
 const GET_profile = {
   recebe: {
     token,
   },
-  retorna: { // user sem senha
+  retorna: {
+    // user sem senha
     id,
     email,
     name,
@@ -87,8 +93,8 @@ const GET_profile = {
   erros: {
     "token invalido": {
       message: "autenticacao invalido",
-    }
-  }
+    },
+  },
 };
 
 const GET_products = {
@@ -99,7 +105,20 @@ const GET_products = {
         name,
         price,
         url_image,
-      }
+      },
     ],
-  }  
+  },
+};
+
+const GET_sales_id = {
+  retorna: {
+    id,
+    userId,
+    totalPrice,
+    address,
+    number,
+    date,
+    status,
+    products: [id, name, price, urlImage, quantity],
+  },
 };
