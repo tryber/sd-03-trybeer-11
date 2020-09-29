@@ -118,4 +118,4 @@ const GET_sales = {
       message: "token invalido",
     }
   }
-}
+};
