@@ -3,7 +3,7 @@ const mysqlx = require('@mysql/xdevapi');
 
 const { HOSTNAME, MYSQL_USER, MYSQL_PASSWORD, PORT_DB = 33060 } = process.env;
 
-module.exports = () =>  mysqlx
+module.exports = () => mysqlx
   .getSession({
     host: HOSTNAME,
     user: MYSQL_USER,
