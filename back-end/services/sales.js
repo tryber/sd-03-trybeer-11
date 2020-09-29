@@ -7,7 +7,7 @@ const totalPriceSchema = Joi.number().positive().required().error(() => new Erro
 
 const deliveryAddressSchema = Joi.string().required().error(() => new Error('endereço necessário'));
 
-const saleDateSchema = Joi.date().required().error(() => new Error('data inválida'));
+const saleDateSchema = Joi.date().timestamp().required().error(() => new Error('data inválida'));
 
 const productObjSchema = Joi.object().keys({
   id: Joi.number().integer().positive().required().error(() => new Error('product id inválido')),
