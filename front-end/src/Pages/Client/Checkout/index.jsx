@@ -8,11 +8,11 @@ import CheckoutProductCard from './innerPage/CheckoutProductCard';
 
 const CheckoutPage = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [totalPrice, setTotalPrice] = useState(0);
   const [finishMessage, setFinishMessage] = useState('');
   const [street, setStreet] = useState('');
   const [number, setNumber] = useState('');
-  const dispatch = useDispatch();
   const token = localStorage.getItem('token');
 
   const reduxStoreProducts = useSelector(state => state.shoppingListReducer.data);
