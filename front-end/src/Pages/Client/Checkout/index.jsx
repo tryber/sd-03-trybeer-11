@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { shoppingListAction } from '../../../Redux/action/shoppingListAction';
+import { shoppingListAction, successfulMessageAction } from '../../../Redux/action/shoppingListAction';
 import CheckoutProductCard from './innerPage/CheckoutProductCard';
-import convertBRL from '../../../Services/BRLFunction';
+// import convertBRL from '../../../Services/BRLFunction';
 
 const CheckoutPage = () => {
+  const history = useHistory();
   const [totalPrice, setTotalPrice] = useState(0);
   const [finishMessage, setFinishMessage] = useState('');
+  const [street, setStreet] = useState('');
+  const [number, setNumber] = useState('');
   const dispatch = useDispatch();
   const token = localStorage.getItem('token');
 
@@ -53,7 +57,9 @@ const CheckoutPage = () => {
     .then((response) => {
       console.log(response);
       localStorage.removeItem('sellingProducts');
-      setFinishMessage('Compra Realizada com sucesso');
+      dispatch(successfulMessageAction());
+      dispatch(shoppingListAction([]));
+      history.push('/products');
     })
     .catch(({ response }) => {
       setFinishMessage(response.data.message);
@@ -61,8 +67,20 @@ const CheckoutPage = () => {
     })
   }
 
+  const onChangeStreet = (event) => setStreet(event.target.value);
+
+  const onChangeNumber = (event) => setNumber(event.target.value);
+
+  console.log(street, number, reduxStoreProducts.length > 0)
+
+  const disableButton = () => {
+    if (street !== '' && number !== '' && reduxStoreProducts.length > 0) return false;
+    return true;
+  }
+
   return (
     <div>
+      <span>{reduxStoreProducts.length === 0 ? 'Não há produtos no carrinho': null}</span>
       {reduxStoreProducts.map(({id, name, price, sellingQnt}, index) =>
         <CheckoutProductCard
           index={index}
@@ -74,24 +92,36 @@ const CheckoutPage = () => {
           updateLocalStorage={updateLocalStorage}
         />
       )}
-      <span data-testid="order-total-value">{`Total: ${convertBRL(totalPrice)}`}</span>
+      <span data-testid="order-total-value">{`Total: R$ ${totalPrice.toFixed(2).replace('.', ',')}`}</span>
       <h3>Endereço</h3>
       <form onSubmit={(event) => submitPurchase(event)}>
         <label htmlFor="address">
           Rua:
           <input
-          data-testid="checkout-street-input" type="text" id="address" name="deliveryAddress" />
+            onChange={(event) => onChangeStreet(event)}
+            data-testid="checkout-street-input"
+            type="text"
+            id="address"
+            name="deliveryAddress"
+          />
         </label>
         <label htmlFor="address-number">
           Número da casa:
           <input
+            onChange={(event) => onChangeNumber(event)}
             data-testid="checkout-house-number-input"
             type="text"
             id="address-number"
             name="deliveryNumber"
           />
         </label>
-        <button data-testid="checkout-finish-btn" type="submit">Finalizar Compra</button>
+        <button
+          disabled={disableButton()}
+          data-testid="checkout-finish-btn"
+          type="submit"
+        >
+          Finalizar Compra
+        </button>
       </form>
       <span>{finishMessage}</span>
     </div>

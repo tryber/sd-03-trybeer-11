@@ -1,7 +1,8 @@
-import { CHANGE_QUANTITY } from '../action/shoppingListAction';
+import { CHANGE_QUANTITY, SUCCESSFUL_PURCHASE } from '../action/shoppingListAction';
 
 const INITIAL_STATE = {
   data: [],
+  message: '',
 };
 
 const shoppingListReducer = (state = INITIAL_STATE, action) => {
@@ -11,6 +12,11 @@ const shoppingListReducer = (state = INITIAL_STATE, action) => {
         ...state,
         data: [...action.newData],
       };
+    case SUCCESSFUL_PURCHASE:
+      return {
+        ...state,
+        message: action.message,
+      }
     default:
       return state;
   }
