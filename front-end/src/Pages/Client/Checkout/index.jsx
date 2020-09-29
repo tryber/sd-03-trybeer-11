@@ -93,6 +93,7 @@ const CheckoutPage = () => {
         </label>
         <button data-testid="checkout-finish-btn" type="submit">Finalizar Compra</button>
       </form>
+      <span>{finishMessage}</span>
     </div>
   );
 };

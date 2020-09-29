@@ -21,7 +21,9 @@ const Routers = () => {
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
             <Route path="/profile" component={Profile} />
-            <Route path="/checkout" component={CheckoutPage} />
+            <Route path="/checkout">
+              <PrivateRoute component={CheckoutPage} />
+            </Route>
             <Route path="/products">
               <PrivateRoute component={ClientProduct} />
             </Route>
