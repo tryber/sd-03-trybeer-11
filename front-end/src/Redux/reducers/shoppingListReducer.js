@@ -16,7 +16,7 @@ const shoppingListReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         message: action.message,
-      }
+      };
     default:
       return state;
   }
