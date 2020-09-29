@@ -1,6 +1,6 @@
-const rescue = require("express-rescue");
-const { salesServices } = require("../services");
-const Boom = require("boom");
+const rescue = require('express-rescue');
+const Boom = require('boom');
+const { salesServices } = require('../services');
 
 const getAllSales = rescue(async (_req, res, _next) => {
   const sales = await salesServices.getAll();
@@ -22,7 +22,7 @@ const getSaleDetails = rescue(async (req, res, next) => {
   if (sale.error) return next(Boom.notFound(sale.message));
 
   if (req.user.id !== sale.userId) {
-    return next(Boom.unauthorized("Você nao tem permissão para ver essa compra"));
+    return next(Boom.unauthorized('Você nao tem permissão para ver essa compra'));
   }
 
   return res.status(200).json({ ...sale, products });
