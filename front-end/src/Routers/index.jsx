@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { TopMenu } from '../Components/index';
 import PrivateRoute from './Components';
-import { Login, Profile, Register, ClientProduct } from '../Pages/index';
+import { Login, Profile, Register, ClientProduct, AdminOrders, AdminDetails } from '../Pages/index';
 import './styles.css';
 
 const Routers = () => {
@@ -26,6 +26,12 @@ const Routers = () => {
             </Route>
             <Route path="/admin/profile">
               <PrivateRoute component={Profile} />
+            </Route>
+            <Route path="/admin/orders">
+              <PrivateRoute component={AdminOrders} />
+            </Route>
+            <Route path="/admin/details/:id">
+              <PrivateRoute component={AdminDetails} />
             </Route>
           </div>
         </React.Fragment>
