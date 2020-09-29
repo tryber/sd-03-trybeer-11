@@ -1,14 +1,36 @@
-import React from 'react';
-import { Cards } from '../../../Components';
-import './styles.css';
+import React from "react";
+import { Cards, Loading } from "../../../Components";
+import "./styles.css";
+import useRequisition from "../../../Services/hook";
+import takeSales from "../../../Services/apiSalesRequest";
 
 const AdminOrders = () => {
-// remover llinhas com mock quando for integrar o back
+  const [{ loading, error, info }, { setLoading }] = useRequisition(takeSales);
+
+  React.useEffect(() => {
+    setLoading(true);
+  }, [setLoading]);
+
+  if (loading) return <Loading />;
+  if (error) return <h3>{error}</h3>;
+
   return (
     <div className="admin-orders">
-      <Cards numeroPedido={"0001"} endereco={"Rua de mock, 443"} preco={"R$ 14,56"} status={'Pendente'} index={1} />
+      {info &&
+        info.map(({ id, number, total, address, status }, index) => (
+          <Cards
+            endereco={ address }
+            numeroPedido={ number }
+            index={ index }
+            key={ id }
+            preco={ total }
+            status={ status }
+            index={ index }
+            id={ id }
+          />
+        ))}
     </div>
-  )
+  );
 };
 
 export default AdminOrders;

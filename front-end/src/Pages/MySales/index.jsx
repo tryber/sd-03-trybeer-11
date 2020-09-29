@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { Loading } from "../../Components";
 
 import SaleCard from "./InnerPage";
-import useRequisition from './hook/index';
+import useRequisition from '../../Services/hook/index';
 import takeSales from "../../Services/apiSalesRequest";
 
 import './style.css';
