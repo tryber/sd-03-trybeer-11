@@ -71,8 +71,6 @@ const CheckoutPage = () => {
 
   const onChangeNumber = (event) => setNumber(event.target.value);
 
-  console.log(street, number, reduxStoreProducts.length > 0)
-
   const disableButton = () => {
     if (street !== '' && number !== '' && reduxStoreProducts.length > 0) return false;
     return true;
