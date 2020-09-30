@@ -5,9 +5,20 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import { TopMenu } from '../Components/index';
+
 import PrivateRoute from './Components';
-import { Login, Profile, Register, ClientProduct } from '../Pages/index';
+
+import {
+  Login,
+  Profile,
+  Register,
+  ClientProduct,
+  AdminOrders,
+  AdminDetails,
+  MySales,
+  CheckoutPage
+} from '../Pages/index';
+
 import './styles.css';
 
 const Routers = () => {
@@ -16,13 +27,27 @@ const Routers = () => {
       {window.location.pathname === '/' && <Redirect to="/login" />}
       <Switch>
         <React.Fragment>
-          <TopMenu />
           <div className="all-routes">
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
             <Route path="/profile" component={Profile} />
+            <Route path="/checkout">
+              <PrivateRoute component={CheckoutPage} />
+            </Route>
             <Route path="/products">
               <PrivateRoute component={ClientProduct} />
+            </Route>
+            <Route path="/admin/profile">
+              <PrivateRoute component={Profile} />
+            </Route>
+            <Route path="/admin/orders">
+              <PrivateRoute component={AdminOrders} />
+            </Route>
+            <Route path="/admin/details/:id">
+              <PrivateRoute component={AdminDetails} />
+            </Route>
+            <Route exact path="/orders">
+              <PrivateRoute component={MySales} />
             </Route>
           </div>
         </React.Fragment>

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import PropTypes from "prop-types";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 import SideMenu from "./SideMenu/SideMenu";
@@ -9,13 +8,15 @@ import "./index.css";
 const renderTitle = (path) => {
   switch (path) {
     case '/profile': return 'Meu perfil';
+    case '/orders': return 'Meus Pedidos';
     case '':
     default: return 'TryBeer';
   }
 }
 
 const TopMenu = () => {
-  const [openSide, setOpenSide] = useState(false);
+  const role = localStorage.getItem('role');
+  const [openSide, setOpenSide] = useState(role === 'administrator');
   const { pathname } = useLocation();
 
   return (

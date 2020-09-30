@@ -14,6 +14,10 @@ const PlusMinus = ({ index, id, name, photo, price, sellingQuantity, setSellingQ
 
   const changeReduxShoppingList = (value) => {
     if (shoppingList.length > 0) {
+      if (value === 0) {
+        return shoppingList.filter((product) => product.id !== id);
+      };
+
       if (shoppingList.some((product) => product.id === id)) {
         return shoppingList.map((product) => {
           if (product.id === id) {
@@ -28,6 +32,7 @@ const PlusMinus = ({ index, id, name, photo, price, sellingQuantity, setSellingQ
           return product;
         })
       }
+
       const newList = [...shoppingList];
       newList.push({
         id,

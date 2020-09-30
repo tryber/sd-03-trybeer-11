@@ -1,0 +1,7 @@
+.admin-orders {
+  display: flex;
+  flex-flow: wrap;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}

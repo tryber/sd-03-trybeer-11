@@ -5,11 +5,13 @@ import { getApiData } from '../../../Redux/action/apiProductsAction';
 import ProductCard from './innerPage/ProductCard';
 import convertBRL from '../../../Services/BRLFunction';
 import { shoppingListAction } from '../../../Redux/action/shoppingListAction';
+import { TopMenu } from '../../../Components';
 import './styles.css';
 
 const ClientProduct = () => {
   const { data: products, error: requestError } = useSelector(state => state.apiProductsReducer);
   const shoppingList = useSelector(state => state.shoppingListReducer.data);
+  const successfulMessage = useSelector(state => state.shoppingListReducer.message);
   const dispatch = useDispatch();
 
   const totalPrice = shoppingList.reduce((acc, { price, sellingQnt }) => acc + price * sellingQnt, 0);
@@ -26,25 +28,29 @@ const ClientProduct = () => {
   if (requestError) return <Redirect to="/login" />;
 
   return (
-    <div className="general-container">
-      <div className="cards-button">
-        <div className="cards-container">
-          {products.map(({ id, name, price, urlImage }, index) => (
-            <ProductCard key={id} id={id} photo={urlImage} name={name} price={price} index={index} />
-          ))}
+    <>
+    <TopMenu />
+      <div className="general-container">
+        <div>{successfulMessage !== '' ? successfulMessage : null}</div>
+        <div className="cards-button">
+          <div className="cards-container">
+            {products.map(({ id, name, price, urlImage }, index) => (
+              <ProductCard key={id} id={id} photo={urlImage} name={name} price={price} index={index} />
+            ))}
+          </div>
+          <Link to="/checkout">
+            <button
+              className="checkout-button"
+              disabled={totalPrice === 0}
+              data-testid="checkout-bottom-btn"
+            >
+              Ver Carrinho
+            </button>
+          </Link>
         </div>
-        <Link to="/checkout">
-          <button
-            className="checkout-button"
-            disabled={totalPrice === 0}
-            data-testid="checkout-bottom-btn"
-          >
-            Ver Carrinho
-          </button>
-        </Link>
+        <span data-testid="checkout-bottom-btn-value">{`Total: ${totalPriceBRL}`}</span>
       </div>
-      <span data-testid="checkout-bottom-btn-value">{`Total: ${totalPriceBRL}`}</span>
-    </div>
+    </>
   );
 }
 
