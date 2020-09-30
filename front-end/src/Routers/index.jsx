@@ -7,7 +7,9 @@ import {
 } from 'react-router-dom';
 import { TopMenu } from '../Components/index';
 import PrivateRoute from './Components';
-import { Login, Profile, Register, ClientProduct, MySales } from '../Pages/index';
+
+import { Login, Profile, Register, ClientProduct, CheckoutPage, MySales } from '../Pages/index';
+
 import './styles.css';
 
 const Routers = () => {
@@ -21,6 +23,9 @@ const Routers = () => {
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
             <Route path="/profile" component={Profile} />
+            <Route path="/checkout">
+              <PrivateRoute component={CheckoutPage} />
+            </Route>
             <Route path="/products">
               <PrivateRoute component={ClientProduct} />
             </Route>
