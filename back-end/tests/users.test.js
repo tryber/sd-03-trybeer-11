@@ -9,108 +9,97 @@ describe('users', () => {
     const emailError = 'email tem que ser no formato <nome@dominio>';
     const passwordError = 'senha de pelo menos 6 digitos';
     const lessInfoError = 'Faltando informacoes';
-    const emailDuplicatedError = 'email ja existe';
+    const emailDuplicatedError = 'E-mail already in database.';
     
     beforeAll(async () => eraseDB());
     
     afterAll(closeDB);
     
+    const user = {
+      name: 'exampleGrande',
+      email: 'example@example.com',
+      password: '123456',
+      role: false,
+    }
+
+    const resultObj = {
+      id: Joi.number().required(),
+      email: 'example@example.com',
+      token: Joi.string().required(),
+      name: 'exampleGrande',
+      role: 'client',
+    };
+
     test('Is possible create an commom user', async () => {
-      const user = {
-        name: 'exampleGrande',
-        email: 'example@example.com',
-        password: '123456',
-        role: false,
-      };
-
-      const resultObj = {
-        id: Joi.number().required(),
-        email: 'example@example.com',
-        token: Joi.string().required(),
-        name: 'exampleGrande',
-        role: 'client',
-      };
-
       await frisby.post(`${URL_BASE}/user`, user)
         .expect('status', 201)
         .expect('jsonTypes', resultObj);
       });
 
       test('Name should have at least 12 characters', async () => {
-        const user = {
-          name: 'abcdefghijk',
-          email: 'example@example.com',
-          password: 'abcdef',
-          role: 'false',
-        };
+        const name = 'abcdefghijk';
 
-        await frisby.post(`${URL_BASE}/user`, user)
-        .expect('status', 422)
-        .expect('jsonTypes', { message: nameError });
+        await frisby.post(`${URL_BASE}/user`, { ...user, name })
+          .expect('status', 422)
+          .expect('jsonTypes', { message: nameError });
       });
 
       test('Name should not have number', async () => {
-        const user = {
-          name: 'abcdefghijk123',
-          email: 'example@example.com',
-          password: 'abcdef',
-          role: 'false',
-        };
+        const password = 'abcdef';
 
-      await frisby.post(`${URL_BASE}/user`, user)
-      .expect('status', 422)
-        .expect('jsonTypes', { message: nameError });
+        await frisby.post(`${URL_BASE}/user`, { ...user, password })
+          .expect('status', 422)
+          .expect('jsonTypes', { message: nameError });
       });
 
       test('Name should not have special characters', async () => {
-        const user = {
-          name: 'abcdefghijk@^',
-          email: 'example@example.com',
-          password: 'abcdef',
-          role: 'false',
-        };
-        
-        await frisby.post(`${URL_BASE}/user`, user)
+        const password = 'abcdef';
+
+        await frisby.post(`${URL_BASE}/user`,  { ...user, password })
         .expect('status', 422)
         .expect('json', { message: nameError });
       });
       
       test('email should have the <name>@<dominio> format', async () => {
-        const user = {
-          name: 'abcdefghijkl',
-          email: 'example@',
-          password: 'abcdef',
-          role: 'false',
-        };
+        const email = 'example@';
         
-        await frisby.post(`${URL_BASE}/user`, user)
+        await frisby.post(`${URL_BASE}/user`, { ...user, email })
         .expect('status', 422)
         .expect('json', { message: emailError });
       });
       
       test('email should not exists', async () => {
         const email = 'example@exa.com';
-      const user = {
-        name: 'abcdefghijkl',
-        email,
-        password: 'abcdef',
-        role: 'false',
-      };
-      
-      const user2 = {
-        name: 'mnopqrstuvwxyz',
-        email,
-        password: 'abcdef',
-        role: 'false',
-      };
-      
-      await frisby.post(`${URL_BASE}/user`, user)
-      .expect('status', 201);
-      
-      await frisby.post(`${URL_BASE}/user`, user2)
-      .expect('status', 409)
-      .expect('json', { message: 'E-mail already in database.' });
-    });
+        
+        const user2 = {
+          name: 'mnopqrstuvwxyz',
+          email,
+          password: 'abcdef',
+          role: 'false',
+        };
+        
+        await frisby.post(`${URL_BASE}/user`, { ...user, email })
+          .expect('status', 201);
+        
+        await frisby.post(`${URL_BASE}/user`, user2)
+          .expect('status', 409)
+          .expect('json', { message: emailDuplicatedError });
+      });
+
+      test('password wrong should throw error', async () => {
+        const password = '12345';
+        await frisby.post(`${URL_BASE}/user`, { ...user, password })
+          .expect('status', 422)
+          .expect('json', { message: passwordError });
+      });
+
+      test('error if have no password info', async () => {
+        const { password, ...incompletUser } = user;
+
+        await frisby.post(`${URL_BASE}/user`, incompletUser)
+          .expect('status', 422)
+          .expect('json', { message: lessInfoError });
+      });
   });
 
   describe('login', () => {
@@ -179,6 +168,7 @@ describe('users', () => {
       name: 'exampleGrande',
       role: 'client',
     };
+    const { token: tokenSchema, ...resultNoToken } = resultObj;
 
     beforeAll(async () => eraseDB());
 
@@ -195,6 +185,29 @@ describe('users', () => {
     test('should be possible take the user with token', async () => {
       if (!token) throw new Error('No token');
       await frisby.get(`${URL_BASE}/user`, { headers: { authorization: token } })
+        .expect('status', 200)
+        .expect('jsonTypes', resultNoToken);
+    });
+
+    test('should give back an message if token is invalid', async () => {
+      if (!token) throw new Error('No token');
+      await frisby.get(`${URL_BASE}/user`)
+        .expect('status', 401)
+        .expect('json', { message: 'autenticacao invalido' });
+    });
+
+    test('should give back an message if token no token', async () => {
+      if (!token) throw new Error('No token');
+      await frisby.get(`${URL_BASE}/user`)
+        .expect('status', 401)
+        .expect('json', { message: 'autenticacao invalido' });
+    });
+
+    test('should give back an message if token no token', async () => {
+      if (!token) throw new Error('No token');
+      await frisby.get(`${URL_BASE}/user`, { headers: { authorization: 'E' + token.slice(1) }})
+        .expect('status', 401)
+        .expect('json', { message: 'autenticacao invalido' });
     });
   });
 });
