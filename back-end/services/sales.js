@@ -1,5 +1,5 @@
 const Joi = require('@hapi/joi');
-const { salesModel } = require('../models/index');
+const { salesModel } = require('../models');
 
 const idSchema = Joi.number().integer()
   .positive()
@@ -52,9 +52,18 @@ const addToIntermediate = async (saleIntermediateInfo) => {
 
 const getAll = async () => salesModel.getAll();
 
+const getById = async (id) => salesModel
+  .getById(id)
+  .then((sale) => sale || { error: true, message: 'Compra não encontrada' });
+
+const getProducts = async (id) => salesModel.getProducts(id);
+
 module.exports = {
+  idSchema,
   checkoutSchema,
   addSale,
   addToIntermediate,
   getAll,
+  getById,
+  getProducts,
 };
