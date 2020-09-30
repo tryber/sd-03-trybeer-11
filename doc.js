@@ -130,3 +130,19 @@ const GET_sales_id = {
     },
   },
 };
+
+const GET_sales = {
+  retorna: {
+    id,
+    number,
+    date,
+    total,
+    address,
+    status,
+  },
+  erros: {
+    "token invalido": {
+      message: "token invalido",
+    }
+  }
+};
