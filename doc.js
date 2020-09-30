@@ -104,24 +104,18 @@ const GET_products = {
   }  
 };
 
-
-// Enviado pelo front ao back para ser salvo no banco de dados de
-
-// {
-//   "userId": 1,
-//   "totalPrice": 240.53,
-//   "deliveryAddress": "Rua Doutor Mario Pires",
-//   "deliveryNumber": "91",
-//   "saleDate": "2020-09-28T19:45:44+00:00",
-//   "products": [
-//       {
-//           "id": 1,
-//           "sellingQnt": 3
-//       },
-//       {
-//           "id": 2,
-//           "sellingQnt": 1
-//       }
-//   ]
-
-// }
+const GET_sales = {
+  retorna: {
+    id,
+    number,
+    date,
+    total,
+    address,
+    status,
+  },
+  erros: {
+    "token invalido": {
+      message: "token invalido",
+    }
+  }
+};

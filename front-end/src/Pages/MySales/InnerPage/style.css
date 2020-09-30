@@ -1,0 +1,21 @@
+.sale-card {
+  border: #999 solid 1px;
+  border-radius: 5px;
+  color: black;
+  display: flex;
+  flex-flow: row wrap;
+  margin: auto;
+  max-width: 500px;
+  text-decoration: none;
+  width: 100%;
+}
+
+.sale-detail {
+  flex: 40% 1;
+  margin: 10px;
+  font-weight: 700;
+}
+
+.sale-date {
+  text-align: right;
+}

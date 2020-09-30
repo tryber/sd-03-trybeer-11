@@ -7,7 +7,9 @@ import {
 } from 'react-router-dom';
 import { TopMenu } from '../Components/index';
 import PrivateRoute from './Components';
-import { Login, Profile, Register, ClientProduct, CheckoutPage } from '../Pages/index';
+
+import { Login, Profile, Register, ClientProduct, CheckoutPage, MySales } from '../Pages/index';
+
 import './styles.css';
 
 const Routers = () => {
@@ -26,6 +28,9 @@ const Routers = () => {
             </Route>
             <Route path="/products">
               <PrivateRoute component={ClientProduct} />
+            </Route>
+            <Route path="/orders">
+              <PrivateRoute component={MySales} />
             </Route>
           </div>
         </React.Fragment>

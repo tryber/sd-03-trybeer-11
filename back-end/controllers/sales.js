@@ -30,6 +30,12 @@ const createSale = rescue(async (req, res, next) => {
   return res.status(201).json({ message: 'Venda processada!' });
 });
 
+const getAllSales = rescue(async (_req, res, _next) => {
+  const sales = await salesServices.getAll();
+  res.status(200).json({ sales });
+});
+
 module.exports = {
   createSale,
+  getAllSales,
 };

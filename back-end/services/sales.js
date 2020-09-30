@@ -50,8 +50,11 @@ const addToIntermediate = async (saleIntermediateInfo) => {
   return intermediateInfo;
 };
 
+const getAll = async () => salesModel.getAll();
+
 module.exports = {
   checkoutSchema,
   addSale,
   addToIntermediate,
+  getAll,
 };
