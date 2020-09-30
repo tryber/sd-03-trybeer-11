@@ -1,0 +1,43 @@
+.card-geral {
+  height: 150px;
+  width: 300px;
+  border: 1px solid rgb(231, 231, 231);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  border-radius: 3px;
+  box-shadow: 0px 0px 10px -5px rgba(0,0,0,0.75);
+  margin: 10px;
+  cursor: pointer;
+}
+
+.preco-status {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+}
+
+.preco-status p {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.Pendente {
+  color: #FF0000;
+}
+
+.Entregue {
+  color: #24FF00;
+}
+
+.numero-pedido {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.endereco {
+  font-size: 25px;
+}

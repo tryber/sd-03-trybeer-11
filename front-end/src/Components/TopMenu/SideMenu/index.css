@@ -2,11 +2,12 @@
   align-items: center;
   align-content: center;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  margin: 10px;
   justify-content: center;
 }
 
-.containers-buttons-menu button {
+.side-menu-container button {
   background: #FF7816;
   border: none;
   margin: 1px;
@@ -17,4 +18,5 @@
   border-radius: 3px;
   color: #ffe1ba;
   margin: 10px;
+  cursor: pointer;
 }

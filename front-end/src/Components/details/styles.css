@@ -1,0 +1,51 @@
+.geral-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
+.details-container {
+  width: 100%;
+  display: flex;
+  width: 70%;
+  height: 400px;
+  border: 1px solid rgb(233, 233, 233);
+  border-radius: 5px;
+  box-shadow: 0px 0px 15px -5px rgba(0,0,0,0.75);
+}
+
+.marcar-entregue {
+  margin-top: 20px;
+  align-self: flex-end;
+  margin-right: 15%;
+}
+
+.total {
+  align-self: flex-end;
+  margin-right: 10%;
+}
+
+.marcar-entregue {
+  background-color: #FF7816;
+  color: #ffe1ba;
+  font-size: 20px;
+  border: none;
+  padding: 7px;
+  border-radius: 3px;
+  box-shadow: 0px 0px 15px -5px rgba(0,0,0,0.75);
+  cursor: pointer;
+}
+
+.Entregue {
+  color: #24FF00;
+}
+
+.Pendente {
+  color: #FF0000;
+}
+
+.numero-do-pedido {
+  color: #FF7816;
+}

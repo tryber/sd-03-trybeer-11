@@ -14,7 +14,8 @@ const renderTitle = (path) => {
 }
 
 const TopMenu = () => {
-  const [openSide, setOpenSide] = useState(false);
+  const role = localStorage.getItem('role');
+  const [openSide, setOpenSide] = useState(role === 'administrator');
   const { pathname } = useLocation();
 
   return (

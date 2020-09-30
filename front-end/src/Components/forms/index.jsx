@@ -27,7 +27,8 @@ const Forms = ({ register }) => {
       })
       .then((res) => {
         if (!res) return setErrorLogin('No connection');
-        localStorage.setItem("token", res.data.token);
+        localStorage.setItem('role', res.data.role);
+        localStorage.setItem('token', res.data.token);
 
         return history.push(res.data.role === 'administrator' ? '/admin/orders' : "/products");
       })
@@ -48,7 +49,8 @@ const Forms = ({ register }) => {
         role: isAdmin,
       })
       .then((res) => {
-        localStorage.setItem("token", res.data.token);
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('role', res.data.role);
         return history.push(res.data.role === 'administrator' ? '/admin/orders' : "/products");
       })
       .catch(({ response }) => {
