@@ -4,4 +4,5 @@ export { default as Register } from './Register/index';
 export { default as ClientProduct } from './Client/Client-Product/index';
 export { default as AdminOrders } from './Admin/Admin-Orders/index';
 export { default as AdminDetails } from './Admin/Admin-details/index';
-export { default as MySales } from './MySales';
+export { default as CheckoutPage } from './Client/Checkout/index';
+export { default as MySales } from './MySales/index';

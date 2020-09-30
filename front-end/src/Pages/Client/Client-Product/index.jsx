@@ -11,6 +11,7 @@ import './styles.css';
 const ClientProduct = () => {
   const { data: products, error: requestError } = useSelector(state => state.apiProductsReducer);
   const shoppingList = useSelector(state => state.shoppingListReducer.data);
+  const successfulMessage = useSelector(state => state.shoppingListReducer.message);
   const dispatch = useDispatch();
 
   const totalPrice = shoppingList.reduce((acc, { price, sellingQnt }) => acc + price * sellingQnt, 0);
@@ -30,6 +31,7 @@ const ClientProduct = () => {
     <>
     <TopMenu />
       <div className="general-container">
+        <div>{successfulMessage !== '' ? successfulMessage : null}</div>
         <div className="cards-button">
           <div className="cards-container">
             {products.map(({ id, name, price, urlImage }, index) => (
