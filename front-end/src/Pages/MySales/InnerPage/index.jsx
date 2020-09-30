@@ -5,18 +5,17 @@ import convertBRL from "../../../Services/BRLFunction";
 
 import "./style.css";
 
-const handleDate = (mili) => {
-  const date = new Date(mili);
-  return `${String(date.getDay()).padStart(2, "0")} / ${String(
-    date.getMonth()
-  ).padStart(2, "0")}`;
+const handleDate = (dateBase) => {
+  const date = new Date(dateBase);
+  console.log(date.getDay())
+  return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}`;
 };
 
-const SaleCard = ({ id, number, date, total, index }) => {
+const SaleCard = ({ id, date, total, index }) => {
   return (
     <Link to={`/orders/${id}`} className="sale-card">
       <h3 className="sale-detail" data-testid={`${index}-order-number`}>
-        Pedido {number}
+        Pedido {id}
       </h3>
       <p className="sale-detail sale-date" data-testid={`${index}-order-date`}>
         {handleDate(date)}

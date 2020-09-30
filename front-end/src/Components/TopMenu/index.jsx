@@ -8,6 +8,7 @@ import "./index.css";
 const renderTitle = (path) => {
   switch (path) {
     case '/profile': return 'Meu perfil';
+    case '/orders': return 'Meus Pedidos';
     case '':
     default: return 'TryBeer';
   }

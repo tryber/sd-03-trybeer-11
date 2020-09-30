@@ -62,9 +62,7 @@ const getAll = async () => connection()
 
 const getById = async (saleId) => connection()
   .then((db) => db.getTable('sales'))
-  .then((table) => table.select().where('id = :id')
-    .bind('id', saleId)
-    .execute())
+  .then((table) => table.select().where('id = :id').bind('id', saleId).execute())
   .then((result) => result.fetchAll()[0] || [])
   .then(([id, userId, totalPrice, address, number, date, status]) => (!id
     ? null
