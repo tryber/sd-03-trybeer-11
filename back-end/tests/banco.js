@@ -24,9 +24,15 @@ let conn;
 const eraseDB = async () => {
   conn = await mysqlx.getSession(config);
   const db = await conn.getSchema('Trybeer');
-  await db.getTable('sales').delete().where('TRUE').execute();
-  await db.getTable('sales_products').delete().where('TRUE').execute();
-  await db.getTable('users').delete().where('TRUE').execute();
+  await db.getTable('sales').delete()
+    .where('TRUE')
+    .execute();
+  await db.getTable('sales_products').delete()
+    .where('TRUE')
+    .execute();
+  await db.getTable('users').delete()
+    .where('TRUE')
+    .execute();
   return [conn, db];
 };
 
