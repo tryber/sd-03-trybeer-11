@@ -4,7 +4,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { shoppingListAction, successfulMessageAction } from '../../../Redux/action/shoppingListAction';
 import CheckoutProductCard from './innerPage/CheckoutProductCard';
+import CheckoutFrom from './innerPage/CheckoutForm';
 import convertBRL from '../../../Services/BRLFunction';
+import './styles.css';
 
 const CheckoutPage = () => {
   const history = useHistory();
@@ -77,51 +79,34 @@ const CheckoutPage = () => {
   }
 
   return (
-    <div>
-      <span>{reduxStoreProducts.length === 0 ? 'Não há produtos no carrinho': null}</span>
-      {reduxStoreProducts.map(({id, name, price, sellingQnt}, index) =>
-        <CheckoutProductCard
-          index={index}
-          key={id}
-          id={id}
-          name={name}
-          price={price}
-          sellingQnt={sellingQnt}
-          updateLocalStorage={updateLocalStorage}
-        />
-      )}
-      <span data-testid="order-total-value">{`Total: ${convertBRL(totalPrice)}`}</span>
-      <h3>Endereço</h3>
-      <form onSubmit={(event) => submitPurchase(event)}>
-        <label htmlFor="address">
-          Rua:
-          <input
-            onChange={(event) => onChangeStreet(event)}
-            data-testid="checkout-street-input"
-            type="text"
-            id="address"
-            name="deliveryAddress"
+    <div className="checkout-general-container">
+      <div className="checkout-content">
+        <span>{reduxStoreProducts.length === 0 ? 'Não há produtos no carrinho': null}</span>
+        {reduxStoreProducts.map(({id, name, price, sellingQnt}, index) =>
+          <CheckoutProductCard
+            index={index}
+            key={id}
+            id={id}
+            name={name}
+            price={price}
+            sellingQnt={sellingQnt}
+            updateLocalStorage={updateLocalStorage}
           />
-        </label>
-        <label htmlFor="address-number">
-          Número da casa:
-          <input
-            onChange={(event) => onChangeNumber(event)}
-            data-testid="checkout-house-number-input"
-            type="text"
-            id="address-number"
-            name="deliveryNumber"
-          />
-        </label>
-        <button
-          disabled={disableButton()}
-          data-testid="checkout-finish-btn"
-          type="submit"
-        >
-          Finalizar Compra
-        </button>
-      </form>
-      <span>{finishMessage}</span>
+        )}
+        <span data-testid="order-total-value">{`Total: ${convertBRL(totalPrice)}`}</span>
+        <div className="address-checkout-container">
+          <div className="address-checkout-content">
+            <h3>Endereço</h3>
+            <CheckoutFrom
+              submitPurchase={submitPurchase}
+              onChangeStreet={onChangeStreet}
+              onChangeNumber={onChangeNumber}
+              disableButton={disableButton}
+            />
+          </div>
+        </div>
+        <span>{finishMessage}</span>
+      </div>
     </div>
   );
 };
