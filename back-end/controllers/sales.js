@@ -2,7 +2,6 @@ const Boom = require('boom');
 const rescue = require('express-rescue');
 const { salesServices } = require('../services/index');
 
-
 const createSale = rescue(async (req, res, next) => {
   const date = new Date();
   const { totalPrice, deliveryAddress, deliveryNumber, products } = req.body;
