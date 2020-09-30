@@ -1,14 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./index.css";
+import { GiHamburgerMenu } from "react-icons/gi";
 
-
-const SideMenu = () => {
-
+const SideMenu = ({ setOpenSide }) => {
   const role = localStorage.getItem('role');
 
   return (
     <aside className="side-menu-container" data-testid="side-menu-container">
+      <GiHamburgerMenu
+        data-testid="top-hamburguer"
+        className="button-hamburgue"
+        onClick={() => setOpenSide((value) => !value)}
+      />
       {role === "administrator" ? (
         <>
           <Link to="/admin/orders">

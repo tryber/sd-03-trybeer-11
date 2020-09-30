@@ -31,7 +31,7 @@ const TopMenu = () => {
         </div>
         <h2 data-testid="top-title" className="header-title">{renderTitle(pathname)}</h2>;
       </header>
-      {openSide && <SideMenu />}
+      {openSide && <SideMenu setOpenSide={setOpenSide} />}
     </React.Fragment>
   );
 };
