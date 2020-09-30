@@ -6,6 +6,7 @@ import { shoppingListAction, successfulMessageAction } from '../../../Redux/acti
 import CheckoutProductCard from './innerPage/CheckoutProductCard';
 import CheckoutFrom from './innerPage/CheckoutForm';
 import convertBRL from '../../../Services/BRLFunction';
+import { TopMenu } from '../../../Components/index';
 import './styles.css';
 
 const CheckoutPage = () => {
@@ -79,33 +80,36 @@ const CheckoutPage = () => {
   }
 
   return (
-    <div className="checkout-general-container">
-      <div className="checkout-content">
-        <span>{reduxStoreProducts.length === 0 ? 'Não há produtos no carrinho': null}</span>
-        {reduxStoreProducts.map(({id, name, price, sellingQnt}, index) =>
-          <CheckoutProductCard
-            index={index}
-            key={id}
-            id={id}
-            name={name}
-            price={price}
-            sellingQnt={sellingQnt}
-            updateLocalStorage={updateLocalStorage}
-          />
-        )}
-        <span data-testid="order-total-value">{`Total: ${convertBRL(totalPrice)}`}</span>
-        <div className="address-checkout-container">
-          <div className="address-checkout-content">
-            <h3>Endereço</h3>
-            <CheckoutFrom
-              submitPurchase={submitPurchase}
-              onChangeStreet={onChangeStreet}
-              onChangeNumber={onChangeNumber}
-              disableButton={disableButton}
+    <div>
+      <TopMenu />
+      <div className="checkout-general-container">
+        <div className="checkout-content">
+          <span>{reduxStoreProducts.length === 0 ? 'Não há produtos no carrinho': null}</span>
+          {reduxStoreProducts.map(({id, name, price, sellingQnt}, index) =>
+            <CheckoutProductCard
+              index={index}
+              key={id}
+              id={id}
+              name={name}
+              price={price}
+              sellingQnt={sellingQnt}
+              updateLocalStorage={updateLocalStorage}
             />
+          )}
+          <span data-testid="order-total-value">{`Total: ${convertBRL(totalPrice)}`}</span>
+          <div className="address-checkout-container">
+            <div className="address-checkout-content">
+              <h3>Endereço</h3>
+              <CheckoutFrom
+                submitPurchase={submitPurchase}
+                onChangeStreet={onChangeStreet}
+                onChangeNumber={onChangeNumber}
+                disableButton={disableButton}
+              />
+            </div>
           </div>
+          <span>{finishMessage}</span>
         </div>
-        <span>{finishMessage}</span>
       </div>
     </div>
   );
