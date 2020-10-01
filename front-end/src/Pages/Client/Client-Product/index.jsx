@@ -30,7 +30,7 @@ const ClientProduct = () => {
   return (
     <>
     <TopMenu />
-      <div className="general-container">
+      <div className="general-container all">
         <div>{successfulMessage !== '' ? successfulMessage : null}</div>
         <div className="cards-button">
           <div className="cards-container">
