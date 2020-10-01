@@ -82,7 +82,7 @@ const CheckoutPage = () => {
   return (
     <div>
       <TopMenu />
-      <div className="checkout-general-container">
+      <div className="checkout-general-container all">
         <div className="checkout-content">
           <span>{reduxStoreProducts.length === 0 ? 'Não há produtos no carrinho': null}</span>
           {reduxStoreProducts.map(({id, name, price, sellingQnt}, index) =>

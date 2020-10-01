@@ -22,7 +22,7 @@ const AdminOrders = () => {
           info.map(({ id, number, total, address, status }, index) => (
             <Cards
               endereco={ address }
-              numeroPedido={ number }
+              addressNumber={ number }
               index={ index }
               key={ id }
               preco={ total }

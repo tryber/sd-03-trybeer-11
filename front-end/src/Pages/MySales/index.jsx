@@ -21,7 +21,7 @@ const MySales = () => {
   return (
     <>
     <TopMenu />
-      <div className="sales-cards-container" data-testid="0-order-card-container">
+      <div className="sales-cards-container all" data-testid="0-order-card-container">
         {info &&
           info.map(({ id, date, total }, index) => (
             <SaleCard date={date} id={id} index={index} key={id} total={total} />

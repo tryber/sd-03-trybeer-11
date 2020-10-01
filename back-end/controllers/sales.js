@@ -18,7 +18,7 @@ const createSale = rescue(async (req, res, next) => {
   if (error) return next(Boom.badData(error));
 
   const { id } = await salesServices.addSale({
-    userId, totalPrice, deliveryAddress, deliveryNumber, saleDate, status: false,
+    userId, totalPrice, deliveryAddress, deliveryNumber, saleDate, status: 'Pendente',
   });
 
   await Promise.all(
@@ -32,7 +32,7 @@ const createSale = rescue(async (req, res, next) => {
 
 const getAllSales = rescue(async (_req, res, _next) => {
   const sales = await salesServices.getAll();
-  res.status(200).json({ sales });
+  return res.status(200).json({ sales });
 });
 
 const getSaleDetails = rescue(async (req, res, next) => {
