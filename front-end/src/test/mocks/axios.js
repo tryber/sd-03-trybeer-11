@@ -16,7 +16,7 @@ const post = async (url, body, { headers: { authorization: token = null } = {} }
     switch (url) {
       case createUrl('/user/login'): return rs({ ...body, token: 'jfaj3u0rud0cjawu0ur3q32r' });
       default: return rj('no url on mock');
-    }  
+    }
   }
 };
 
