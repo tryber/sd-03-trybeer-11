@@ -1,8 +1,8 @@
 import React from "react";
 import { Cards, Loading, TopMenu } from "../../../Components";
-import "./styles.css";
 import useRequisition from "../../../Services/hook";
 import takeSales from "../../../Services/apiSalesRequest";
+import "./styles.css";
 
 const AdminOrders = () => {
   const [{ loading, error, info }, { setLoading }] = useRequisition(takeSales);
@@ -16,19 +16,18 @@ const AdminOrders = () => {
 
   return (
     <>
-    <TopMenu />
+      <TopMenu />
       <div className="admin-orders">
         {info &&
           info.map(({ id, number, total, address, status }, index) => (
             <Cards
-              endereco={ address }
-              addressNumber={ number }
-              index={ index }
-              key={ id }
-              preco={ total }
-              status={ status }
-              index={ index }
-              id={ id }
+              endereco={address}
+              addressNumber={number}
+              index={index}
+              key={id}
+              preco={total}
+              status={status}
+              id={id}
             />
           ))}
       </div>

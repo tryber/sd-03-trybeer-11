@@ -1,67 +1,67 @@
 .logo {
-    width: 131px;
-    height: 131px;
-    margin-bottom: 50px;
+  width: 131px;
+  height: 131px;
+  margin-bottom: 50px;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-content: center;
-    padding: 20px;
-    background-color: #FFFFFF;
-    border-radius: 5px;
-    box-shadow: 0px 0px 50px -5px rgba(0,0,0,0.75);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 50px -5px rgba(0, 0, 0, 0.75);
 }
 
 .nome {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    height: 50px;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 50px;
 }
 
 .email {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    height: 50px;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 50px;
 }
 
 .senha {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    height: 50px;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 50px;
 }
 
 .queroVender {
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    align-items: center;
-    height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  height: 50px;
 }
 
 .button {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .register {
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    align-items: center;
-    align-content: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
 }
 
 span {
-    color: #FF7816;
-    margin-left: 7px;
-    margin-bottom: 2px;
+  color: #ff7816;
+  margin-left: 7px;
+  margin-bottom: 2px;
 }
 
 .erro {
@@ -75,21 +75,21 @@ span {
 }
 
 input {
-    border-radius: 3px;
-    border: #CCCC solid 1px;
-    padding: 5px;
-    outline: none;
+  border-radius: 3px;
+  border: #cccc solid 1px;
+  padding: 5px;
+  outline: none;
 }
 
 input:focus {
-    border: #FF7816 1px solid;
+  border: #ff7816 1px solid;
 }
 
 .button-login {
-    background-color: #FF7816;
-    border: none;
-    border-radius: 3px;
-    box-shadow: 0px 0px 20px -5px rgba(0,0,0,0.75);
-    color: white;
-    padding: 7px 15px 7px 15px;
+  background-color: #ff7816;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 0px 0px 20px -5px rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 7px 15px 7px 15px;
 }
