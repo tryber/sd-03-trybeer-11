@@ -32,11 +32,19 @@ describe('/login', () => {
     const passwordInput = screen.getByLabelText(/Password/i);
     const button = screen.getByRole('button', { name: /ENTRAR/i });
 
-    userEvent.type(emailInput, { target: { value: 'user@test.com' } });
-    userEvent.type(passwordInput, { target: { value: 'test123' } });
+    const email = 'user@test.com';
+    const password = 'test123';
+
+    userEvent.type(emailInput, email);
+    userEvent.type(passwordInput, password);
+
+    expect(emailInput).toHaveValue(email);
+    expect(passwordInput).toHaveValue(password);
 
     const emailValue = emailInput.value;
     const passwordValue = passwordInput.value;
+
+    expect(button).toBeDisabled();
 
     fireEvent.submit(button, {
       target: {
