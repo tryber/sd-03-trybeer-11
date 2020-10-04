@@ -94,7 +94,7 @@ const Forms = ({ register }) => {
         <label htmlFor="password" className="senha">
           <span>Password:</span>
           <input
-            type="pass"
+            type="password"
             name="password"
             placeholder="Digite sua senha"
             data-testid={register ? "signup-password" : "password-input"}

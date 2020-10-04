@@ -7,10 +7,18 @@ import App from '../App';
 import mocks from './mocks';
 import renderWithRouter from './renderWithRouter';
 
-jest.mock(Routers, 'BrowserRouter').mockImplementation();
+jest.spyOn(axios, 'post').mockImplementation(mocks.axios.post);
+jest.spyOn(axios, 'get').mockImplementation(mocks.axios.get);
+// mocking axios used's functions
+
+jest.spyOn(Routers, 'BrowserRouter').mockImplementation(mocks.BrowserRouter);
+// line to mock BrowserRouter in we render this in the test
+// and useing renderWithRouter to substitute
 
 describe('/register', () => {
   test('should ', () => {
+    renderWithRouter(<App />);
+
 
   });
 });

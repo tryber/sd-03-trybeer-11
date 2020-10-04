@@ -44,7 +44,7 @@ describe('/login', () => {
     const emailValue = emailInput.value;
     const passwordValue = passwordInput.value;
 
-    expect(button).toBeDisabled();
+    expect(button).toBeEnabled();
 
     fireEvent.submit(button, {
       target: {
@@ -56,5 +56,39 @@ describe('/login', () => {
     await waitForDomChange();
 
     expect(history.location.pathname).toBe('/products');
+  });
+
+  test('can submit of an admin and go to /admin/orders', async () => {
+    jest.spyOn(axios, 'post').mockImplementation(mocks.axios.postAdmin);
+    const { history } = renderWithRouter(<App />);
+
+    const emailInput = screen.getByRole('textbox');
+    const passwordInput = screen.getByLabelText(/Password/i);
+    const button = screen.getByRole('button', { name: /ENTRAR/i });
+
+    const email = 'user@test.com';
+    const password = 'test123';
+
+    userEvent.type(emailInput, email);
+    userEvent.type(passwordInput, password);
+
+    expect(emailInput).toHaveValue(email);
+    expect(passwordInput).toHaveValue(password);
+
+    const emailValue = emailInput.value;
+    const passwordValue = passwordInput.value;
+
+    expect(button).toBeEnabled();
+
+    fireEvent.submit(button, {
+      target: {
+        email: { value: emailValue },
+        password: { value: passwordValue },
+      },
+    });
+
+    await waitForDomChange();
+
+    expect(history.location.pathname).toBe('/admin/orders');
   });
 });
