@@ -53,6 +53,7 @@ const Profile = () => {
       <TopMenu />
       <div className="chage-user-container">
         <form
+          aria-label="change name input"
           className="change-user-form"
           onSubmit={(e) => {
             e.preventDefault();
@@ -62,17 +63,20 @@ const Profile = () => {
           <label className="change-user-label" htmlFor="name">
             <h2 className="change-user-label-text">Name</h2>
             <textarea
-              data-testid="profile-name"
+              aria-label="change name"
+              data-testid={role === 'administrator' ? 'profile-name' : 'profile-name-input'}
               className="change-user-input"
               name="name"
               id="name"
-              defaultValue={name}
+              onChange={({ target }) => setName(target.value)}
+              value={name}
               readOnly={role === 'administrator'}
             />
           </label>
           <label className="change-user-label" htmlFor="email">
             <h2 className="change-user-label-text">Email</h2>
             <textarea
+              aria-label="read email"
               data-testid={role === 'administrator' ? 'profile-email' : 'profile-email-input'}
               className="change-user-input"
               id="email"

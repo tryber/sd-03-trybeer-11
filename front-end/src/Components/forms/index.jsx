@@ -62,9 +62,7 @@ const Forms = ({ register }) => {
       <img className="logo" src={Logo} alt="logo" />
       <form
         aria-label={register ? "register" : "login"}
-        onSubmit={(event) =>
-          register ? handleRegister(event) : handleLogin(event)
-        }
+        onSubmit={(event) => register ? handleRegister(event) : handleLogin(event)}
       >
         {register && (
           <label htmlFor="name" className="nome">

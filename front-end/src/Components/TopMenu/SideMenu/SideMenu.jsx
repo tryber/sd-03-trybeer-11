@@ -1,19 +1,13 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import "./index.css";
-import { GiHamburgerMenu } from "react-icons/gi";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import './index.css';
 
-const SideMenu = ({ setOpenSide }) => {
+const SideMenu = () => {
   const role = localStorage.getItem('role');
 
   return (
     <aside className="side-menu-container" data-testid="side-menu-container">
-      <GiHamburgerMenu
-        data-testid="top-hamburguer"
-        className="button-hamburgue"
-        onClick={() => setOpenSide((value) => !value)}
-      />
-      {role === "administrator" ? (
+      {role === 'administrator' ? (
         <>
           <Link to="/admin/orders">
             <button data-testid="side-menu-item-orders">Pedidos</button>
@@ -23,22 +17,23 @@ const SideMenu = ({ setOpenSide }) => {
           </Link>
         </>
       ) : (
-        <>
-          <Link to="/products">
-            <button data-testid="side-menu-item-products">Produtos</button>
-          </Link>
-          <Link to="/orders">
-            <button data-testid="side-menu-item-my-orders">Meus Pedidos</button>
-          </Link>
-          <Link to="/profile">
-            <button data-testid="side-menu-item-my-profile">Meu Perfil</button>
-          </Link>
-        </>
-      )}
+          <>
+            <Link to="/products">
+              <button data-testid="side-menu-item-products">Produtos</button>
+            </Link>
+            <Link to="/orders">
+              <button data-testid="side-menu-item-my-orders">Meus Pedidos</button>
+            </Link>
+            <Link to="/profile">
+              <button data-testid="side-menu-item-my-profile">Meu Perfil</button>
+            </Link>
+          </>
+        )}
       <Link to="/login">
         <button
           data-testid="side-menu-item-logout"
-          onClick={() => localStorage.removeItem("token")}
+          onClick={() => localStorage.removeItem('token')}
+          type="button"
         >
           Sair
         </button>

@@ -1,4 +1,4 @@
-import { fireEvent, screen, waitForDomChange, cleanup } from '@testing-library/react';
+import { fireEvent, screen, waitForDomChange } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import React from 'react';
@@ -9,6 +9,7 @@ import renderWithRouter from './renderWithRouter';
 
 const { token } = mocks;
 const getMock = jest.spyOn(axios, 'get').mockImplementation(mocks.axios.get);
+const putMock = jest.spyOn(axios, 'put').mockImplementation(mocks.axios.put);
 jest.spyOn(Routers, 'BrowserRouter').mockImplementation(mocks.BrowserRouter);
 
 describe('/profile', () => {
@@ -29,7 +30,7 @@ describe('/profile', () => {
   });
 
   test('make an get user and have all base elements', async () => {
-    const { history } = renderWithRouter(<App />, '/profile');
+    renderWithRouter(<App />, '/profile');
 
     await waitForDomChange();
 
@@ -41,7 +42,40 @@ describe('/profile', () => {
     const title = screen.getByRole('banner');
     expect(title).toHaveTextContent(/Meu Perfil/i);
 
-    screen.getByRole('textbox', { name: 'name' });
+    screen.getByRole('textbox', { name: 'change name' });
+    screen.getByRole('textbox', { name: 'read email' });
+    screen.getByRole('form', { name: 'change name input' });
     screen.getByRole('button');
+  });
+
+  test('should can make an request to change name of client', async () => {
+    const { history } = renderWithRouter(<App />, '/profile');
+
+    await waitForDomChange();
+
+    const nameInput = screen.getByRole('textbox', { name: 'change name' });
+    const emailInput = screen.getByRole('textbox', { name: 'read email' });
+
+    expect(nameInput).not.toHaveAttribute('readOnly');
+    expect(emailInput).toHaveAttribute('readOnly');
+
+    const name = 'Outro Nome Qualquer';
+    const email = 'alguma@coisa';
+
+    userEvent.type(nameInput, name);
+    userEvent.type(emailInput, email);
+
+    expect(nameInput).toHaveValue(name);
+    expect(emailInput).not.toHaveValue(email);
+
+    const button = screen.getByRole('button', { name: 'Salvar' });
+
+    fireEvent.click(button);
+
+    await waitForDomChange();
+
+    expect(history.location.pathname).toBe('/profile');
+
+    screen.getByText('Atualização concluída com sucesso');
   });
 });

@@ -21,6 +21,7 @@ export const changeName = async (name) => {
     .then((res = {}) => res.data || Promise.reject(NO_CONNECTIO))
     .catch((err) => {
       const { data } = err.response || {};
+      console.log(err)
       const { message = NO_CONNECTIO } = data || {};
       return Promise.reject(message);
     });
