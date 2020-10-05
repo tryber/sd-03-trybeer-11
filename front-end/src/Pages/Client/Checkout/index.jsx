@@ -58,7 +58,6 @@ const CheckoutPage = () => {
       }
     )
       .then((response) => {
-        console.log(response);
         localStorage.removeItem('sellingProducts');
         dispatch(successfulMessageAction());
         dispatch(shoppingListAction([]));
@@ -66,7 +65,7 @@ const CheckoutPage = () => {
       })
       .catch(({ response = {} }) => {
         const { data: { message: msn } = {} } = response;
-        setFinishMessage(msn || 'Algo deu errado, verifique sua conexao, caso haja problemas mande para tal e tal');
+        setFinishMessage(msn || 'Algo deu errado, verifique sua conexao');
       });
   };
 

@@ -21,7 +21,6 @@ const get = async (url, { headers: { Authorization, authorization } = {} } = {})
 
 const post = async (url, body, { headers: { Authorization, authorization } = {} } = {}) => {
   const token = authorization || Authorization || null;
-
   if (!token) {
     switch (url) {
       case createUrl('/user/login'): return rs({ ...body, token: 'jfaj3u0rud0cjawu0ur3q32r' });
@@ -44,9 +43,7 @@ const put = async (url, body, { headers: { Authorization, authorization } = {} }
 
 const postAdmin = async (url, body, { headers: { Authorization, authorization } = {} } = {}) => {
   const token = authorization || Authorization || null;
-
   const role = 'administrator';
-  if (!token) return rj('No token on admin post tests');
   switch (url) {
     case createUrl('/user/login'): return rs({ ...body, token: 'jfaj3u0rud0cjawu0ur3q', role });
     case createUrl('/user'): return rs({ body, token: 'ofcknoefoajfojaofjeif', role });
