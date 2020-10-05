@@ -1,35 +1,41 @@
-const Joi = require('@hapi/joi');
-const { salesModel } = require('../models');
+const Joi = require("@hapi/joi");
+const { salesModel } = require("../models");
 
-const idSchema = Joi.number().integer()
+const idSchema = Joi.number()
+  .integer()
   .positive()
   .required()
-  .error(() => new Error('user id inválido'));
+  .error(() => new Error("user id inválido"));
 
-const totalPriceSchema = Joi.number().positive()
+const totalPriceSchema = Joi.number()
+  .positive()
   .required()
-  .error(() => new Error('preço total inválido'));
+  .error(() => new Error("preço total inválido"));
 
-const deliveryAddressSchema = Joi.string().required()
-  .error(() => new Error('endereço necessário'));
+const deliveryAddressSchema = Joi.string()
+  .required()
+  .error(() => new Error("endereço necessário"));
 
-const saleDateSchema = Joi.date().required()
-  .error(() => new Error('data inválida'));
+const saleDateSchema = Joi.date()
+  .required()
+  .error(() => new Error("data inválida"));
 
-const productObjSchema = Joi.object().keys({
-  id: Joi.number().integer()
-    .positive()
-    .required()
-    .error(() => new Error('product id inválido')),
-  sellingQnt: Joi.number().integer()
-    .positive()
-    .required()
-    .error(() => new Error('quantidade inválida')),
-})
+const productObjSchema = Joi.object()
+  .keys({
+    id: Joi.number()
+      .integer()
+      .positive()
+      .required()
+      .error(() => new Error("product id inválido")),
+    sellingQnt: Joi.number()
+      .integer()
+      .positive()
+      .required()
+      .error(() => new Error("quantidade inválida")),
+  })
   .unknown(true);
 
-const productsSchema = Joi.array().min(1)
-  .items(productObjSchema);
+const productsSchema = Joi.array().min(1).items(productObjSchema);
 
 const checkoutSchema = Joi.object({
   userId: idSchema,
@@ -46,15 +52,19 @@ const addSale = async (saleObj) => {
 };
 
 const addToIntermediate = async (saleIntermediateInfo) => {
-  const intermediateInfo = await salesModel.addToIntermediate(saleIntermediateInfo);
+  const intermediateInfo = await salesModel.addToIntermediate(
+    saleIntermediateInfo
+  );
   return intermediateInfo;
 };
 
-const getAll = async (id) => (id ? salesModel.getAll(id) : salesModel.getAllAdmin());
+const getAll = async (id) =>
+  (id ? salesModel.getAll(id) : salesModel.getAllAdmin());
 
-const getById = async (id) => salesModel
-  .getById(id)
-  .then((sale) => sale || { error: true, message: 'Compra não encontrada' });
+const getById = async (id) =>
+  salesModel
+    .getById(id)
+    .then((sale) => sale || { error: true, message: "Compra não encontrada" });
 
 const getProducts = async (id) => salesModel.getProducts(id);
 
