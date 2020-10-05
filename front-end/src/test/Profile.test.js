@@ -29,7 +29,7 @@ describe('/profile', () => {
     expect(history.location.pathname).toBe('/login');
   });
 
-  test('make an get user and have all base elements', async () => {
+  test('have all client base elements', async () => {
     renderWithRouter(<App />, '/profile');
 
     await waitForDomChange();
@@ -46,6 +46,29 @@ describe('/profile', () => {
     screen.getByRole('textbox', { name: 'read email' });
     screen.getByRole('form', { name: 'change name input' });
     screen.getByRole('button');
+  });
+
+  test('have all admin base elements', async () => {
+    localStorage.setItem('role', 'administrator');
+    renderWithRouter(<App />, '/profile');
+
+    await waitForDomChange();
+
+    expect(getMock).toHaveBeenCalledWith(
+      'http://localhost:3001/user/',
+      { headers: { Authorization: token } },
+    );
+
+    const title = screen.getByRole('banner');
+    expect(title).toHaveTextContent(/Meu Perfil/i);
+
+    const nameInput = screen.getByRole('textbox', { name: 'change name' });
+    const emailInput = screen.getByRole('textbox', { name: 'read email' });
+    screen.getByRole('form', { name: 'change name input' });
+    screen.getByRole('button', { name: /Salvar/i });
+
+    expect(nameInput).toHaveAttribute('readOnly');
+    expect(emailInput).toHaveAttribute('readOnly');
   });
 
   test('should can make an request to change name of client', async () => {
