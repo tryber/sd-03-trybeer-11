@@ -1,28 +1,31 @@
-import React from "react";
-import { Router } from "react-router-dom";
-import renderWithRouter from "./renderWithRouter";
-import CheckoutPage from "../Pages/Client/Checkout/index";
-import axios from "./mocks/axios";
-import { cleanup, fireEvent, waitForDomChange } from "@testing-library/react";
+import React from 'react';
+import { Router } from 'react-router-dom';
+import renderWithRouter from './renderWithRouter';
+import CheckoutPage from '../Pages/Client/Checkout/index';
+import axios from 'axios';
+import mocks from './mocks'
+import { cleanup, fireEvent, waitForDomChange } from '@testing-library/react';
+
+const postMock = jest.spyOn(axios, 'post').mockImplementation(mocks.axios.post);
 
 const localStorageMock = [
   {
     id: 1,
-    name: "Skol Lata 250ml",
+    name: 'Skol Lata 250ml',
     price: 2.2,
-    photo: "http://localhost:3001/images/Skol Lata 350ml.jpg",
+    photo: 'http://localhost:3001/images/Skol Lata 350ml.jpg',
     sellingQnt: 2,
   },
   {
     id: 2,
-    name: "Heineken 600ml",
+    name: 'Heineken 600ml',
     price: 7.5,
-    photo: "http://localhost:3001/images/Heineken 600ml.jpg",
+    photo: 'http://localhost:3001/images/Heineken 600ml.jpg',
     sellingQnt: 2,
   },
 ];
 
-describe("testing checkout page", () => {
+describe('testing checkout page', () => {
 
   afterEach(() => cleanup());
 
@@ -41,60 +44,61 @@ describe("testing checkout page", () => {
     const unitPrice = getByTestId('0-product-unit-price')
     expect(product.innerHTML).toBe('Skol Lata 250ml');
     expect(productQnt.innerHTML).toBe('2');
-    expect(unitPrice.innerHTML).toContain('2.20');
-    expect(ProductTotalValue.innerHTML).toContain('4.40');
+    expect(unitPrice).toHaveTextContent('2.20');
+    expect(ProductTotalValue).toHaveTextContent('4.40');
 
     window.location.reload;
     expect(product.innerHTML).toBe('Skol Lata 250ml');
     expect(productQnt.innerHTML).toBe('2');
-    expect(unitPrice.innerHTML).toContain('2.20');
-    expect(ProductTotalValue.innerHTML).toContain('4.40');
+    expect(unitPrice).toHaveTextContent('2.20');
+    expect(ProductTotalValue).toHaveTextContent('4.40');
 
   })
 
-  it("testing if total price is correct", () => {
+  it('testing if total price is correct', () => {
     const { getByTestId } = renderWithRouter(<CheckoutPage />);
 
     const orderValue = getByTestId('order-total-value');
 
-    expect(orderValue.innerHTML).toContain('19.40');
+    expect(orderValue).toHaveTextContent('19.40');
 
     const deleteItem = getByTestId('0-removal-button');
     fireEvent.click(deleteItem);
 
-    expect(orderValue.innerHTML).toContain('15.00');
+    expect(orderValue).toHaveTextContent('15.00');
 
     window.location.reload;
-    expect(orderValue.innerHTML).toContain('15.00');
+    expect(orderValue).toHaveTextContent('15.00');
   });
 
   it('testing message when there is no products in the cart', () => {
     localStorage.setItem('sellingProducts', JSON.stringify([]));
     const { getByText } = renderWithRouter(<CheckoutPage />);
     const message = getByText(/Não há produtos no carrinho/i);
-    expect(message).toBeTruthy();
+    expect(message).toBeInTheDocument();
   })
 
   it('testing purchase action', async () => {
-    const { getByTestId, history } = renderWithRouter(<CheckoutPage />);
+    const { getByTestId, history } = renderWithRouter(<CheckoutPage />, '/checkout');
 
     const street = getByTestId('checkout-street-input');
     const houseNumber = getByTestId('checkout-house-number-input');
     const purchaseButton = getByTestId('checkout-finish-btn');
 
-    // expect(purchaseButton).toHaveAttribute('disabled');
+    expect(purchaseButton).toHaveAttribute('disabled');
 
-    expect(street).toBeTruthy();
-    expect(houseNumber).toBeTruthy();
-    expect(purchaseButton).toBeTruthy();
+    expect(street).toBeInTheDocument();
+    expect(houseNumber).toBeInTheDocument();
+    expect(purchaseButton).toBeInTheDocument();
 
     fireEvent.change(street, { target: { value: 'Rua Brasil' } });
-    // expect(purchaseButton).toHaveAttribute('disabled')
+    expect(purchaseButton).toBeDisabled();
     fireEvent.change(houseNumber, { target: { value: '38' } });
-    // expect(purchaseButton).not.toHaveAttribute('disabled')
+    expect(purchaseButton).toBeEnabled();
 
-    // expect(street.innerHTML).toContain('Rua Brasil');
-    // expect(houseNumber.innerHTML).toContain('38');
+    expect(street).toHaveValue('Rua Brasil');
+    expect(houseNumber).toHaveValue('38');
+
     fireEvent.submit(purchaseButton, {
       target: {
         deliveryAddress: { value: street },
