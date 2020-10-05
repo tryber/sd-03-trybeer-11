@@ -11,6 +11,7 @@ const useRequisition = (requisition) => {
         .then(setInfo)
         .catch(({ message }) => setError(message));
     }
+
     setLoading(false);
   }, [loading, requisition]);
 

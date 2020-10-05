@@ -49,6 +49,9 @@ const Routers = () => {
             <Route path="/orders">
               <PrivateRoute component={MySales} />
             </Route>
+            <Route path="/orders/:id">
+              <PrivateRoute component={AdminDetails} />
+            </Route>
           </div>
         </React.Fragment>
       </Switch>

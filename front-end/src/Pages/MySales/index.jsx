@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { Loading, TopMenu } from "../../Components";
-
+import { useParams } from 'react-router-dom';
 import SaleCard from "./InnerPage";
 import useRequisition from '../../Services/hook/index';
 import takeSales from "../../Services/apiSalesRequest";
@@ -10,6 +10,8 @@ import './style.css';
 
 const MySales = () => {
   const [{ loading, error, info }, { setLoading }] = useRequisition(takeSales);
+
+  const { id } = useParams();
 
   useEffect(() => {
     setLoading(true);
@@ -24,7 +26,7 @@ const MySales = () => {
       <div className="sales-cards-container" data-testid="0-order-card-container">
         {info &&
           info.map(({ id, number, date, total }, index) => (
-            <SaleCard date={date} id={id} number={number} index={index} key={id} total={total} />
+            <SaleCard date={date} id={id} number={id} index={index} key={id} total={total} />
           ))}
       </div>
     </>

@@ -38,7 +38,31 @@ const addToIntermediate = async ({ id, productId, sellingQnt }) => {
   return result;
 };
 
-const getAll = async () => connection()
+const getAll = async (saleId) => connection()
+  .then((db) => db.getTable('sales'))
+  .then((table) => table
+    .select([
+      'id',
+      'delivery_number',
+      'sale_date',
+      'total_price',
+      'delivery_address',
+      'status',
+    ])
+    .where('id = :id')
+    .bind('id', saleId)
+    .execute())
+  .then((result) => result.fetchAll())
+  .then((sales) => sales.map(([id, number, date, total, address, status]) => ({
+    id,
+    number,
+    date,
+    total,
+    address,
+    status,
+  })));
+
+  const getAllAdmin = async () => connection()
   .then((db) => db.getTable('sales'))
   .then((table) => table
     .select([
@@ -106,4 +130,5 @@ module.exports = {
   getAll,
   getById,
   getProducts,
+  getAllAdmin
 };

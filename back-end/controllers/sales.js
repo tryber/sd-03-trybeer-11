@@ -30,8 +30,8 @@ const createSale = rescue(async (req, res, next) => {
   return res.status(201).json({ message: 'Venda processada!' });
 });
 
-const getAllSales = rescue(async (_req, res, _next) => {
-  const sales = await salesServices.getAll();
+const getAllSales = rescue(async (req, res, _next) => {
+  const sales = await salesServices.getAll(req.user.id);
   res.status(200).json({ sales });
 });
 
@@ -49,7 +49,7 @@ const getSaleDetails = rescue(async (req, res, next) => {
 
   if (sale.error) return next(Boom.notFound(sale.message));
 
-  if (req.user.id !== sale.userId) {
+  if (req.user.role !== 'administrator' && req.user.id !== sale.userId) {
     return next(Boom.unauthorized('Você nao tem permissão para ver essa compra'));
   }
 
