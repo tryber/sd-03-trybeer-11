@@ -57,7 +57,7 @@ const CheckoutPage = () => {
         headers: { authorization: token }
       }
     )
-      .then((response) => {
+      .then(() => {
         localStorage.removeItem('sellingProducts');
         dispatch(successfulMessageAction());
         dispatch(shoppingListAction([]));
