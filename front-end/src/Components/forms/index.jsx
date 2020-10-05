@@ -57,7 +57,7 @@ const Forms = ({ register }) => {
         if (!response) return setErrorLogin('No connection');
         setErrorLogin(response.data.message);
       });
-    };
+  };
 
   return (
     <div className="container">
@@ -79,18 +79,19 @@ const Forms = ({ register }) => {
             />
           </div>
         )}
-        <div className="email">
+        <label htmlFor="email" className="email">
           <span>Email:</span>
           <input
+            id="email"
             type="email"
             name="email"
             placeholder="Digite seu e-mail"
             data-testid={register ? "signup-email" : "email-input"}
             onChange={({ target }) => setEmailIsEmpty(!EMAIL_REGEX.test(target.value))}
           />
-        </div>
+        </label>
 
-        <div className="senha">
+        <label htmlFor="password" className="senha">
           <span>Password:</span>
           <input
             type="password"
@@ -99,7 +100,7 @@ const Forms = ({ register }) => {
             data-testid={register ? "signup-password" : "password-input"}
             onChange={({ target }) => setPasswordIsEmpty(target.value.length < 6)}
           />
-        </div>
+        </label>
 
         {register && (
           <div className="queroVender">

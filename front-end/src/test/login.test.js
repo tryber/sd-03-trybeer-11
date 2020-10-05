@@ -1,31 +1,50 @@
-import React from "react";
+import { fireEvent, screen, waitForDomChange } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import axios from 'axios';
+import React from 'react';
 import Routers from 'react-router-dom';
-import { fireEvent, waitForDomChange } from "@testing-library/react";
-import renderWithRouter from "./renderWithRouter";
+import App from '../App';
 import mocks from './mocks';
-import App from "../App";
+import renderWithRouter from './renderWithRouter';
 
-const mockPost = jest.spyOn(axios, 'post').mockImplementation(mocks.axios.post);
-const mockGEt = jest.spyOn(axios, 'get').mockImplementation(mocks.axios.get);
+jest.spyOn(axios, 'post').mockImplementation(mocks.axios.post);
+jest.spyOn(axios, 'get').mockImplementation(mocks.axios.get);
+// mocking axios used's functions
 
-const mockBrowserRouter = jest.spyOn(Routers, 'BrowserRouter')
-  .mockImplementation(mocks.BrowserRouter);
+jest.spyOn(Routers, 'BrowserRouter').mockImplementation(mocks.BrowserRouter);
+// line to mock BrowserRouter in we render this in the test
+// and useing renderWithRouter to substitute
 
-describe("/login", () => {
-  test("have all the object", async () => {
-    const { getByTestId, history } = renderWithRouter(<App />);
+describe('/login', () => {
+  test('have all the object', async () => {
+    renderWithRouter(<App />, '/login');
 
-    // const nameInput = getByTestId('signup-name');
-    const emailInput = getByTestId("email-input");
-    const passwordInput = getByTestId("password-input");
-    const button = getByTestId("signin-btn");
+    screen.getByRole('textbox', { name: /email/i });
+    screen.getByLabelText(/Password/i);
+    screen.getByRole('button', { name: /ENTRAR/i });
+    screen.getByRole('link', { name: /Registrar/i });
+  });
 
-    fireEvent.change(emailInput, { target: { value: "user@test.com" } });
-    fireEvent.change(passwordInput, { target: { value: "test123" } });
+  test('can submit and go to /products', async () => {
+    const { history } = renderWithRouter(<App />);
+
+    const emailInput = screen.getByRole('textbox');
+    const passwordInput = screen.getByLabelText(/Password/i);
+    const button = screen.getByRole('button', { name: /ENTRAR/i });
+
+    const email = 'user@test.com';
+    const password = 'test123';
+
+    userEvent.type(emailInput, email);
+    userEvent.type(passwordInput, password);
+
+    expect(emailInput).toHaveValue(email);
+    expect(passwordInput).toHaveValue(password);
 
     const emailValue = emailInput.value;
     const passwordValue = passwordInput.value;
+
+    expect(button).toBeEnabled();
 
     fireEvent.submit(button, {
       target: {
@@ -37,5 +56,39 @@ describe("/login", () => {
     await waitForDomChange();
 
     expect(history.location.pathname).toBe('/products');
+  });
+
+  test('can submit of an admin and go to /admin/orders', async () => {
+    jest.spyOn(axios, 'post').mockImplementation(mocks.axios.postAdmin);
+    const { history } = renderWithRouter(<App />);
+
+    const emailInput = screen.getByRole('textbox');
+    const passwordInput = screen.getByLabelText(/Password/i);
+    const button = screen.getByRole('button', { name: /ENTRAR/i });
+
+    const email = 'user@test.com';
+    const password = 'test123';
+
+    userEvent.type(emailInput, email);
+    userEvent.type(passwordInput, password);
+
+    expect(emailInput).toHaveValue(email);
+    expect(passwordInput).toHaveValue(password);
+
+    const emailValue = emailInput.value;
+    const passwordValue = passwordInput.value;
+
+    expect(button).toBeEnabled();
+
+    fireEvent.submit(button, {
+      target: {
+        email: { value: emailValue },
+        password: { value: passwordValue },
+      },
+    });
+
+    await waitForDomChange();
+
+    expect(history.location.pathname).toBe('/admin/orders');
   });
 });

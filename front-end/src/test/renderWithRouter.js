@@ -9,8 +9,9 @@ const putRedux = (ui) => <Provider store={store}>{ui}</Provider>;
 
 const renderWithRouter = (
   ui,
-  { route = '/', initialEntries = [route] } = {},
+  route = '/',
 ) => {
+  const initialEntries = [route]
   const history = createMemoryHistory({ initialEntries });
 
   return {
