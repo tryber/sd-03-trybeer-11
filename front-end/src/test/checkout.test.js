@@ -28,7 +28,7 @@ describe("testing checkout page", () => {
 
   beforeEach(() => {
     localStorage.setItem('sellingProducts', JSON.stringify([]));
-    localStorage.setItem('sellingProducts',  JSON.stringify(localStorageMock));
+    localStorage.setItem('sellingProducts', JSON.stringify(localStorageMock));
     window.location.reload = jest.fn();
   })
 
@@ -80,7 +80,7 @@ describe("testing checkout page", () => {
 
     const street = getByTestId('checkout-street-input');
     const houseNumber = getByTestId('checkout-house-number-input');
-    const purchaseButton = getByTestId('checkout-finish-btn')
+    const purchaseButton = getByTestId('checkout-finish-btn');
 
     // expect(purchaseButton).toHaveAttribute('disabled');
 
@@ -105,5 +105,5 @@ describe("testing checkout page", () => {
     await waitForDomChange();
 
     expect(history.location.pathname).toBe('/products');
-  })
+  });
 });

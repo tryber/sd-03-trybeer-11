@@ -7,10 +7,7 @@ import { Provider } from 'react-redux';
 
 const putRedux = (ui) => <Provider store={store}>{ui}</Provider>;
 
-const renderWithRouter = (
-  ui,
-  route = '/',
-) => {
+const renderWithRouter = (ui, route = '/') => {
   const initialEntries = [route];
   const history = createMemoryHistory({ initialEntries });
 
