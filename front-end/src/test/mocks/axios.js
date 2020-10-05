@@ -1,3 +1,4 @@
+import sales from './mySalesMock';
 const createUrl = (pathname) => `http://localhost:3001${pathname}`;
 
 const rj = (message) => Promise.reject({ message });
@@ -7,6 +8,7 @@ const get = async (url, { headers: { authorization: token = null } = {} } = {}) 
   if (!token) return rj({ message: 'No token' });
   switch (url) {
     case createUrl('/products'): return rs({ products: [] });
+    case createUrl('/sales'): return rs({ sales });
     default: return rj('no url on mock');
   }
 };

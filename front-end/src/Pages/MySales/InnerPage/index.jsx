@@ -7,7 +7,6 @@ import "./style.css";
 
 const handleDate = (dateBase) => {
   const date = new Date(dateBase);
-  console.log(date.getDay())
   return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}`;
 };
 
