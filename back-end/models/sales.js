@@ -62,7 +62,7 @@ const getAll = async (saleId) => connection()
     status,
   })));
 
-  const getAllAdmin = async () => connection()
+    const getAllAdmin = async () => connection()
   .then((db) => db.getTable('sales'))
   .then((table) => table
     .select([
@@ -130,5 +130,5 @@ module.exports = {
   getAll,
   getById,
   getProducts,
-  getAllAdmin
+  getAllAdmin,
 };
