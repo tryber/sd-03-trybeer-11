@@ -19,35 +19,33 @@ import {
   CheckoutPage
 } from '../Pages/index';
 
-const Routers = () => {
-  return (
-    <Router>
-      {window.location.pathname === '/' && <Redirect to="/login" />}
-      <Switch>
-        <Route path="/register" component={Register} />
-        <Route path="/login" component={Login} />
-        <Route path="/profile" component={Profile} />
-        <Route path="/checkout">
-          <PrivateRoute component={CheckoutPage} />
-        </Route>
-        <Route path="/products">
-          <PrivateRoute component={ClientProduct} />
-        </Route>
-        <Route path="/admin/profile">
-          <PrivateRoute component={Profile} />
-        </Route>
-        <Route path="/admin/orders">
-          <PrivateRoute component={AdminOrders} />
-        </Route>
-        <Route path="/admin/details/:id">
-          <PrivateRoute component={AdminDetails} />
-        </Route>
-        <Route exact path="/orders">
-          <PrivateRoute component={MySales} />
-        </Route>
-      </Switch>
-    </Router>
-  );
-};
+const Routers = () => (
+  <Router>
+    <Switch>
+      <Route path="/register" component={Register} />
+      <Route path="/login" component={Login} />
+      <Route path="/profile" component={Profile} />
+      <Route path="/checkout">
+        <PrivateRoute component={CheckoutPage} />
+      </Route>
+      <Route path="/products">
+        <PrivateRoute component={ClientProduct} />
+      </Route>
+      <Route path="/admin/profile">
+        <PrivateRoute component={Profile} />
+      </Route>
+      <Route path="/admin/orders">
+        <PrivateRoute component={AdminOrders} />
+      </Route>
+      <Route path="/admin/details/:id">
+        <PrivateRoute component={AdminDetails} />
+      </Route>
+      <Route exact path="/orders">
+        <PrivateRoute component={MySales} />
+      </Route>
+      <Route path="*" render={() => <Redirect to="/login" />} />
+    </Switch>
+  </Router>
+);
 
 export default Routers;

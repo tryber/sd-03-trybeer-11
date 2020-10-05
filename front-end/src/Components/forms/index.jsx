@@ -10,7 +10,6 @@ const EMAIL_REGEX = /^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/
 const NAME_REGEX = /^[a-zA-Z ]{12}[a-zA-Z ]*$/;
 
 const Forms = ({ register }) => {
-  const [isAdmin, setIsAdmin] = React.useState(false);
   const [errorLogin, setErrorLogin] = React.useState('');
   const [nameIsEmpty, setNameIsEmpty] = React.useState(register);
   const [emailIsEmpty, setEmailIsEmpty] = React.useState(true);
@@ -45,8 +44,7 @@ const Forms = ({ register }) => {
         email: event.target.email.value,
         password: event.target.password.value,
         name: event.target.nome.value,
-        token: event.target.email.value,
-        role: isAdmin,
+        role: event.target.role.checked,
       })
       .then((res) => {
         localStorage.setItem('token', res.data.token);
@@ -63,21 +61,23 @@ const Forms = ({ register }) => {
     <div className="container">
       <img className="logo" src={Logo} alt="logo" />
       <form
+        aria-label={register ? "register" : "login"}
         onSubmit={(event) =>
           register ? handleRegister(event) : handleLogin(event)
         }
       >
         {register && (
-          <div className="nome">
+          <label htmlFor="name" className="nome">
             <span>Nome:</span>
             <input
+              id="name"
               type="text"
               name="nome"
               placeholder="Digite seu nome"
               data-testid="signup-name"
               onChange={({ target }) => setNameIsEmpty(!NAME_REGEX.test(target.value))}
             />
-          </div>
+          </label>
         )}
         <label htmlFor="email" className="email">
           <span>Email:</span>
@@ -103,14 +103,14 @@ const Forms = ({ register }) => {
         </label>
 
         {register && (
-          <div className="queroVender">
+          <label className="queroVender">
             <input
               type="checkbox"
+              name="role"
               data-testid="signup-seller"
-              onClick={() => setIsAdmin(!isAdmin)}
             />
             <p>Quero Vender!</p>
-          </div>
+          </label>
         )}
 
         {!register && (

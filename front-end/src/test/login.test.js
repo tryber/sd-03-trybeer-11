@@ -25,6 +25,13 @@ describe('/login', () => {
     screen.getByRole('link', { name: /Registrar/i });
   });
 
+  test('possible to go to /register', () => {
+    const { history } = renderWithRouter(<App />, '/login');
+
+    userEvent.click(screen.getByRole('link', { name: /Registrar/i }));
+
+    expect(history.location.pathname).toBe('/register');
+  });
   test('can submit and go to /products', async () => {
     const { history } = renderWithRouter(<App />);
 
