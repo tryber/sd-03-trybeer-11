@@ -10,6 +10,8 @@ import renderWithRouter from './renderWithRouter';
 const getMock = jest.spyOn(axios, 'get').mockImplementation(mocks.axios.get);
 jest.spyOn(Routers, 'BrowserRouter').mockImplementation(mocks.BrowserRouter);
 
+const token = mocks.token;
+
 describe('if no token user should to go to /login', () => {
   test('should go to login if no log', () => {
     const { history } = renderWithRouter(<App />, '/products');
@@ -18,24 +20,23 @@ describe('if no token user should to go to /login', () => {
   });
 });
 
-describe('Name of the group', () => {
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwibmFtZSI6InRlc3R1c2VyIiwiZW1haW'
-    + 'wiOiJ1c2VyQHRlc3QuY29tIiwicm9sZSI6ImNsaWVudCIsImlhdCI6MTYwMTkxNDMxOCwiZXhwIjoxNjAyMDAwNzE4'
-    + 'fQ.CZldkMAO_vcvmBp8JO0FXYCXXo1qK9XPDkJs4-8Nwhg';
-
+describe('/products', () => {
   beforeEach(() => {
-    getMock.mockClear();
     getMock.mockImplementation(mocks.axios.get);
-    localStorage.clear();
     localStorage.setItem('token', token);
   });
 
-  afterEach(cleanup);
+  afterEach(() => {
+    getMock.mockClear();
+    localStorage.clear();
+  });
 
   test('have all elements', async () => {
     const { history } = renderWithRouter(<App />, '/products');
 
     expect(history.location.pathname).toBe('/products');
+
+    await waitForDomChange();
 
     const title = screen.getByRole('banner');
 
@@ -46,8 +47,6 @@ describe('Name of the group', () => {
       'http://localhost:3001/products',
       { headers: { Authorization: token } },
     );
-
-    await waitForDomChange();
 
     for (let i = 0; i < 10; i += 1) {
       screen.getByTestId(`${i}-product-img`);
@@ -61,7 +60,7 @@ describe('Name of the group', () => {
   });
 
   test('buttons funcionality', async () => {
-    const { history } = renderWithRouter(<App />, '/products');
+    renderWithRouter(<App />, '/products');
 
     expect(getMock).toHaveBeenCalledTimes(1);
     expect(getMock).toHaveBeenCalledWith(

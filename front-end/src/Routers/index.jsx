@@ -24,7 +24,9 @@ const Routers = () => (
     <Switch>
       <Route path="/register" component={Register} />
       <Route path="/login" component={Login} />
-      <Route path="/profile" component={Profile} />
+      <Route path="/profile">
+        <PrivateRoute component={Profile} />
+      </Route>
       <Route path="/checkout">
         <PrivateRoute component={CheckoutPage} />
       </Route>

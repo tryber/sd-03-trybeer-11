@@ -1,9 +1,9 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import store from '../Redux/store';
-import { Provider } from 'react-redux';
 
 const putRedux = (ui) => <Provider store={store}>{ui}</Provider>;
 

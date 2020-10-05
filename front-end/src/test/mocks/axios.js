@@ -12,6 +12,7 @@ const get = async (url, { headers: { Authorization, authorization } = {} } = {})
 
   switch (url) {
     case createUrl('/products'): return rs({ products });
+    case createUrl('/user'): return rs({ email: 'user@email.com', name: 'Nome Qualquer' });
     default: return rj('no url on mock');
   }
 };
