@@ -130,5 +130,5 @@ module.exports = {
   getAll,
   getById,
   getProducts,
-  getAllAdmin
+  getAllAdmin,
 };
