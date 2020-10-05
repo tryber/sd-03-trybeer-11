@@ -72,27 +72,36 @@ const Profile = () => {
         >
           <label className="change-user-label" htmlFor="name">
             <h2 className="change-user-label-text">Name</h2>
-            <input
-              data-testid={role == 'administrator' ? "profile-name" : "profile-name-input"}
-              className="change-user-input"
-              name="name"
-              id="name"
-              value={name}
-              onChange={({ target }) => setName(target.value)}
-              readOnly={role == 'administrator'}
-            />
+            {role === 'administrator' ?
+              <button
+                data-testid="profile-name"
+                type="button"
+                className="change-user-input"
+                name="name"
+                id="name"
+              >{name}</button>
+              :
+              <input
+                data-testid="profile-name-input"
+                type="text"
+                className="change-user-input"
+                name="name"
+                id="name"
+                value={name}
+                onChange={({ target }) => setName(target.value)}
+              />
+            }
           </label>
           <label className="change-user-label" htmlFor="email">
             <h2 className="change-user-label-text">Email</h2>
-            <input
-              data-testid={role == 'administrator' ? "profile-email" : "profile-email-input"}
+            <button
+              data-testid={role === 'administrator' ? "profile-email" : "profile-email-input"}
               className="change-user-input"
-              type="email"
+              type="button"
               id="email"
               name="email"
-              value={email}
               readOnly
-            />
+            >{email}</button>
           </label>
 
           <button

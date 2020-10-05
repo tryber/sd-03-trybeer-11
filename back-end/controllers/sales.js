@@ -6,7 +6,7 @@ const createSale = rescue(async (req, res, next) => {
   const date = new Date();
   const { totalPrice, deliveryAddress, deliveryNumber, products } = req.body;
 
-  const saleDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}
+  const saleDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}
     ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 
   const { id: userId } = req.user;
@@ -18,7 +18,7 @@ const createSale = rescue(async (req, res, next) => {
   if (error) return next(Boom.badData(error));
 
   const { id } = await salesServices.addSale({
-    userId, totalPrice, deliveryAddress, deliveryNumber, saleDate, status: false,
+    userId, totalPrice, deliveryAddress, deliveryNumber, saleDate, status: 'Pendente',
   });
 
   await Promise.all(

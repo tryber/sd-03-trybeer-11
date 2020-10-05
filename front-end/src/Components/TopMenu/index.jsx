@@ -8,6 +8,7 @@ import "./index.css";
 const renderTitle = (path) => {
   switch (path) {
     case '/profile': return 'Meu perfil';
+    case '/orders': return 'Meus Pedidos';
     case '':
     default: return 'TryBeer';
   }
@@ -19,17 +20,19 @@ const TopMenu = () => {
   const { pathname } = useLocation();
 
   return (
-    <header className="top-menu">
-      <div>
-        <GiHamburgerMenu
-          data-testid="top-hamburguer"
-          className="button-hamburgue"
-          onClick={() => setOpenSide((value) => !value)}
-        />
-      {openSide && <SideMenu />}
-      </div>
-      <h2 data-testid="top-title" className="header-title">{renderTitle(pathname)}</h2>;
-    </header>
+    <React.Fragment>
+      <header className="top-menu">
+        <div>
+          <GiHamburgerMenu
+            data-testid="top-hamburguer"
+            className="button-hamburgue"
+            onClick={() => setOpenSide((value) => !value)}
+          />
+        </div>
+        <h2 data-testid="top-title" className="header-title">{renderTitle(pathname)}</h2>;
+      </header>
+      {openSide && <SideMenu setOpenSide={setOpenSide} />}
+    </React.Fragment>
   );
 };
 
