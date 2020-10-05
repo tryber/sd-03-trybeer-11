@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
+    "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "jquery": "^1.9.1",
@@ -21,16 +20,18 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "eslint": "^6.1.0",
-    "mocha": "^7.0.1",
+    "@testing-library/react": "^9.5.0",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
+    "eslint": "^6.1.0",
     "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.0",
     "eslint-plugin-react": "^7.20.0",
-    "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-react-hooks": "^2.3.0",
+    "jest": "^26.4.2",
+    "mocha": "^7.0.1",
     "typescript": ">=2.8.0"
   },
   "scripts": {
