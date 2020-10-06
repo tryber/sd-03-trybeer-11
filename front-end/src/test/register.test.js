@@ -22,7 +22,9 @@ describe('/register', () => {
     const { history } = renderWithRouter(<App />, '/register');
 
     expect(history.location.pathname).toBe('/register');
+
     const magicNumber = 2;
+
     const inputs = screen.getAllByRole('textbox');
     expect(inputs.length).toBe(magicNumber);
 

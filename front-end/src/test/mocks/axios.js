@@ -4,7 +4,7 @@ import sales from './mySalesMock';
 
 const createUrl = (pathname) => `http://localhost:3001${pathname}`;
 
-const rj = (message) => Promise.reject({ message });
+const rj = (message) => Promise.reject(new Error(message));
 const rs = (data) => Promise.resolve({ data });
 
 const get = async (url, { headers: { Authorization, authorization } = {} } = {}) => {
@@ -14,7 +14,7 @@ const get = async (url, { headers: { Authorization, authorization } = {} } = {})
 
   switch (url) {
     case createUrl('/products'): return rs({ products });
-    case createUrl('/user'): return rs({ email: 'user@email.com', name: 'Nome Qualquer' });
+    // case createUrl('/user'): return rs({ email: 'user@email.com', name: 'Nome Qualquer' });
     case createUrl('/sales/1'): return rs(saleMockData);
     case createUrl('/sales'): return rs({ sales });
     default: return rj('no url on mock');
@@ -30,6 +30,7 @@ const post = async (url, body, { headers: { authorization: token = null } = {} }
       default: return rj('no url on mock');
     }
   }
+  return 'post';
 };
 
 const postAdmin = async (url, body, { headers: { authorization: token = null } = {} } = {}) => {
@@ -41,6 +42,7 @@ const postAdmin = async (url, body, { headers: { authorization: token = null } =
       default: return rj('no url on mock');
     }
   }
+  return 'postAdmin';
 };
 
 const put = async (url, body, { headers: { Authorization, authorization } = {} } = {}) => {

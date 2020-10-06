@@ -48,7 +48,7 @@ describe('testing checkout page', () => {
     expect(unitPrice).toHaveTextContent('2.20');
     expect(ProductTotalValue).toHaveTextContent('4.40');
 
-    window.location.reload;
+    window.location.reload();
     expect(product.innerHTML).toBe('Skol Lata 250ml');
     expect(productQnt.innerHTML).toBe('2');
     expect(unitPrice).toHaveTextContent('2.20');
@@ -67,7 +67,7 @@ describe('testing checkout page', () => {
 
     expect(orderValue).toHaveTextContent('15.00');
 
-    window.location.reload;
+    window.location.reload();
     expect(orderValue).toHaveTextContent('15.00');
   });
 

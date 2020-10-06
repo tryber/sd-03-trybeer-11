@@ -49,13 +49,11 @@ describe('/products', () => {
       'http://localhost:3001/products',
       { headers: { Authorization: token } },
     );
-    const magicNumberEsLint = 10;
-    for (let i = 0; i < magicNumberEsLint; i += 1) {
-      screen.getByTestId(`${i}-product-img`);
-      screen.getByTestId(`${i}-product-name`);
-      screen.getByTestId(`${i}-product-plus`);
-      screen.getByTestId(`${i}-product-minus`);
-    }
+
+    screen.getByTestId('0-product-img');
+    screen.getByTestId('0-product-name');
+    screen.getByTestId('0-product-plus');
+    screen.getByTestId('0-product-minus');
 
     screen.getByTestId('checkout-bottom-btn-value');
     screen.getByTestId('checkout-bottom-btn');
