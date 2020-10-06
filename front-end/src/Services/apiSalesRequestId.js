@@ -7,13 +7,13 @@ const makeHeaders = () => {
   return { authorization: token };
 };
 
-const takeSales = async () => {
+const takeSalesId = async (id) => {
   const headers = makeHeaders();
-  return axios.get(`${URL_BASE}/sales`, { headers })
-    .then(({ data }) => (data ? data.sales : Promise.reject(new Error('No connection'))))
+  return axios.get(`${URL_BASE}/sales/${id}`, { headers })
+    .then(({ data }) => (data || Promise.reject(new Error('No connection'))))
     .catch((err) => Promise.reject(
       new Error(err.response ? err.response.data.message : 'No connection'),
     ));
 };
 
-export default takeSales;
+export default takeSalesId;

@@ -57,18 +57,18 @@ const CheckoutPage = () => {
         headers: { authorization: token }
       }
     )
-    .then((response) => {
-      console.log(response);
-      localStorage.removeItem('sellingProducts');
-      dispatch(successfulMessageAction());
-      dispatch(shoppingListAction([]));
-      history.push('/products');
-    })
-    .catch(({ response }) => {
-      setFinishMessage(response.data.message);
-      console.log(response.data.message);
-    })
-  }
+      .then((response) => {
+        console.log(response);
+        localStorage.removeItem('sellingProducts');
+        dispatch(successfulMessageAction());
+        dispatch(shoppingListAction([]));
+        history.push('/products');
+      })
+      .catch(({ response = {} }) => {
+        const { data: { message: msn } = {} } = response;
+        setFinishMessage(msn || 'Algo deu errado, verifique sua conexao, caso haja problemas mande para tal e tal');
+      });
+  };
 
   const onChangeStreet = (event) => setStreet(event.target.value);
 
@@ -84,8 +84,8 @@ const CheckoutPage = () => {
       <TopMenu />
       <div className="checkout-general-container all">
         <div className="checkout-content">
-          <span>{reduxStoreProducts.length === 0 ? 'Não há produtos no carrinho': null}</span>
-          {reduxStoreProducts.map(({id, name, price, sellingQnt}, index) =>
+          <span>{reduxStoreProducts.length === 0 ? 'Não há produtos no carrinho' : null}</span>
+          {reduxStoreProducts.map(({ id, name, price, sellingQnt }, index) =>
             <CheckoutProductCard
               index={index}
               key={id}

@@ -20,7 +20,7 @@ const TopMenu = () => {
   const { pathname } = useLocation();
 
   return (
-    <React.Fragment>
+    <div>
       <header className="top-menu">
         <div>
           <GiHamburgerMenu
@@ -29,10 +29,10 @@ const TopMenu = () => {
             onClick={() => setOpenSide((value) => !value)}
           />
         </div>
-        <h2 data-testid="top-title" className="header-title">{renderTitle(pathname)}</h2>;
+        <h2 data-testid="top-title" className="header-title">{renderTitle(pathname)}</h2>
       </header>
       {openSide && <SideMenu setOpenSide={setOpenSide} />}
-    </React.Fragment>
+    </div>
   );
 };
 
