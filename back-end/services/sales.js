@@ -36,7 +36,7 @@ const productObjSchema = Joi.object()
   .unknown(true);
 
 const productsSchema = Joi.array().min(1)
-.items(productObjSchema);
+  .items(productObjSchema);
 
 const checkoutSchema = Joi.object({
   userId: idSchema,
@@ -68,9 +68,11 @@ const getById = async (id) =>
   salesModel
     .getById(id)
     .then((sale) => sale ||
-    { error: true, message: 'Compra não encontrada' });
+      { error: true, message: 'Compra não encontrada' });
 
 const getProducts = async (id) => salesModel.getProducts(id);
+
+const deliverySale = async (id, status) => salesModel.updateStatus(id, status);
 
 module.exports = {
   idSchema,
@@ -80,4 +82,5 @@ module.exports = {
   getAll,
   getById,
   getProducts,
+  deliverySale,
 };

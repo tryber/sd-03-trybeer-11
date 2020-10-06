@@ -124,6 +124,13 @@ const getProducts = async (saleId) => connectionPlain()
     quantity,
   })));
 
+const updateStatus = async (id, status = 'Entregue') => connection()
+  .then((db) => db.getTable('sales'))
+  .then((table) => table.update().set('status', status)
+    .where('id = ?')
+    .bind(id)
+    .execute());
+
 module.exports = {
   addSale,
   addToIntermediate,
@@ -131,4 +138,5 @@ module.exports = {
   getById,
   getProducts,
   getAllAdmin,
+  updateStatus,
 };
