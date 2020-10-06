@@ -68,7 +68,7 @@ describe('testing Details and Details List Components', () => {
   });
 
   it('Testing Admin-Details api request', async () => {
-    const { getByTestId } = renderWithRouter(<AdminDetails />, '/admin/orders/1', '/admin/orders/:id');
+    renderWithRouter(<AdminDetails />, '/admin/orders/1', '/admin/orders/:id');
     await waitForDomChange();
   });
 });
