@@ -74,6 +74,12 @@ const getProducts = async (id) => salesModel.getProducts(id);
 
 const deliverySale = async (id, status) => salesModel.updateStatus(id, status);
 
+const confirmOwnerShip = async (userRequestId, saleId) => {
+  const { userId } = await salesModel.getById(saleId);
+  if (userRequestId !== userId) return { error: true, message: 'Essa compra não é sua' };
+  return { ok: true };
+};
+
 module.exports = {
   idSchema,
   checkoutSchema,
@@ -83,4 +89,5 @@ module.exports = {
   getById,
   getProducts,
   deliverySale,
+  confirmOwnerShip,
 };

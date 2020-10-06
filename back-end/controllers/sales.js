@@ -56,9 +56,14 @@ const getSaleDetails = rescue(async (req, res, next) => {
   return res.status(200).json({ ...sale, products });
 });
 
-const updateSale = rescue(async (req, res) => {
+const updateSale = rescue(async (req, res, next) => {
   const { id } = req.params;
   const { status } = req.body;
+  const { id: userId } = req.user;
+
+  const { error } = salesServices.confirmOwnerShip(userId, id);
+
+  if (error) return next(Boom.unauthorized(error.message));
 
   await salesServices.updateSale(id, status);
 
