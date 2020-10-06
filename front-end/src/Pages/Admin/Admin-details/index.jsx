@@ -6,7 +6,7 @@ import takeSalesId from '../../../Services/apiSalesRequestId';
 const AdminDetails = () => {
 
   const [info, setInfo] = useState(null);
-
+  console.log('kkk')
   const { id } = useParams();
 
   async function chamarApi() {

@@ -7,6 +7,8 @@ import takeSales from "../../../Services/apiSalesRequest";
 const AdminOrders = () => {
   const [{ loading, error, info }, { setLoading }] = useRequisition(takeSales);
 
+  console.log(info)
+
   React.useEffect(() => {
     setLoading(true);
   }, [setLoading]);

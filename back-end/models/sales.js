@@ -49,7 +49,7 @@ const getAll = async (saleId) => connection()
       'delivery_address',
       'status',
     ])
-    .where('id = :id')
+    .where('user_id = :id')
     .bind('id', saleId)
     .execute())
   .then((result) => result.fetchAll())

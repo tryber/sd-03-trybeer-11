@@ -45,6 +45,9 @@ const Routers = () => {
         <Route exact path="/orders">
           <PrivateRoute component={MySales} />
         </Route>
+        <Route path="/orders/:id">
+          <PrivateRoute component={AdminDetails} />
+        </Route>
       </Switch>
     </Router>
   );

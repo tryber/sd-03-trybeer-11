@@ -3,7 +3,6 @@ import './styles.css';
 import convertBRL from '../../Services/BRLFunction';
 
 const ListDetails = ({ info: { products } }) => {
-  console.log(products)
   return (
     <div className="container-list">
       {

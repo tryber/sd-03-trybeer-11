@@ -1,6 +1,7 @@
 import React from 'react';
 import convertBRL from '../../Services/BRLFunction';
 import axios from 'axios';
+import handleDate from '../../Services/handleDate';
 import './styles.css';
 
 const Details = ({ numeroPedido, status, total, children, id, data, setInfo, info }) => {
@@ -24,7 +25,7 @@ const Details = ({ numeroPedido, status, total, children, id, data, setInfo, inf
       : <>
           <h2 className={status} data-testid="top-title">Detalhes do pedido</h2>
           <br/>
-          <h2 className={status} data-testid="order-date">{data}</h2>
+          <h2 className={status} data-testid="order-date">{handleDate(data)}</h2>
         </>
       }
       <div className="details-container">

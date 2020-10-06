@@ -59,16 +59,14 @@ const addToIntermediate = async (saleIntermediateInfo) => {
   return intermediateInfo;
 };
 
-const getAll = async (id) =>
-  (id
-    ? salesModel.getAll(id)
-    : salesModel.getAllAdmin());
+const getAll = async (id) => (id
+  ? salesModel.getAll(id)
+  : salesModel.getAllAdmin());
 
-const getById = async (id) =>
-  salesModel
-    .getById(id)
-    .then((sale) => sale ||
-      { error: true, message: 'Compra não encontrada' });
+const getById = async (id) => salesModel
+  .getById(id)
+  .then((sale) => sale
+      || { error: true, message: 'Compra não encontrada' });
 
 const getProducts = async (id) => salesModel.getProducts(id);
 

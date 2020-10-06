@@ -31,7 +31,8 @@ const createSale = rescue(async (req, res, next) => {
 });
 
 const getAllSales = rescue(async (req, res, _next) => {
-  const sales = await salesServices.getAll(req.user.id);
+  const id = (req.user.role === 'administrator' ? undefined : req.user.id);
+  const sales = await salesServices.getAll(id);
   res.status(200).json({ sales });
 });
 
@@ -68,7 +69,7 @@ const updateSale = rescue(async (req, res, next) => {
 
   await salesServices.deliverySale(id, status);
 
-  res.status(200).json({ message: 'Entregue!'});
+  res.status(200).json({ message: 'Entregue!' });
 });
 
 module.exports = {
