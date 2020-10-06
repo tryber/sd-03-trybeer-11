@@ -11,27 +11,29 @@ const AdminOrders = () => {
     setLoading(true);
   }, [setLoading]);
 
-  if (loading) return <Loading />;
+  // if (loading) return <Loading />;
   if (error) return <h3>{error}</h3>;
 
   return (
     <div>
       <TopMenu />
-      <div className="admin-orders">
-        {info &&
-          info.map(({ id, number, total, address, status }, index) => (
-            <Cards
-              endereco={ address }
-              addressNumber={ number }
-              index={ index }
-              key={ id }
-              preco={ total }
-              status={ status }
-              index={ index }
-              id={ id }
-            />
-          ))}
-      </div>
+      {loading ? <Loading /> :
+        <div className="admin-orders">
+          {info &&
+            info.map(({ id, number, total, address, status }, index) => (
+              <Cards
+                endereco={ address }
+                addressNumber={ number }
+                index={ index }
+                key={ id }
+                preco={ total }
+                status={ status }
+                index={ index }
+                id={ id }
+              />
+            ))}
+        </div>
+      }
     </div>
   );
 };

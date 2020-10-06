@@ -1,4 +1,5 @@
 import React from 'react';
+import convertBRL from '../../Services/BRLFunction';
 import './styles.css';
 
 const Details = ({ numeroPedido, status, total, children, id, data }) => {
@@ -7,7 +8,7 @@ const Details = ({ numeroPedido, status, total, children, id, data }) => {
 
   return (
     <div className="geral-details">
-      <h1 className="numero-do-pedido" data-testid="order-number" >Numero do pedido: {numeroPedido}</h1>
+      <h1 className="numero-do-pedido" data-testid="order-number">Pedido {numeroPedido}</h1>
       { role === 'administrator' ?
       <h2 className={status} data-testid="order-status">{status}</h2>
       : <>
@@ -19,7 +20,7 @@ const Details = ({ numeroPedido, status, total, children, id, data }) => {
       <div className="details-container">
         {children}
       </div>
-        <h1 className="total" data-testid="order-total-value">Total: {total}</h1>
+        <h1 className="total" data-testid="order-total-value">Total: {convertBRL(total)}</h1>
       { role === 'administrator' &&
         <button
           className="marcar-entregue"

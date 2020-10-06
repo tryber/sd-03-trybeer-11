@@ -1,19 +1,21 @@
 import React from 'react';
 import './styles.css';
+import convertBRL from '../../Services/BRLFunction';
 
-const ListDetails = ({info}) => {
-
+const ListDetails = ({ info: { products } }) => {
+  console.log(products)
   return (
     <div className="container-list">
       {
-        info.products.map((x, index) => {
-          return (<div className="products-info" key={info.id}>
+        products.map((product, index) => {
+          return (<div className="products-info" key={product.id}>
             <div className="span">
-              <span data-testid={`${index}-product-qtd`}>{x.quantity}</span>
+              <span data-testid={`${index}-product-qtd`}>{product.quantity}</span>
               <span> - </span>
-              <span datata-testid={`${index}-product-name`}>{x.name}</span>
+              <span data-testid={`${index}-product-name`}>{product.name}</span>
+              <h3 data-testid={`${index}-order-unit-price`}>({convertBRL(product.price)})</h3>
             </div>
-            <h3 data-testid={`${index}-order-unit-price`}>{x.price}</h3>
+              <span data-testid={`${index}-product-total-value`}>{convertBRL(product.price * product.quantity)}</span>
           </div>)
         })
       }
