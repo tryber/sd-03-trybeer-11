@@ -59,10 +59,10 @@ const getSaleDetails = rescue(async (req, res, next) => {
 const updateSale = rescue(async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
+  console.log(status)
+  await salesServices.deliverySale(id, status);
 
-  await salesServices.updateSale(id, status);
-
-  res.status(200).end();
+  res.status(200).json({ message: 'Entregue!'});
 });
 
 module.exports = {

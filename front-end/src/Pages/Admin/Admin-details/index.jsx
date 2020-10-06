@@ -11,7 +11,7 @@ const AdminDetails = () => {
 
   async function chamarApi() {
     const data = await takeSalesId(id);
-    return await setInfo(data);
+    return setInfo(data);
   }
 
   useEffect(() => {
@@ -23,11 +23,13 @@ const AdminDetails = () => {
       <TopMenu />
       {info && (
         <Details
-          id={info.id}
+          info={ info }
+          id={ info.id }
           total={ info.totalPrice }
           numeroPedido={ info.id }
           status={ info.status }
           data={ info.date }
+          setInfo={ setInfo }
         >
           <ListDetails info={info} />
         </Details>

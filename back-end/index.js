@@ -14,7 +14,6 @@ app.use('/sales', salesRouter);
 app.use('/images', express.static(path.join(__dirname, './images')));
 app.use('/products', productsRouter);
 app.use('/user', usersRouter);
-app.use('/sales', salesRouter);
 
 app.all('*', (_req, res) => res.status(404).json({ message: 'page not found' }));
 

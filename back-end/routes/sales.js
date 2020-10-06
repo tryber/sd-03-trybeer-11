@@ -8,6 +8,6 @@ salesRouter
   .get('/:id', authMiddleware(true), salesControllers.getSaleDetails)
   .post('/', authMiddleware(true), salesControllers.createSale)
   .get('/', authMiddleware(true), salesControllers.getAllSales)
-  .put('/', authMiddleware(true), salesControllers.updateSale);
+  .put('/:id', authMiddleware(true), salesControllers.updateSale);
 
 module.exports = salesRouter;

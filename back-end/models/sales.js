@@ -127,8 +127,8 @@ const getProducts = async (saleId) => connectionPlain()
 const updateStatus = async (id, status = 'Entregue') => connection()
   .then((db) => db.getTable('sales'))
   .then((table) => table.update().set('status', status)
-    .where('id = ?')
-    .bind(id)
+    .where('id = :id')
+    .bind('id', id)
     .execute());
 
 module.exports = {

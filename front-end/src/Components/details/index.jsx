@@ -1,10 +1,20 @@
 import React from 'react';
 import convertBRL from '../../Services/BRLFunction';
+import axios from 'axios';
 import './styles.css';
 
-const Details = ({ numeroPedido, status, total, children, id, data }) => {
-
+const Details = ({ numeroPedido, status, total, children, id, data, setInfo, info }) => {
+  const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
+
+  const changeOrderStatus = () => {
+    setInfo({ ...info, status: 'Entregue' });
+
+    axios.put(`http://localhost:3001/sales/${id}`, {
+      status: 'Entregue',
+    },
+    { headers: { Authorization: token }})
+  }
 
   return (
     <div className="geral-details">
@@ -21,9 +31,10 @@ const Details = ({ numeroPedido, status, total, children, id, data }) => {
         {children}
       </div>
         <h1 className="total" data-testid="order-total-value">Total: {convertBRL(total)}</h1>
-      { role === 'administrator' &&
+      { role === 'administrator' && status !== 'Entregue' &&
         <button
           className="marcar-entregue"
+          onClick={changeOrderStatus}
           data-testid="mark-as-delivered-btn">
             Marcar como entregue
         </button>}
