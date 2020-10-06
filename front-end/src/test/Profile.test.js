@@ -6,6 +6,7 @@ import Routers from 'react-router-dom';
 import App from '../App';
 import mocks from './mocks';
 import renderWithRouter from './renderWithRouter';
+
 const { token } = mocks;
 const getMock = jest.spyOn(axios, 'get').mockImplementation(mocks.axios.get);
 const putMock = jest.spyOn(axios, 'put').mockImplementation(mocks.axios.put);
@@ -16,6 +17,7 @@ describe('/profile', () => {
   });
   afterEach(() => {
     getMock.mockClear();
+    putMock.mockClear();
     localStorage.clear();
   });
   test('should go to login if no log', () => {

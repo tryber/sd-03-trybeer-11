@@ -12,7 +12,7 @@ const renderWithRouter = (ui, route = '/', path) => {
   const history = createMemoryHistory({ initialEntries });
 
   return {
-    ...render(<Router history={ history }><Route path={path}>{putRedux(ui)}</Route></Router>),
+    ...render(<Router history={ history }><Route path={ path }>{putRedux(ui)}</Route></Router>),
     history,
   };
 };

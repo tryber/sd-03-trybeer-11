@@ -1,5 +1,5 @@
 import {
-  fireEvent, screen, waitForDomChange, cleanup,
+  fireEvent, screen, waitForDomChange,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
@@ -49,8 +49,8 @@ describe('/products', () => {
       'http://localhost:3001/products',
       { headers: { Authorization: token } },
     );
-
-    for (let i = 0; i < 10; i += 1) {
+    const magicNumberEsLint = 10;
+    for (let i = 0; i < magicNumberEsLint; i += 1) {
       screen.getByTestId(`${i}-product-img`);
       screen.getByTestId(`${i}-product-name`);
       screen.getByTestId(`${i}-product-plus`);

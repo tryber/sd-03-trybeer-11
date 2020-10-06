@@ -1,5 +1,4 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
 import axios from 'axios';
 import { cleanup, fireEvent, waitForDomChange } from '@testing-library/react';
 import renderWithRouter from './renderWithRouter';
@@ -26,7 +25,10 @@ const localStorageMock = [
 ];
 
 describe('testing checkout page', () => {
-  afterEach(() => cleanup());
+  afterEach(() => {
+    cleanup();
+    postMock.mockClear();
+  });
 
   beforeEach(() => {
     localStorage.setItem('sellingProducts', JSON.stringify([]));

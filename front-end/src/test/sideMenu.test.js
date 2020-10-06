@@ -13,7 +13,10 @@ describe('testing Side Menu bar', () => {
     localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVmNzc1NTliYzEzNTU2NGIwMThjOGEyYiIsImZpcnN0TmFtZSI6IkphZmV0IEhlbnJpcXVlIiwibGFzdE5hbWUiOiJHdWVycmEgRmFndW5kZXMiLCJlbWFpbCI6ImphZmV0QGphZmV0LmNvbS5iciIsImJpcnRoRGF0ZSI6IjAyLzA3LzE5OTQifSwiaWF0IjoxNjAxNjc0MDk5LCJleHAiOjE2MDE2Nzc2OTl9.C_EyhF2mwVpH5Q8BJuU2Gkp4IIwGylI2G4MsVvlN39k');
   });
 
-  beforeEach(() => cleanup());
+  beforeEach(() => {
+    cleanup();
+    mockGetSales.mockClear();
+  });
 
   it('testing side menu logout functionality', async () => {
     const { getByTestId, history } = renderWithRouter(<MySales />, '/orders');
@@ -36,7 +39,7 @@ describe('testing Side Menu bar', () => {
   });
 
   it('testing side menu open/close functionality', async () => {
-    const { getByTestId, history } = renderWithRouter(<MySales />, '/orders');
+    const { getByTestId } = renderWithRouter(<MySales />, '/orders');
     await waitForDomChange();
 
     const menuHamburguer = getByTestId('top-hamburguer');
@@ -64,8 +67,6 @@ describe('testing Side Menu bar', () => {
     const { getByTestId, history } = renderWithRouter(<MySales />, '/admin/orders');
     await waitForDomChange();
 
-    const menuHamburguer = getByTestId('top-hamburguer');
-
     const profileLink = getByTestId('side-menu-item-profile');
     const ordersLink = getByTestId('side-menu-item-orders');
 
@@ -75,7 +76,7 @@ describe('testing Side Menu bar', () => {
     fireEvent.click(profileLink);
     expect(history.location.pathname).toBe('/admin/profile');
 
-    renderWithRouter(<MySales />, '/admin/orders')
+    renderWithRouter(<MySales />, '/admin/orders');
     await waitForDomChange();
 
     fireEvent.click(ordersLink);

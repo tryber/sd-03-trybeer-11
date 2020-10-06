@@ -13,7 +13,10 @@ describe('Testing /orders', () => {
     localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVmNzc1NTliYzEzNTU2NGIwMThjOGEyYiIsImZpcnN0TmFtZSI6IkphZmV0IEhlbnJpcXVlIiwibGFzdE5hbWUiOiJHdWVycmEgRmFndW5kZXMiLCJlbWFpbCI6ImphZmV0QGphZmV0LmNvbS5iciIsImJpcnRoRGF0ZSI6IjAyLzA3LzE5OTQifSwiaWF0IjoxNjAxNjc0MDk5LCJleHAiOjE2MDE2Nzc2OTl9.C_EyhF2mwVpH5Q8BJuU2Gkp4IIwGylI2G4MsVvlN39k');
   });
 
-  beforeEach(() => cleanup());
+  beforeEach(() => {
+    cleanup();
+    mockGetSales.mockClear();
+  });
 
   it('testing if elements exists', async () => {
     const { getByTestId } = renderWithRouter(<MySales />, '/orders');

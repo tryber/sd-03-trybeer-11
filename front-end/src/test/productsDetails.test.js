@@ -9,25 +9,30 @@ import AdminDetails from '../Pages/Admin/Admin-details/index';
 
 const getSaleId = jest.spyOn(axios, 'get').mockImplementation(mocks.axios.get);
 
-const token = mocks.token;
+const { token } = mocks;
 
 describe('testing Details and Details List Components', () => {
   beforeEach(() => {
     localStorage.setItem('token', token);
   });
 
-  afterEach(() => cleanup());
+  afterEach(() => {
+    cleanup();
+    getSaleId.mockClear();
+  });
 
   it('testing Details List Component', () => {
-    const { getByTestId } = renderWithRouter(<ListDetails info={saleOneMock} />, '/sales/1');
+    const { getByTestId } = renderWithRouter(<ListDetails info={ saleOneMock } />, '/sales/1');
 
     const productQnt = getByTestId('0-product-qtd');
     const productName = getByTestId('0-product-name');
     const productUnitPrice = getByTestId('0-order-unit-price');
     const productTotalValue = getByTestId('0-product-total-value');
 
+    const magicNumberEsLint = 2;
+
     expect(productQnt).toBeInTheDocument();
-    expect(productQnt).toHaveTextContent(2);
+    expect(productQnt).toHaveTextContent(magicNumberEsLint);
 
     expect(productName).toBeInTheDocument();
     expect(productName).toHaveTextContent('Skol Lata 250ml');
@@ -37,7 +42,7 @@ describe('testing Details and Details List Components', () => {
 
     expect(productTotalValue).toBeInTheDocument();
     expect(productTotalValue).toHaveTextContent('R$ 4.40');
-  })
+  });
 
   it('testing Details Component with Admin', () => {
     localStorage.setItem('role', 'administrator');
@@ -63,8 +68,7 @@ describe('testing Details and Details List Components', () => {
   });
 
   it('Testing Admin-Details api request', async () => {
-    const { getByTestId } = renderWithRouter(<AdminDetails/>, '/admin/orders/1', '/admin/orders/:id');
+    const { getByTestId } = renderWithRouter(<AdminDetails />, '/admin/orders/1', '/admin/orders/:id');
     await waitForDomChange();
-  })
-
+  });
 });
