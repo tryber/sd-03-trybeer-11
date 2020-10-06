@@ -32,10 +32,11 @@
   },
   "devDependencies": {
     "eslint": "^6.1.0",
-    "jest": "25.1.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.21.2",
+    "jest": "25.1.0",
     "nodemon": "^2.0.4",
+    "supertest": "^5.0.0",
     "typescript": ">=2.8.0"
   }
 }

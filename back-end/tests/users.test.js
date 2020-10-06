@@ -1,213 +1,248 @@
-const frisby = require('frisby');
-const { eraseDB, URL_BASE, closeDB } = require('./banco');
+const request = require('supertest');
+const app = require('../app');
+const { startDBAndErase, closeDB, eraseDB } = require('./banco');
 
-const { Joi } = frisby;
+const user = {
+  name: 'exampleGrande',
+  email: 'example@example.com',
+  password: '123456',
+  role: false,
+};
 
-describe('users', () => {
-  describe('Name of the group', () => {
-    const nameError = 'pelo menos 12 caracteres, não pode conter numeros nem caracteres especiais';
-    const emailError = 'email tem que ser no formato <nome@dominio>';
-    const passwordError = 'senha de pelo menos 6 digitos';
-    const lessInfoError = 'Faltando informacoes';
-    const emailDuplicatedError = 'E-mail already in database.';
+const resultObj = {
+  id: /\d*/,
+  email: 'example@example.com',
+  token: /[A-z-=0-9.]*/,
+  name: 'exampleGrande',
+  role: 'client',
+};
 
-    beforeAll(async () => eraseDB());
+test.only('Is possible create an commom user', async () => {
+  const { body } = await request(app)
+    .post('/user')
+    .send(user);
 
-    afterAll(closeDB);
-
-    const user = {
-      name: 'exampleGrande',
-      email: 'example@example.com',
-      password: '123456',
-      role: false,
-    };
-
-    const resultObj = {
-      id: Joi.number().required(),
-      email: 'example@example.com',
-      token: Joi.string().required(),
-      name: 'exampleGrande',
-      role: 'client',
-    };
-
-    test('Is possible create an commom user', async () => {
-      await frisby.post(`${URL_BASE}/user`, user)
-        .expect('status', 201)
-        .expect('jsonTypes', resultObj);
-    });
-
-    test('Name should have at least 12 characters', async () => {
-      const name = 'abcdefghijk';
-
-      await frisby.post(`${URL_BASE}/user`, { ...user, name })
-        .expect('status', 422)
-        .expect('jsonTypes', { message: nameError });
-    });
-
-    test('Name should not have number', async () => {
-      const password = 'abcdef';
-
-      await frisby.post(`${URL_BASE}/user`, { ...user, password })
-        .expect('status', 422)
-        .expect('jsonTypes', { message: nameError });
-    });
-
-    test('Name should not have special characters', async () => {
-      const password = 'abcdef';
-
-      await frisby.post(`${URL_BASE}/user`, { ...user, password })
-        .expect('status', 422)
-        .expect('json', { message: nameError });
-    });
-
-    test('email should have the <name>@<dominio> format', async () => {
-      const email = 'example@';
-
-      await frisby.post(`${URL_BASE}/user`, { ...user, email })
-        .expect('status', 422)
-        .expect('json', { message: emailError });
-    });
-
-    test('email should not exists', async () => {
-      const email = 'example@exa.com';
-
-      const user2 = {
-        name: 'mnopqrstuvwxyz',
-        email,
-        password: 'abcdef',
-        role: 'false',
-      };
-
-      await frisby.post(`${URL_BASE}/user`, { ...user, email })
-        .expect('status', 201);
-
-      await frisby.post(`${URL_BASE}/user`, user2)
-        .expect('status', 409)
-        .expect('json', { message: emailDuplicatedError });
-    });
-
-    test('password wrong should throw error', async () => {
-      const password = '12345';
-      await frisby.post(`${URL_BASE}/user`, { ...user, password })
-        .expect('status', 422)
-        .expect('json', { message: passwordError });
-    });
-
-    test('error if have no password info', async () => {
-      const { password, ...incompletUser } = user;
-
-      await frisby.post(`${URL_BASE}/user`, incompletUser)
-        .expect('status', 422)
-        .expect('json', { message: lessInfoError });
-    });
-  });
-
-  describe('login', () => {
-    const erroEmailOrPassword = 'email ou senha inválido';
-    const email = 'example@example.com';
-    const password = '123456';
-
-    const user = {
-      name: 'exampleGrande',
-      email,
-      password,
-      role: false,
-    };
-
-    const resultObj = {
-      id: Joi.number().required(),
-      email: 'example@example.com',
-      token: Joi.string().required(),
-      name: 'exampleGrande',
-      role: 'client',
-    };
-
-    beforeAll(() => eraseDB());
-
-    afterAll(closeDB);
-
-    test('should be possible to login with right return', async () => {
-      await frisby.post(`${URL_BASE}/user`, user)
-        .expect('status', 201)
-        .expect('jsonTypes', resultObj);
-
-      await frisby.post(`${URL_BASE}/user/login`, { email, password })
-        .expect('status', 200)
-        .expect('jsonTypes', resultObj);
-    });
-
-    test('should not be possible enter with wrong password', async () => {
-      await frisby.post(`${URL_BASE}/user/login`, { email, password: '123451' })
-        .expect('status', 401)
-        .expect('jsonTypes', { message: erroEmailOrPassword });
-    });
-
-    test('should not be possible enter with an non existent email', async () => {
-      await frisby.post(`${URL_BASE}/user/login`, { email: 'noaexiste@certeza.com', password })
-        .expect('status', 401)
-        .expect('jsonTypes', { message: erroEmailOrPassword });
-    });
-  });
-
-  describe('get user', () => {
-    let token;
-    const email = 'example@example.com';
-    const password = '123456';
-
-    const user = {
-      name: 'exampleGrande',
-      email,
-      password,
-      role: false,
-    };
-
-    const resultObj = {
-      id: Joi.number().required(),
-      email: 'example@example.com',
-      token: Joi.string().required(),
-      name: 'exampleGrande',
-      role: 'client',
-    };
-    const { token: tokenSchema, ...resultNoToken } = resultObj;
-
-    beforeAll(async () => eraseDB());
-
-    afterAll(closeDB);
-
-    test('create user to test', async () => {
-      const { json } = await frisby.post(`${URL_BASE}/user`, user)
-        .expect('status', 201)
-        .expect('jsonTypes', resultObj);
-
-      token = json.token;
-    });
-
-    test('should be possible take the user with token', async () => {
-      if (!token) throw new Error('No token');
-      await frisby.get(`${URL_BASE}/user`, { headers: { authorization: token } })
-        .expect('status', 200)
-        .expect('jsonTypes', resultNoToken);
-    });
-
-    test('should give back an message if token is invalid', async () => {
-      if (!token) throw new Error('No token');
-      await frisby.get(`${URL_BASE}/user`)
-        .expect('status', 401)
-        .expect('json', { message: 'autenticacao invalido' });
-    });
-
-    test('should give back an message if token no token', async () => {
-      if (!token) throw new Error('No token');
-      await frisby.get(`${URL_BASE}/user`)
-        .expect('status', 401)
-        .expect('json', { message: 'autenticacao invalido' });
-    });
-
-    test('should give back an message if token no token', async () => {
-      if (!token) throw new Error('No token');
-      await frisby.get(`${URL_BASE}/user`, { headers: { authorization: `E${token.slice(1)}` } })
-        .expect('status', 401)
-        .expect('json', { message: 'autenticacao invalido' });
-    });
-  });
+  expect(body.email).toBe(resultObj.email);
+  expect(typeof body.id).toMatch('number');
+  expect(body.name).toBe(resultObj.name);
+  expect(body.token).toMatch(resultObj.token);
 });
+
+// describe('user register', () => {
+//   const nameError = 'pelo menos 12 caracteres, não pode conter numeros nem caracteres especiais';
+//   const emailError = 'email tem que ser no formato <nome@dominio>';
+//   const passwordError = 'senha de pelo menos 6 digitos';
+//   const lessInfoError = 'Faltando informacoes';
+//   const emailDuplicatedError = 'E-mail already in database.';
+
+//   beforeAll(async () => startDBAndErase());
+
+//   afterAll(async () => closeDB());
+
+//   beforeEach(eraseDB);
+
+//   const user = {
+//     name: 'exampleGrande',
+//     email: 'example@example.com',
+//     password: '123456',
+//     role: false,
+//   };
+
+//   const resultObj = {
+//     id: /\d*/,
+//     email: 'example@example.com',
+//     token: /[A-z-=0-9.]*/,
+//     name: 'exampleGrande',
+//     role: 'client',
+//   };
+
+//   test('Is possible create an commom user', async () => {
+//     const { body } = await request(app)
+//       .post('/user')
+//       .send(user);
+
+//     expect(body.email).toBe(resultObj.email);
+//     expect(typeof body.id).toMatch('number');
+//     expect(body.name).toBe(resultObj.name);
+//     expect(body.token).toMatch(resultObj.token);
+//   });
+
+//   test('Name should have at least 12 characters', async () => {
+//     const name = 'abcdefghijk';
+
+//     await request(app)
+//       .post('/user')
+//       .send({ ...user, name })
+//       .expect(422, { message: nameError });
+//   });
+
+//   test('Name should not have number', async () => {
+//     const name = 'Nome Qualquer2';
+
+//     await request(app).post('/user')
+//       .send({ ...user, name })
+//       .expect(422, { message: nameError });
+//   });
+
+//   test('Name should not have special characters', async () => {
+//     const name = '@Nome Qualquer';
+
+//     await request(app).post('/user')
+//       .send({ ...user, name })
+//       .expect(422, { message: nameError });
+//   });
+
+//   test('email should have the <name>@<dominio> format', async () => {
+//     const email = 'example@';
+
+//     await request(app).post('/user')
+//       .send({ ...user, email })
+//       .expect(422, { message: emailError });
+//   });
+
+//   test('email should not exists', async () => {
+//     const email = 'example@exa.com';
+
+//     const user2 = {
+//       name: 'mnopqrstuvwxyz',
+//       email,
+//       password: 'abcdef',
+//       role: 'false',
+//     };
+
+//     await request(app).post('/user')
+//       .send({ ...user, email })
+//       .expect(201);
+
+//     await request(app).post('/user')
+//       .send(user2)
+//       .expect(409, { message: emailDuplicatedError });
+//   });
+
+//   test('password wrong should throw error', async () => {
+//     const password = '12345';
+//     await request(app).post('/user')
+//       .send({ ...user, password })
+//       .expect(422, { message: passwordError });
+//   });
+
+//   test('error if have no password info', async () => {
+//     const { password, ...incompletUser } = user;
+
+//     await request(app).post('/user', incompletUser)
+//       .expect(422, { message: lessInfoError });
+//   });
+// });
+
+// describe('login', () => {
+//   const erroEmailOrPassword = 'email ou senha inválido';
+//   const email = 'example@example.com';
+//   const password = '123456';
+
+//   const user = {
+//     name: 'exampleGrande',
+//     email,
+//     password,
+//     role: false,
+//   };
+
+//   const resultObj = {
+//     email: 'example@example.com',
+//     token: /[A-z0-9.]/,
+//     name: 'exampleGrande',
+//     role: 'client',
+//   };
+
+//   beforeAll(() => startDBAndErase());
+
+//   afterAll(closeDB);
+
+//   test('should be possible to login with right return', async () => {
+//     const { body } = await request(app).post('/user')
+//       .send(user)
+//       .expect(201);
+
+//     expect(body.email).toBe(resultObj.email);
+//     expect(typeof body.id).toBe('number');
+//     expect(body.name).toBe(resultObj.name);
+//     expect(body.token).toMatch(resultObj.token);
+
+//     const { body: body2 } = await request(app).post('/user/login')
+//       .send({ email: 'example@example.com', password: '123456' })
+//       .expect(200);
+
+//     expect(body2.email).toBe(resultObj.email);
+//     expect(typeof body2.id).toBe('number');
+//     expect(body2.name).toBe(resultObj.name);
+//     expect(body2.token).toMatch(resultObj.token);
+//   });
+
+//   test('should not be possible enter with wrong password', async () => {
+//     await request(app).post('/user/login')
+//       .send({ email, password: '123451' })
+//       .expect(401, { message: erroEmailOrPassword });
+//   });
+
+//   test('should not be possible enter with an non existent email', async () => {
+//     await request(app).post('/user/login')
+//       .send({ email: 'noaexiste@certeza.com', password })
+//       .expect(401, { message: erroEmailOrPassword });
+//   });
+// });
+
+// describe('get user', () => {
+//   let token;
+//   const email = 'example@example.com';
+//   const password = '123456';
+
+//   const user = {
+//     name: 'exampleGrande',
+//     email,
+//     password,
+//     role: false,
+//   };
+
+//   beforeAll(async () => startDBAndErase());
+
+//   afterAll(closeDB);
+
+//   test('create user to test', async () => {
+//     const { body } = await request(app).post('/user')
+//       .send(user)
+//       .expect(201);
+
+//     expect(body.token).toMatch(/^[A-z0-9\-.]*$/);
+
+//     token = body.token;
+//   });
+
+//   test('should be possible take the user with token', async () => {
+//     if (!token) throw new Error('No token');
+
+//     const { body } = await request(app).get('/user')
+//       .set('Authorization', token)
+//       .expect(200);
+
+//     expect(typeof body.id).toBe('number');
+//     expect(body.name).toBe(user.name);
+//     expect(body.email).toEqual(email);
+//   });
+
+//   test('should give back an message if token is invalid', async () => {
+//     if (!token) throw new Error('No token');
+//     await request(app).get('/user')
+//       .expect(401, { message: 'autenticacao invalido' });
+//   });
+
+//   test('should give back an message if token no token', async () => {
+//     if (!token) throw new Error('No token');
+//     await request(app).get('/user')
+//       .expect(401, { message: 'autenticacao invalido' });
+//   });
+
+//   test('should give back an message if token no token', async () => {
+//     if (!token) throw new Error('No token');
+//     await request(app).get('/user')
+//       .expect(401, { message: 'autenticacao invalido' });
+//   });
+// });
