@@ -15,8 +15,8 @@ const AdminOrders = () => {
   if (error) return <h3>{error}</h3>;
 
   return (
-    <>
-    <TopMenu />
+    <div>
+      <TopMenu />
       <div className="admin-orders">
         {info &&
           info.map(({ id, number, total, address, status }, index) => (
@@ -32,7 +32,7 @@ const AdminOrders = () => {
             />
           ))}
       </div>
-    </>
+    </div>
   );
 };
 

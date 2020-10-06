@@ -6,14 +6,14 @@ const ListDetails = ({info}) => {
   return (
     <div className="container-list">
       {
-        info.products.map((x) => {
+        info.products.map((x, index) => {
           return (<div className="products-info" key={info.id}>
             <div className="span">
-              <span data-testid={`${x.id}-product-qtd`}>{x.quantity}</span>
+              <span data-testid={`${index}-product-qtd`}>{x.quantity}</span>
               <span> - </span>
-              <span datata-testid={`${x.id}-product-name`}>{x.name}</span>
+              <span datata-testid={`${index}-product-name`}>{x.name}</span>
             </div>
-            <h3 data-testid={`${x.id}-order-unit-price`}>{x.price}</h3>
+            <h3 data-testid={`${index}-order-unit-price`}>{x.price}</h3>
           </div>)
         })
       }

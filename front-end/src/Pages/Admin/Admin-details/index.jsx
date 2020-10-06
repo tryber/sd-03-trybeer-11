@@ -19,7 +19,7 @@ const AdminDetails = () => {
   },[id]);
 
   return (
-    <>
+    <div>
       <TopMenu />
       {info && (
         <Details
@@ -32,7 +32,7 @@ const AdminDetails = () => {
           <ListDetails info={info} />
         </Details>
       )}
-    </>
+    </div>
   );
 };
 
