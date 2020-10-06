@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import './index.css';
 import { getUser, changeName } from '../../Services/apiUserRequests';
-import { Redirect } from 'react-router-dom';
-import {Loading, TopMenu} from '../../Components/';
+import { Loading, TopMenu } from '../../Components';
+import './index.css';
 
 const Profile = () => {
   const [name, setName] = useState('');
@@ -14,13 +13,7 @@ const Profile = () => {
   const [changeLoading, setChangeLoading] = useState(false);
   const [oficialName, setOficialName] = useState('');
 
-  const [shouldRedirect, setShouldRedirect] = useState(false);
-
   useEffect(() => {
-    const token = localStorage.getItem('token');
-
-    if (!token) setShouldRedirect(true);
-
     if (loading) {
       getUser()
         .then((user) => {
@@ -40,8 +33,8 @@ const Profile = () => {
     if (changeLoading) {
       setResult(null);
       changeName(name)
-        .then((result) => {
-          setResult(result);
+        .then((res) => {
+          setResult(res);
           setChangeLoading(false);
         })
         .catch((err) => {
@@ -51,7 +44,6 @@ const Profile = () => {
     }
   }, [changeLoading, name]);
 
-  if (shouldRedirect) return <Redirect to="/login" />
   if (changeLoading || loading) return <Loading />;
 
   const role = localStorage.getItem('role');
@@ -60,10 +52,8 @@ const Profile = () => {
     <>
       <TopMenu />
       <div className="chage-user-container">
-        <h1 data-testid="top-title" className="change-user-title">
-          Profile
-        </h1>
         <form
+          aria-label="change name input"
           className="change-user-form"
           onSubmit={(e) => {
             e.preventDefault();
@@ -72,36 +62,28 @@ const Profile = () => {
         >
           <label className="change-user-label" htmlFor="name">
             <h2 className="change-user-label-text">Name</h2>
-            {role === 'administrator' ?
-              <button
-                data-testid="profile-name"
-                type="button"
-                className="change-user-input"
-                name="name"
-                id="name"
-              >{name}</button>
-              :
-              <input
-                data-testid="profile-name-input"
-                type="text"
-                className="change-user-input"
-                name="name"
-                id="name"
-                value={name}
-                onChange={({ target }) => setName(target.value)}
-              />
-            }
+            <textarea
+              aria-label="change name"
+              data-testid={role === 'administrator' ? "profile-name" : "profile-name-input"}
+              className="change-user-input"
+              onChange={(event) => setOficialName(event.target.value)}
+              name="name"
+              id="name"
+              defaultValue={name}
+              readOnly={role === "administrator"}
+            />
           </label>
           <label className="change-user-label" htmlFor="email">
             <h2 className="change-user-label-text">Email</h2>
-            <button
-              data-testid={role === 'administrator' ? "profile-email" : "profile-email-input"}
+            <textarea
+              aria-label="read email"
+              data-testid={role === 'administrator' ? 'profile-email' : 'profile-email-input'}
               className="change-user-input"
-              type="button"
               id="email"
               name="email"
+              value={email}
               readOnly
-            >{email}</button>
+            />
           </label>
 
           <button

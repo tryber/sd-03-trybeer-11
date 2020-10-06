@@ -1,13 +1,11 @@
 import React from "react";
 import { Cards, Loading, TopMenu } from "../../../Components";
-import "./styles.css";
 import useRequisition from "../../../Services/hook";
 import takeSales from "../../../Services/apiSalesRequest";
+import "./styles.css";
 
 const AdminOrders = () => {
   const [{ loading, error, info }, { setLoading }] = useRequisition(takeSales);
-
-  console.log(info)
 
   React.useEffect(() => {
     setLoading(true);

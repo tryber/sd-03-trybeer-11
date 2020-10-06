@@ -20,8 +20,8 @@ const ClientProduct = () => {
 
   useEffect(() => {
     dispatch(getApiData());
-      const shoppingListLocalStorage = JSON.parse(localStorage.getItem('sellingProducts'));
-      if (shoppingListLocalStorage) dispatch(shoppingListAction(shoppingListLocalStorage));
+    const shoppingListLocalStorage = JSON.parse(localStorage.getItem('sellingProducts'));
+    if (shoppingListLocalStorage) dispatch(shoppingListAction(shoppingListLocalStorage));
   }, []);
 
   if (requestError === 'No connection') return <h1>Sem conexão com o servidor</h1>;
@@ -29,7 +29,7 @@ const ClientProduct = () => {
 
   return (
     <>
-    <TopMenu />
+      <TopMenu />
       <div className="general-container all">
         <div>{successfulMessage !== '' ? successfulMessage : null}</div>
         <div className="cards-button">
@@ -40,6 +40,7 @@ const ClientProduct = () => {
           </div>
           <Link to="/checkout">
             <button
+              type="button"
               className="checkout-button"
               disabled={totalPrice === 0}
               data-testid="checkout-bottom-btn"
