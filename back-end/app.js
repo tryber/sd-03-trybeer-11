@@ -9,11 +9,11 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
-app.use((req, _res, next) => {
-  console.log(req.path);
-  console.log(req.body);
-  next();
-});
+// app.use((req, _res, next) => {
+//   console.log(req.path);
+//   console.log(req.body);
+//   next();
+// });
 
 app.use('/sales', salesRouter);
 app.use('/images', express.static(path.join(__dirname, './images')));
