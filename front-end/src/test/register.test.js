@@ -23,8 +23,10 @@ describe('/register', () => {
 
     expect(history.location.pathname).toBe('/register');
 
+    const magicNumber = 2;
+
     const inputs = screen.getAllByRole('textbox');
-    expect(inputs.length).toBe(2);
+    expect(inputs.length).toBe(magicNumber);
 
     const emailInput = screen.getByLabelText(/Email/i);
     const nameInput = screen.getByLabelText(/Nome/i);

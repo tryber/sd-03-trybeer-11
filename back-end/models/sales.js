@@ -38,7 +38,31 @@ const addToIntermediate = async ({ id, productId, sellingQnt }) => {
   return result;
 };
 
-const getAll = async () => connection()
+const getAll = async (saleId) => connection()
+  .then((db) => db.getTable('sales'))
+  .then((table) => table
+    .select([
+      'id',
+      'delivery_number',
+      'sale_date',
+      'total_price',
+      'delivery_address',
+      'status',
+    ])
+    .where('user_id = :id')
+    .bind('id', saleId)
+    .execute())
+  .then((result) => result.fetchAll())
+  .then((sales) => sales.map(([id, number, date, total, address, status]) => ({
+    id,
+    number,
+    date,
+    total,
+    address,
+    status,
+  })));
+
+const getAllAdmin = async () => connection()
   .then((db) => db.getTable('sales'))
   .then((table) => table
     .select([
@@ -100,10 +124,19 @@ const getProducts = async (saleId) => connectionPlain()
     quantity,
   })));
 
+const updateStatus = async (id, status = 'Entregue') => connection()
+  .then((db) => db.getTable('sales'))
+  .then((table) => table.update().set('status', status)
+    .where('id = :id')
+    .bind('id', id)
+    .execute());
+
 module.exports = {
   addSale,
   addToIntermediate,
   getAll,
   getById,
   getProducts,
+  getAllAdmin,
+  updateStatus,
 };

@@ -1,4 +1,6 @@
-import { fireEvent, screen, waitForDomChange, cleanup } from '@testing-library/react';
+import {
+  fireEvent, screen, waitForDomChange,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import React from 'react';
@@ -10,7 +12,7 @@ import renderWithRouter from './renderWithRouter';
 const getMock = jest.spyOn(axios, 'get').mockImplementation(mocks.axios.get);
 jest.spyOn(Routers, 'BrowserRouter').mockImplementation(mocks.BrowserRouter);
 
-const token = mocks.token;
+const { token } = mocks;
 
 describe('if no token user should to go to /login', () => {
   test('should go to login if no log', () => {
@@ -48,12 +50,10 @@ describe('/products', () => {
       { headers: { Authorization: token } },
     );
 
-    for (let i = 0; i < 10; i += 1) {
-      screen.getByTestId(`${i}-product-img`);
-      screen.getByTestId(`${i}-product-name`);
-      screen.getByTestId(`${i}-product-plus`);
-      screen.getByTestId(`${i}-product-minus`);
-    }
+    screen.getByTestId('0-product-img');
+    screen.getByTestId('0-product-name');
+    screen.getByTestId('0-product-plus');
+    screen.getByTestId('0-product-minus');
 
     screen.getByTestId('checkout-bottom-btn-value');
     screen.getByTestId('checkout-bottom-btn');

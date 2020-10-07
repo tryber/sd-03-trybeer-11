@@ -36,14 +36,17 @@ const Routers = () => (
       <Route path="/admin/profile">
         <PrivateRoute component={Profile} />
       </Route>
-      <Route path="/admin/orders">
+      <Route exact path="/admin/orders">
         <PrivateRoute component={AdminOrders} />
       </Route>
-      <Route path="/admin/details/:id">
+      <Route path="/admin/orders/:id">
         <PrivateRoute component={AdminDetails} />
       </Route>
       <Route exact path="/orders">
         <PrivateRoute component={MySales} />
+      </Route>
+      <Route path="/orders/:id">
+          <PrivateRoute component={AdminDetails} />
       </Route>
       <Route path="*" render={() => <Redirect to="/login" />} />
     </Switch>

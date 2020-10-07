@@ -3,4 +3,6 @@ import BrowserRouter from './BrowserRouter';
 import products from './products';
 import token from './token';
 
-export default { axios, BrowserRouter, products, token };
+export default {
+  axios, BrowserRouter, products, token,
+};

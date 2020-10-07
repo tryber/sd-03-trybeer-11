@@ -1,9 +1,10 @@
 import products from './products';
-
+import saleMockData from './saleMockData';
 import sales from './mySalesMock';
+
 const createUrl = (pathname) => `http://localhost:3001${pathname}`;
 
-const rj = (message) => Promise.reject({ message });
+const rj = (message) => Promise.reject(new Error(message));
 const rs = (data) => Promise.resolve({ data });
 
 const get = async (url, { headers: { Authorization, authorization } = {} } = {}) => {
@@ -13,7 +14,8 @@ const get = async (url, { headers: { Authorization, authorization } = {} } = {})
 
   switch (url) {
     case createUrl('/products'): return rs({ products });
-    case createUrl('/user'): return rs({ email: 'user@email.com', name: 'Nome Qualquer' });
+    // case createUrl('/user'): return rs({ email: 'user@email.com', name: 'Nome Qualquer' });
+    case createUrl('/sales/1'): return rs(saleMockData);
     case createUrl('/sales'): return rs({ sales });
     default: return rj('no url on mock');
   }
@@ -29,6 +31,7 @@ const post = async (url, body, { headers: { Authorization, authorization } = {} 
       default: return rj('no url on mock');
     }
   }
+  return 'post';
 };
 
 const put = async (url, body, { headers: { Authorization, authorization } = {} } = {}) => {
@@ -49,11 +52,22 @@ const postAdmin = async (url, body, { headers: { Authorization, authorization } 
     case createUrl('/user'): return rs({ body, token: 'ofcknoefoajfojaofjeif', role });
     default: return rj('no url on mock');
   }
+  return 'postAdmin';
+};
+
+const put = async (url, body, { headers: { Authorization, authorization } = {} } = {}) => {
+  const token = authorization || Authorization || null;
+  if (!token) return rj('No token in the put tests');
+  switch (url) {
+    case createUrl('/user/profile'): return rs('Atualização concluída com sucesso');
+    default: return rj('no url on put tests');
+  }
 };
 
 export default {
   get,
   post,
+  put,
   postAdmin,
   failRequest: rj,
   put,

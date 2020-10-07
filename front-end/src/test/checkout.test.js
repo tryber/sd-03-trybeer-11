@@ -1,10 +1,9 @@
 import React from 'react';
-import { Router } from 'react-router-dom';
+import axios from 'axios';
+import { cleanup, fireEvent, waitForDomChange } from '@testing-library/react';
 import renderWithRouter from './renderWithRouter';
 import CheckoutPage from '../Pages/Client/Checkout/index';
-import axios from 'axios';
-import mocks from './mocks'
-import { cleanup, fireEvent, waitForDomChange } from '@testing-library/react';
+import mocks from './mocks';
 
 const postMock = jest.spyOn(axios, 'post').mockImplementation(mocks.axios.post);
 
@@ -26,34 +25,35 @@ const localStorageMock = [
 ];
 
 describe('testing checkout page', () => {
-
-  afterEach(() => cleanup());
+  afterEach(() => {
+    cleanup();
+    postMock.mockClear();
+  });
 
   beforeEach(() => {
     localStorage.setItem('sellingProducts', JSON.stringify([]));
     localStorage.setItem('sellingProducts', JSON.stringify(localStorageMock));
     window.location.reload = jest.fn();
-  })
+  });
 
   it('testing if page reloads products stay there', () => {
     const { getByTestId } = renderWithRouter(<CheckoutPage />);
 
     const product = getByTestId('0-product-name');
     const productQnt = getByTestId('0-product-qtd-input');
-    const ProductTotalValue = getByTestId('0-product-total-value')
-    const unitPrice = getByTestId('0-product-unit-price')
+    const ProductTotalValue = getByTestId('0-product-total-value');
+    const unitPrice = getByTestId('0-product-unit-price');
     expect(product.innerHTML).toBe('Skol Lata 250ml');
     expect(productQnt.innerHTML).toBe('2');
     expect(unitPrice).toHaveTextContent('2.20');
     expect(ProductTotalValue).toHaveTextContent('4.40');
 
-    window.location.reload;
+    window.location.reload();
     expect(product.innerHTML).toBe('Skol Lata 250ml');
     expect(productQnt.innerHTML).toBe('2');
     expect(unitPrice).toHaveTextContent('2.20');
     expect(ProductTotalValue).toHaveTextContent('4.40');
-
-  })
+  });
 
   it('testing if total price is correct', () => {
     const { getByTestId } = renderWithRouter(<CheckoutPage />);
@@ -67,7 +67,7 @@ describe('testing checkout page', () => {
 
     expect(orderValue).toHaveTextContent('15.00');
 
-    window.location.reload;
+    window.location.reload();
     expect(orderValue).toHaveTextContent('15.00');
   });
 
@@ -76,7 +76,7 @@ describe('testing checkout page', () => {
     const { getByText } = renderWithRouter(<CheckoutPage />);
     const message = getByText(/Não há produtos no carrinho/i);
     expect(message).toBeInTheDocument();
-  })
+  });
 
   it('testing purchase action', async () => {
     const { getByTestId, history } = renderWithRouter(<CheckoutPage />, '/checkout');

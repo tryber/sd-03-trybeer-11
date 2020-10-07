@@ -64,13 +64,13 @@ const Profile = () => {
             <h2 className="change-user-label-text">Name</h2>
             <textarea
               aria-label="change name"
-              data-testid={role === 'administrator' ? 'profile-name' : 'profile-name-input'}
+              data-testid={role === 'administrator' ? "profile-name" : "profile-name-input"}
               className="change-user-input"
+              onChange={(event) => setOficialName(event.target.value)}
               name="name"
               id="name"
-              onChange={({ target }) => setName(target.value)}
-              value={name}
-              readOnly={role === 'administrator'}
+              defaultValue={name}
+              readOnly={role === "administrator"}
             />
           </label>
           <label className="change-user-label" htmlFor="email">

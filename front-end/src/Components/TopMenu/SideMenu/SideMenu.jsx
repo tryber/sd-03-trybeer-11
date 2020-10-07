@@ -1,20 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './index.css';
+import React from "react";
+import { Link, useHistory } from "react-router-dom";
+import "./index.css";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 const SideMenu = () => {
   const role = localStorage.getItem('role');
 
+  const history = useHistory();
+
   return (
     <aside className="side-menu-container" data-testid="side-menu-container">
-      {role === 'administrator' ? (
+      {role === "administrator" ? (
         <>
-          <Link to="/admin/orders">
-            <button data-testid="side-menu-item-orders">Pedidos</button>
-          </Link>
-          <Link to="/admin/profile">
-            <button data-testid="side-menu-item-profile">Meu Perfil</button>
-          </Link>
+          <button data-testid="side-menu-item-profile" onClick={() => history.push('/admin/profile')}>Meu Perfil</button>
+          <button data-testid="side-menu-item-orders" onClick={() => history.push('/admin/orders')}>Pedidos</button>
         </>
       ) : (
           <>
