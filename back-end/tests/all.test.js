@@ -186,6 +186,44 @@ describe('login', () => {
   });
 });
 
+describe('change user', () => {
+  let token;
+  const email = 'example@example.com';
+  const password = '123456';
+
+  const user = {
+    name: 'exampleGrande',
+    email,
+    password,
+    role: false,
+  };
+
+  beforeAll(async () => {
+    [conn, db] = await startDBAndErase();
+    await eraseDB(db, conn);
+  });
+
+  afterAll(async () => closeDB(db, conn));
+
+  test('create user to test', async () => {
+    const { body } = await request(app).post('/user')
+      .send(user)
+      .expect(201);
+
+    expect(body.token).toMatch(/^[A-z0-9\-.]*$/);
+
+    token = body.token;
+  });
+
+  test('should edit user', async () => {
+    const newName = 'Novo nome de usuario';
+    await request(app).put('/user/profile')
+      .set('Authorization', token)
+      .send({ name: newName })
+      .expect(200);
+  });
+});
+
 describe('get user', () => {
   let token;
   const email = 'example@example.com';
@@ -356,4 +394,31 @@ const products = [{
   });
 });
 
+describe('products getAll', () => {
+  beforeAll(async () => {
+    await startDBAndErase();
+  });
 
+  afterAll(async () => {
+    await closeDB();
+  });
+
+  test('get products', async () => {
+    const { body } = await request(app).post('/user')
+      .send({
+        email: 'user@email.com',
+        name: 'Nome Qualquer',
+        password: '123456',
+        role: true,
+      })
+      .set('Accept', 'application/json')
+      .expect(201);
+
+    const { token } = body;
+    expect(token).not.toBeUndefined();
+
+    await request(app).get('/products')
+      .set('Authorization', token)
+      .expect(200);
+  });
+});

@@ -44,23 +44,12 @@ const put = async (url, body, { headers: { Authorization, authorization } = {} }
   }
 };
 
-const postAdmin = async (url, body, { headers: { Authorization, authorization } = {} } = {}) => {
-  const token = authorization || Authorization || null;
+const postAdmin = async (url, body) => {
   const role = 'administrator';
   switch (url) {
     case createUrl('/user/login'): return rs({ ...body, token: 'jfaj3u0rud0cjawu0ur3q', role });
     case createUrl('/user'): return rs({ body, token: 'ofcknoefoajfojaofjeif', role });
     default: return rj('no url on mock');
-  }
-  return 'postAdmin';
-};
-
-const put = async (url, body, { headers: { Authorization, authorization } = {} } = {}) => {
-  const token = authorization || Authorization || null;
-  if (!token) return rj('No token in the put tests');
-  switch (url) {
-    case createUrl('/user/profile'): return rs('Atualização concluída com sucesso');
-    default: return rj('no url on put tests');
   }
 };
 
@@ -70,5 +59,4 @@ export default {
   put,
   postAdmin,
   failRequest: rj,
-  put,
 };
