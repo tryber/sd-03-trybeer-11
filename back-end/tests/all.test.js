@@ -1,6 +1,7 @@
 const request = require('supertest');
 const app = require('../app');
 const { startDBAndErase, closeDB, eraseDB } = require('./banco');
+const restartDb = require('./bancoTest');
 
 const user = {
   name: 'exampleGrande',
@@ -17,16 +18,6 @@ const resultObj = {
   role: 'client',
 };
 
-test('Is possible create an commom user', async () => {
-  const { body } = await request(app)
-    .post('/user')
-    .send(user);
-
-  expect(body.email).toBe(resultObj.email);
-  expect(typeof body.id).toMatch('number');
-  expect(body.name).toBe(resultObj.name);
-  expect(body.token).toMatch(resultObj.token);
-});
 
 describe('user register', () => {
   const nameError = 'pelo menos 12 caracteres, não pode conter numeros nem caracteres especiais';
@@ -34,12 +25,13 @@ describe('user register', () => {
   const passwordError = 'senha de pelo menos 6 digitos';
   const lessInfoError = 'Faltando informacoes';
   const emailDuplicatedError = 'E-mail already in database.';
+  beforeAll(async () => {
+    await restartDb();
+  });
 
-  beforeAll(async () => startDBAndErase());
-
-  afterAll(async () => closeDB());
-
-  beforeEach(eraseDB);
+  afterAll(async () => {
+    await closeDB();
+  });
 
   const user = {
     name: 'exampleGrande',
@@ -153,9 +145,13 @@ describe('login', () => {
     role: 'client',
   };
 
-  beforeAll(() => startDBAndErase());
+  beforeAll(async () => {
+    await restartDb();
+  });
 
-  afterAll(closeDB);
+  afterAll(async () => {
+    await closeDB();
+  });
 
   test('should be possible to login with right return', async () => {
     const { body } = await request(app).post('/user')
@@ -202,9 +198,13 @@ describe('get user', () => {
     role: false,
   };
 
-  beforeAll(async () => startDBAndErase());
+  beforeAll(async () => {
+    await restartDb();
+  });
 
-  afterAll(closeDB);
+  afterAll(async () => {
+    await closeDB();
+  });
 
   test('create user to test', async () => {
     const { body } = await request(app).post('/user')
@@ -246,3 +246,114 @@ describe('get user', () => {
       .expect(401, { message: 'autenticacao invalido' });
   });
 });
+
+describe('products getAll', () => {
+
+  beforeAll(async () => {
+    await restartDb();
+  });
+
+  afterAll(async () => {
+    await closeDB();
+  });
+
+  test('get products', async () => {
+    const { body } = await request(app).post('/user')
+      .send({
+        email: 'user@email.com',
+        name: 'Nome Qualquer',
+        password: '123456',
+        role: true,
+      })
+      .set('Accept', 'application/json')
+      .expect(201);
+
+    const { token } = body;
+    expect(token).not.toBeUndefined();
+
+    await request(app).get('/products')
+      .set('Authorization', token)
+      .expect(200)
+  });
+});
+
+
+const totalPrice = 22;
+const deliveryAddress = 'Rua da Pinga';
+const deliveryNumber = '132';
+const products = [{
+    id: '1',
+    name: 'Skol Lata 250ml',
+    price: 2.20,
+    urlImage: 'http://localhost:3001/images/Skol Lata 350ml.jpg',
+    sellingQnt: 10,
+  }];
+
+  describe('sale getAll', () => {
+  let token;
+  beforeAll(async () => {
+    await restartDb();
+  });
+
+  afterAll(async () => {
+    await closeDB();
+  });
+  test('create user to test', async () => {
+    const { body } = await request(app).post('/user')
+      .send({
+        name: 'Nome Qualquer',
+        email: 'test@user.com',
+        password: '123456',
+        role: false,
+      })
+      .expect(201);
+    expect(body.token).toMatch(/^[A-z0-9\-.]*$/);
+    token = body.token;
+  });
+
+  test('create sale', async () => {
+    expect(token).not.toBeUndefined();
+    await request(app).post('/sales')
+      .send({ totalPrice, deliveryAddress, deliveryNumber, products })
+      .set('Authorization', token)
+      .expect({ message: 'Venda processada!' });
+  });
+
+  test('get all sales', async () => {
+    expect(token).not.toBeUndefined();
+    await request(app).get('/sales')
+      .set('Authorization', token)
+      .expect(200);
+  });
+
+  test('get sales details', async () => {
+    expect(token).not.toBeUndefined();
+
+    const getSale = await request(app).get('/sales')
+      .set('Authorization', token)
+      .expect(200);
+
+    const id = JSON.parse(getSale.res.text).sales[0].id
+
+    await request(app).get(`/sales/${id}`)
+      .set('Authorization', token)
+      .expect(200);
+  });
+
+  test('update sale', async() => {
+    expect(token).not.toBeUndefined();
+
+    const getSale = await request(app).get('/sales')
+      .set('Authorization', token)
+      .expect(200);
+
+    const id = JSON.parse(getSale.res.text).sales[0].id
+
+    await request(app).put(`/sales/${id}`)
+      .send({ status: 'Entregue' })
+      .set('Authorization', token)
+      .expect({ message: 'Entregue!' });
+  });
+});
+
+
