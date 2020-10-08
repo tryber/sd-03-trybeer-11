@@ -1,13 +1,7 @@
 require('dotenv/config');
-var mysqlx = require('@mysql/xdevapi');
+const mysqlx = require('@mysql/xdevapi');
 
-const {
-  HOSTNAME,
-  MYSQL_USER,
-  MYSQL_PASSWORD,
-  PORT_DB,
-  PORT,
-} = process.env;
+const { HOSTNAME, MYSQL_USER, MYSQL_PASSWORD, PORT_DB } = process.env;
 const config = {
   host: HOSTNAME,
   user: MYSQL_USER,
@@ -17,12 +11,12 @@ const config = {
 };
 
 const usersConstric = `(
-	  id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    password VARCHAR(20) NOT NULL,
-    role VARCHAR(20) NOT NULL,
-    PRIMARY KEY (id)
+ id INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  password VARCHAR(20) NOT NULL,
+  role VARCHAR(20) NOT NULL,
+  PRIMARY KEY (id)
 )`;
 
 const salesConstric = `(
@@ -69,61 +63,50 @@ const productsPopulate = `INSERT INTO products (id, name, price, url_image) VALU
 ('8','Brahma Duplo Malte 350ml',2.79, 'http://localhost:3001/images/Brahma Duplo Malte 350ml.jpg'),
 ('9','Becks 600ml',8.89, 'http://localhost:3001/images/Becks 600ml.jpg'),
 ('10','Skol Beats Senses 269ml',3.57, 'http://localhost:3001/images/Skol Beats Senses 269ml.jpg'),
-('11','Stella Artois 275ml',3.49, 'http://localhost:3001/images/Stella Artois 275ml.jpg');`
+('11','Stella Artois 275ml',3.49, 'http://localhost:3001/images/Stella Artois 275ml.jpg');`;
 
 function createTestTable(session, name, tableConstrict) {
-  var create = 'CREATE TABLE ';
+  let create = 'CREATE TABLE ';
   create += name;
   create += tableConstrict;
   return session.sql(create).execute();
 }
 
 function dropTestTable(session, name) {
-  return session
-    .sql('DROP TABLE IF EXISTS ' + name)
-    .execute()
+  return session.sql(`DROP TABLE IF EXISTS ${name}`).execute();
 }
 
 function populateTestTable(session, insertion) {
-  return session
-    .sql(insertion)
-    .execute()
-};
+  return session.sql(insertion).execute();
+}
 
-var session;
+let session;
 
-const restartDb = () => {
-  return mysqlx
+const restartDb = () => mysqlx
   .getSession(config)
-  .then(function (s) {
+  .then((s) => {
     session = s;
 
-    return session
-      .sql('use Trybeer')
-      .execute()
+    return session.sql('use Trybeer').execute();
   })
-  .then(async function () {
+  .then(async () => {
     // Drop some tables
 
-    await dropTestTable(session, 'sales_products')
-    await dropTestTable(session, 'products')
-    await dropTestTable(session, 'sales')
-    await dropTestTable(session, 'users')
-
+    await dropTestTable(session, 'sales_products');
+    await dropTestTable(session, 'products');
+    await dropTestTable(session, 'sales');
+    await dropTestTable(session, 'users');
   })
-  .then(async function () {
+  .then(async () => {
     // Creates some tables
-    await createTestTable(session, 'users', usersConstric)
-    await createTestTable(session, 'products', productsConstrict)
-    await createTestTable(session, 'sales', salesConstric)
-    await createTestTable(session, 'sales_products', salesProductsConstrict)
+    await createTestTable(session, 'users', usersConstric);
+    await createTestTable(session, 'products', productsConstrict);
+    await createTestTable(session, 'sales', salesConstric);
+    await createTestTable(session, 'sales_products', salesProductsConstrict);
   })
-  .then(function () {
-    return Promise.all([
-      populateTestTable(session, userPopulate),
-      populateTestTable(session, productsPopulate),
-    ])
-  })
-}
+  .then(() => Promise.all([
+    populateTestTable(session, userPopulate),
+    populateTestTable(session, productsPopulate),
+  ]));
 
 module.exports = restartDb;

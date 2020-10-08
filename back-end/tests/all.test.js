@@ -1,23 +1,22 @@
 const request = require('supertest');
 const app = require('../app');
-const { startDBAndErase, closeDB, eraseDB } = require('./banco');
+const { startDBAndErase, closeDB } = require('./banco');
 const restartDb = require('./bancoTest');
 
-const user = {
-  name: 'exampleGrande',
-  email: 'example@example.com',
-  password: '123456',
-  role: false,
-};
+// const user = {
+//   name: 'exampleGrande',
+//   email: 'example@example.com',
+//   password: '123456',
+//   role: false,
+// };
 
-const resultObj = {
-  id: /\d*/,
-  email: 'example@example.com',
-  token: /[A-z-=0-9.]*/,
-  name: 'exampleGrande',
-  role: 'client',
-};
-
+// const resultObj = {
+//   id: /\d*/,
+//   email: 'example@example.com',
+//   token: /[A-z-=0-9.]*/,
+//   name: 'exampleGrande',
+//   role: 'client',
+// };
 
 describe('user register', () => {
   const nameError = 'pelo menos 12 caracteres, não pode conter numeros nem caracteres especiais';
@@ -199,11 +198,12 @@ describe('change user', () => {
   };
 
   beforeAll(async () => {
-    [conn, db] = await startDBAndErase();
-    await eraseDB(db, conn);
+    await restartDb();
   });
 
-  afterAll(async () => closeDB(db, conn));
+  afterAll(async () => {
+    await closeDB();
+  });
 
   test('create user to test', async () => {
     const { body } = await request(app).post('/user')
@@ -286,7 +286,6 @@ describe('get user', () => {
 });
 
 describe('products getAll', () => {
-
   beforeAll(async () => {
     await restartDb();
   });
@@ -311,23 +310,22 @@ describe('products getAll', () => {
 
     await request(app).get('/products')
       .set('Authorization', token)
-      .expect(200)
+      .expect(200);
   });
 });
-
 
 const totalPrice = 22;
 const deliveryAddress = 'Rua da Pinga';
 const deliveryNumber = '132';
 const products = [{
-    id: '1',
-    name: 'Skol Lata 250ml',
-    price: 2.20,
-    urlImage: 'http://localhost:3001/images/Skol Lata 350ml.jpg',
-    sellingQnt: 10,
-  }];
+  id: '1',
+  name: 'Skol Lata 250ml',
+  price: 2.20,
+  urlImage: 'http://localhost:3001/images/Skol Lata 350ml.jpg',
+  sellingQnt: 10,
+}];
 
-  describe('sale getAll', () => {
+describe('sale getAll', () => {
   let token;
   beforeAll(async () => {
     await restartDb();
@@ -371,21 +369,21 @@ const products = [{
       .set('Authorization', token)
       .expect(200);
 
-    const id = JSON.parse(getSale.res.text).sales[0].id
+    const { id } = JSON.parse(getSale.res.text).sales[0];
 
     await request(app).get(`/sales/${id}`)
       .set('Authorization', token)
       .expect(200);
   });
 
-  test('update sale', async() => {
+  test('update sale', async () => {
     expect(token).not.toBeUndefined();
 
     const getSale = await request(app).get('/sales')
       .set('Authorization', token)
       .expect(200);
 
-    const id = JSON.parse(getSale.res.text).sales[0].id
+    const { id } = JSON.parse(getSale.res.text).sales[0];
 
     await request(app).put(`/sales/${id}`)
       .send({ status: 'Entregue' })
