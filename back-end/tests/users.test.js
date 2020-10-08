@@ -189,7 +189,6 @@ describe('change user', () => {
     role: false,
   };
 
-
   beforeAll(async () => {
     [conn, db] = await startDBAndErase();
     await eraseDB(db, conn);
@@ -360,7 +359,6 @@ describe('sale getAll', () => {
 });
 
 describe('products getAll', () => {
-
   beforeAll(async () => {
     await startDBAndErase();
   });
