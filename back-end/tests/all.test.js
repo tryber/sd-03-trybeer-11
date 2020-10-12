@@ -1,7 +1,6 @@
 const request = require('supertest');
 const app = require('../app');
-const { startDBAndErase, closeDB } = require('./banco');
-const restartDb = require('./bancoTest');
+const { restartDb, closeTestDB } = require('./bancoTest');
 
 // const user = {
 //   name: 'exampleGrande',
@@ -17,19 +16,21 @@ const restartDb = require('./bancoTest');
 //   name: 'exampleGrande',
 //   role: 'client',
 // };
-
+afterAll((done) => done());
 describe('user register', () => {
   const nameError = 'pelo menos 12 caracteres, não pode conter numeros nem caracteres especiais';
   const emailError = 'email tem que ser no formato <nome@dominio>';
   const passwordError = 'senha de pelo menos 6 digitos';
   const lessInfoError = 'Faltando informacoes';
   const emailDuplicatedError = 'E-mail already in database.';
-  beforeAll(async () => {
+  beforeAll(async (done) => {
     await restartDb();
+    done();
   });
 
-  afterAll(async () => {
-    await closeDB();
+  afterAll(async (done) => {
+    await closeTestDB();
+    done();
   });
 
   const user = {
@@ -144,12 +145,14 @@ describe('login', () => {
     role: 'client',
   };
 
-  beforeAll(async () => {
+  beforeAll(async (done) => {
     await restartDb();
+    done();
   });
 
-  afterAll(async () => {
-    await closeDB();
+  afterAll(async (done) => {
+    await closeTestDB();
+    done();
   });
 
   test('should be possible to login with right return', async () => {
@@ -197,12 +200,14 @@ describe('change user', () => {
     role: false,
   };
 
-  beforeAll(async () => {
+  beforeAll(async (done) => {
     await restartDb();
+    done();
   });
 
-  afterAll(async () => {
-    await closeDB();
+  afterAll(async (done) => {
+    await closeTestDB();
+    done();
   });
 
   test('create user to test', async () => {
@@ -236,12 +241,14 @@ describe('get user', () => {
     role: false,
   };
 
-  beforeAll(async () => {
+  beforeAll(async (done) => {
     await restartDb();
+    done();
   });
 
-  afterAll(async () => {
-    await closeDB();
+  afterAll(async (done) => {
+    await closeTestDB();
+    done();
   });
 
   test('create user to test', async () => {
@@ -286,12 +293,14 @@ describe('get user', () => {
 });
 
 describe('products getAll', () => {
-  beforeAll(async () => {
+  beforeAll(async (done) => {
     await restartDb();
+    done();
   });
 
-  afterAll(async () => {
-    await closeDB();
+  afterAll(async (done) => {
+    await closeTestDB();
+    done();
   });
 
   test('get products', async () => {
@@ -327,12 +336,14 @@ const products = [{
 
 describe('sale getAll', () => {
   let token;
-  beforeAll(async () => {
+  beforeAll(async (done) => {
     await restartDb();
+    done();
   });
 
-  afterAll(async () => {
-    await closeDB();
+  afterAll(async (done) => {
+    await closeTestDB();
+    done();
   });
   test('create user to test', async () => {
     const { body } = await request(app).post('/user')
@@ -393,15 +404,17 @@ describe('sale getAll', () => {
 });
 
 describe('products getAll', () => {
-  beforeAll(async () => {
-    await startDBAndErase();
+  beforeAll(async (done) => {
+    await restartDb();
+    done();
   });
 
-  afterAll(async () => {
-    await closeDB();
+  afterAll(async (done) => {
+    await closeTestDB(done);
+    done();
   });
 
-  test('get products', async () => {
+  test('get products', async (done) => {
     const { body } = await request(app).post('/user')
       .send({
         email: 'user@email.com',
@@ -412,11 +425,14 @@ describe('products getAll', () => {
       .set('Accept', 'application/json')
       .expect(201);
 
+    done();
     const { token } = body;
     expect(token).not.toBeUndefined();
-
+    done();
     await request(app).get('/products')
       .set('Authorization', token)
       .expect(200);
+
+    done();
   });
 });

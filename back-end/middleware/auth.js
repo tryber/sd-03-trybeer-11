@@ -21,6 +21,6 @@ module.exports = (isNecessary = true) => rescue(async (req, _res, next) => {
     req.user = DBUser;
     return next();
   } catch (err) {
-    next(Boom.unauthorized('autenticacao invalido'));
+    return next(Boom.unauthorized('autenticacao invalido'));
   }
 });

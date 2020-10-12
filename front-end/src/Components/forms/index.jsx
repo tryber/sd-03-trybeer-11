@@ -33,7 +33,7 @@ const Forms = ({ register }) => {
       })
       .catch(({ response }) => {
         if (!response) return setErrorLogin('No connection');
-        setErrorLogin(response.data.message);
+        return setErrorLogin(response.data.message);
       });
   };
 
@@ -53,7 +53,7 @@ const Forms = ({ register }) => {
       })
       .catch(({ response }) => {
         if (!response) return setErrorLogin('No connection');
-        setErrorLogin(response.data.message);
+        return setErrorLogin(response.data.message);
       });
   };
 

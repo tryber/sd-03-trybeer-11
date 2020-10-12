@@ -1,12 +1,12 @@
 require('dotenv/config');
 const mysqlx = require('@mysql/xdevapi');
 
-const { HOSTNAME, MYSQL_USER, MYSQL_PASSWORD, PORT_DB } = process.env;
+// const { HOSTNAME, MYSQL_USER, MYSQL_PASSWORD, PORT_DB } = process.env;
 const config = {
-  host: HOSTNAME,
-  user: MYSQL_USER,
-  password: MYSQL_PASSWORD,
-  port: PORT_DB,
+  host: 'localhost',
+  user: 'root',
+  password: 'root',
+  port: 33060,
   socketPath: '/var/run/mysqld/mysqld.sock',
 };
 
@@ -65,33 +65,31 @@ const productsPopulate = `INSERT INTO products (id, name, price, url_image) VALU
 ('10','Skol Beats Senses 269ml',3.57, 'http://localhost:3001/images/Skol Beats Senses 269ml.jpg'),
 ('11','Stella Artois 275ml',3.49, 'http://localhost:3001/images/Stella Artois 275ml.jpg');`;
 
-function createTestTable(session, name, tableConstrict) {
+async function createTestTable(session, name, tableConstrict) {
   let create = 'CREATE TABLE ';
   create += name;
   create += tableConstrict;
   return session.sql(create).execute();
 }
 
-function dropTestTable(session, name) {
+async function dropTestTable(session, name) {
   return session.sql(`DROP TABLE IF EXISTS ${name}`).execute();
 }
 
-function populateTestTable(session, insertion) {
+async function populateTestTable(session, insertion) {
   return session.sql(insertion).execute();
 }
 
 let session;
 
-const restartDb = () => mysqlx
+const restartDb = async () => mysqlx
   .getSession(config)
   .then((s) => {
     session = s;
-
     return session.sql('use Trybeer').execute();
   })
   .then(async () => {
     // Drop some tables
-
     await dropTestTable(session, 'sales_products');
     await dropTestTable(session, 'products');
     await dropTestTable(session, 'sales');
@@ -107,6 +105,24 @@ const restartDb = () => mysqlx
   .then(() => Promise.all([
     populateTestTable(session, userPopulate),
     populateTestTable(session, productsPopulate),
-  ]));
+  ]))
+  .catch((err) => {
+    console.log(err);
+    process.exit(1);
+  });
 
-module.exports = restartDb;
+const closeTestDB = async (server) => {
+  // console.log(session)
+
+  await session.close();
+  await session.done();
+  // await session.is_open()
+  server.close();
+
+  // console.log(session)
+};
+
+module.exports = {
+  restartDb,
+  closeTestDB,
+};
