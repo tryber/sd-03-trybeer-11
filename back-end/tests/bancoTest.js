@@ -114,7 +114,6 @@ const restartDb = async () => mysqlx
   });
 
 const closeTestDB = async () => {
-  // console.log(session)
 
   await dropTestTable(session, 'sales_products');
   await dropTestTable(session, 'products');
@@ -123,10 +122,6 @@ const closeTestDB = async () => {
 
   await session.close();
   await session.done();
-  // await session.is_open()
-  // server.close();
-
-  // console.log(session)
 };
 
 module.exports = {
