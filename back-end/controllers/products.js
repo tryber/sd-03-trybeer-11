@@ -4,7 +4,7 @@ const { productsServices } = require('../services');
 const getAll = rescue(
   async (_req, res, _next) => {
     const products = await productsServices.getAll();
-    res.status(200).json({
+    return res.status(200).json({
       products,
     });
   },

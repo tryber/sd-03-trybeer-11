@@ -21,7 +21,8 @@ const get = async (url, { headers: { Authorization, authorization } = {} } = {})
   }
 };
 
-const post = async (url, body, { headers: { authorization: token = null } = {} } = {}) => {
+const post = async (url, body, { headers: { Authorization, authorization } = {} } = {}) => {
+  const token = authorization || Authorization || null;
   if (!token) {
     switch (url) {
       case createUrl('/user/login'): return rs({ ...body, token: 'jfaj3u0rud0cjawu0ur3q32r' });
@@ -33,24 +34,22 @@ const post = async (url, body, { headers: { authorization: token = null } = {} }
   return 'post';
 };
 
-const postAdmin = async (url, body, { headers: { authorization: token = null } = {} } = {}) => {
-  const role = 'administrator';
-  if (!token) {
-    switch (url) {
-      case createUrl('/user/login'): return rs({ ...body, token: 'jfaj3u0rud0cjawu0ur3q', role });
-      case createUrl('/user'): return rs({ body, token: 'ofcknoefoajfojaofjeif', role });
-      default: return rj('no url on mock');
-    }
-  }
-  return 'postAdmin';
-};
-
 const put = async (url, body, { headers: { Authorization, authorization } = {} } = {}) => {
   const token = authorization || Authorization || null;
+
   if (!token) return rj('No token in the put tests');
   switch (url) {
     case createUrl('/user/profile'): return rs('Atualização concluída com sucesso');
     default: return rj('no url on put tests');
+  }
+};
+
+const postAdmin = async (url, body) => {
+  const role = 'administrator';
+  switch (url) {
+    case createUrl('/user/login'): return rs({ ...body, token: 'jfaj3u0rud0cjawu0ur3q', role });
+    case createUrl('/user'): return rs({ body, token: 'ofcknoefoajfojaofjeif', role });
+    default: return rj('no url on mock');
   }
 };
 
