@@ -51,7 +51,7 @@ describe('user register', () => {
   };
 
   test('Is possible create an commom user', async () => {
-    const { body } = await request(server)
+    const { body } = await request(app)
       .post('/user')
       .send(user);
 
@@ -64,7 +64,7 @@ describe('user register', () => {
   test('Name should have at least 12 characters', async () => {
     const name = 'abcdefghijk';
 
-    await request(server)
+    await request(app)
       .post('/user')
       .send({ ...user, name })
       .expect(422, { message: nameError });
@@ -73,7 +73,7 @@ describe('user register', () => {
   test('Name should not have number', async () => {
     const name = 'Nome Qualquer2';
 
-    await request(server).post('/user')
+    await request(app).post('/user')
       .send({ ...user, name })
       .expect(422, { message: nameError });
   });
@@ -81,7 +81,7 @@ describe('user register', () => {
   test('Name should not have special characters', async () => {
     const name = '@Nome Qualquer';
 
-    await request(server).post('/user')
+    await request(app).post('/user')
       .send({ ...user, name })
       .expect(422, { message: nameError });
   });
@@ -89,7 +89,7 @@ describe('user register', () => {
   test('email should have the <name>@<dominio> format', async () => {
     const email = 'example@';
 
-    await request(server).post('/user')
+    await request(app).post('/user')
       .send({ ...user, email })
       .expect(422, { message: emailError });
   });
@@ -104,18 +104,18 @@ describe('user register', () => {
       role: 'false',
     };
 
-    await request(server).post('/user')
+    await request(app).post('/user')
       .send({ ...user, email })
       .expect(201);
 
-    await request(server).post('/user')
+    await request(app).post('/user')
       .send(user2)
       .expect(409, { message: emailDuplicatedError });
   });
 
   test('password wrong should throw error', async () => {
     const password = '12345';
-    await request(server).post('/user')
+    await request(app).post('/user')
       .send({ ...user, password })
       .expect(422, { message: passwordError });
   });
@@ -123,7 +123,7 @@ describe('user register', () => {
   test('error if have no password info', async () => {
     const { password, ...incompletUser } = user;
 
-    await request(server).post('/user', incompletUser)
+    await request(app).post('/user', incompletUser)
       .expect(422, { message: lessInfoError });
   });
 });
@@ -160,7 +160,7 @@ describe('login', () => {
   });
 
   test('should be possible to login with right return', async () => {
-    const { body } = await request(server).post('/user')
+    const { body } = await request(app).post('/user')
       .send(user)
       .expect(201);
 
@@ -169,7 +169,7 @@ describe('login', () => {
     expect(body.name).toBe(resultObj.name);
     expect(body.token).toMatch(resultObj.token);
 
-    const { body: body2 } = await request(server).post('/user/login')
+    const { body: body2 } = await request(app).post('/user/login')
       .send({ email: 'example@example.com', password: '123456' })
       .expect(200);
 
@@ -180,13 +180,13 @@ describe('login', () => {
   });
 
   test('should not be possible enter with wrong password', async () => {
-    await request(server).post('/user/login')
+    await request(app).post('/user/login')
       .send({ email, password: '123451' })
       .expect(401, { message: erroEmailOrPassword });
   });
 
   test('should not be possible enter with an non existent email', async () => {
-    await request(server).post('/user/login')
+    await request(app).post('/user/login')
       .send({ email: 'noaexiste@certeza.com', password })
       .expect(401, { message: erroEmailOrPassword });
   });
@@ -217,7 +217,7 @@ describe('change user', () => {
   });
 
   test('create user to test', async () => {
-    const { body } = await request(server).post('/user')
+    const { body } = await request(app).post('/user')
       .send(user)
       .expect(201);
 
@@ -228,7 +228,7 @@ describe('change user', () => {
 
   test('should edit user', async () => {
     const newName = 'Novo nome de usuario';
-    await request(server).put('/user/profile')
+    await request(app).put('/user/profile')
       .set('Authorization', token)
       .send({ name: newName })
       .expect(200);
@@ -260,7 +260,7 @@ describe('get user', () => {
   });
 
   test('create user to test', async () => {
-    const { body } = await request(server).post('/user')
+    const { body } = await request(app).post('/user')
       .send(user)
       .expect(201);
 
@@ -272,7 +272,7 @@ describe('get user', () => {
   test('should be possible take the user with token', async () => {
     if (!token) throw new Error('No token');
 
-    const { body } = await request(server).get('/user')
+    const { body } = await request(app).get('/user')
       .set('Authorization', token)
       .expect(200);
 
@@ -283,19 +283,19 @@ describe('get user', () => {
 
   test('should give back an message if token is invalid', async () => {
     if (!token) throw new Error('No token');
-    await request(server).get('/user')
+    await request(app).get('/user')
       .expect(401, { message: 'autenticacao invalido' });
   });
 
   test('should give back an message if token no token', async () => {
     if (!token) throw new Error('No token');
-    await request(server).get('/user')
+    await request(app).get('/user')
       .expect(401, { message: 'autenticacao invalido' });
   });
 
   test('should give back an message if token no token', async () => {
     if (!token) throw new Error('No token');
-    await request(server).get('/user')
+    await request(app).get('/user')
       .expect(401, { message: 'autenticacao invalido' });
   });
 });
@@ -314,7 +314,7 @@ describe('products getAll', () => {
   });
 
   test('get products', async () => {
-    const { body } = await request(server).post('/user')
+    const { body } = await request(app).post('/user')
       .send({
         email: 'user@email.com',
         name: 'Nome Qualquer',
@@ -327,7 +327,7 @@ describe('products getAll', () => {
     const { token } = body;
     expect(token).not.toBeUndefined();
 
-    await request(server).get('/products')
+    await request(app).get('/products')
       .set('Authorization', token)
       .expect(200);
   });
@@ -358,7 +358,7 @@ describe('sale getAll', () => {
     return server && server.close(done);
   });
   test('create user to test', async () => {
-    const { body } = await request(server).post('/user')
+    const { body } = await request(app).post('/user')
       .send({
         name: 'Nome Qualquer',
         email: 'test@user.com',
@@ -372,7 +372,7 @@ describe('sale getAll', () => {
 
   test('create sale', async () => {
     expect(token).not.toBeUndefined();
-    await request(server).post('/sales')
+    await request(app).post('/sales')
       .send({ totalPrice, deliveryAddress, deliveryNumber, products })
       .set('Authorization', token)
       .expect({ message: 'Venda processada!' });
@@ -380,7 +380,7 @@ describe('sale getAll', () => {
 
   test('get all sales', async () => {
     expect(token).not.toBeUndefined();
-    await request(server).get('/sales')
+    await request(app).get('/sales')
       .set('Authorization', token)
       .expect(200);
   });
@@ -388,13 +388,13 @@ describe('sale getAll', () => {
   test('get sales details', async () => {
     expect(token).not.toBeUndefined();
 
-    const getSale = await request(server).get('/sales')
+    const getSale = await request(app).get('/sales')
       .set('Authorization', token)
       .expect(200);
 
     const { id } = JSON.parse(getSale.res.text).sales[0];
 
-    await request(server).get(`/sales/${id}`)
+    await request(app).get(`/sales/${id}`)
       .set('Authorization', token)
       .expect(200);
   });
@@ -402,13 +402,13 @@ describe('sale getAll', () => {
   test('update sale', async () => {
     expect(token).not.toBeUndefined();
 
-    const getSale = await request(server).get('/sales')
+    const getSale = await request(app).get('/sales')
       .set('Authorization', token)
       .expect(200);
 
     const { id } = JSON.parse(getSale.res.text).sales[0];
 
-    await request(server).put(`/sales/${id}`)
+    await request(app).put(`/sales/${id}`)
       .send({ status: 'Entregue' })
       .set('Authorization', token)
       .expect({ message: 'Entregue!' });

@@ -2,7 +2,6 @@ const request = require('supertest');
 const app = require('../app');
 const { restartDb, closeTestDB } = require('./bancoTest');
 
-afterAll((done) => done());
 describe('user register', () => {
   let server;
   beforeAll(async () => {
@@ -82,14 +81,20 @@ describe('user register', () => {
   //     .expect(409, { message: emailDuplicatedError });
   // });
 
-  test('Is possible create an commom user', async () => {
-    const { body } = await request(server)
-      .post('/user')
-      .send(user);
-
-    expect(body.email).toBe(resultObj.email);
-    expect(typeof body.id).toMatch('number');
-    expect(body.name).toBe(resultObj.name);
-    expect(body.token).toMatch(resultObj.token);
+  test('Is possible create an commom user', () => {
+    try {
+      request(server)
+        .post('/user')
+        .send(user)
+        .then(({ body }) => {
+          expect(body.email).toBe(resultObj.email);
+          expect(typeof body.id).toMatch('number');
+          expect(body.name).toBe(resultObj.name);
+          expect(body.token).toMatch(resultObj.token);
+        })
+        .catch((err) => console.log(err));
+    } catch (error) {
+      expect(error).toBe(error);
+    }
   });
 });
