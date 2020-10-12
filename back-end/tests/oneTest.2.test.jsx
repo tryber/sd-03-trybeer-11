@@ -4,15 +4,18 @@ const { restartDb, closeTestDB } = require('./bancoTest');
 
 describe('user register', () => {
   let server;
-  beforeAll(async () => {
+  beforeEach(async () => {
     await restartDb();
     server = app.listen(4000);
   });
 
   afterAll(async (done) => {
+    console.log('lll')
     await closeTestDB(server);
+    server.allowHalfOpen = false;
+    server.close(done);
 
-    return server && server.close(done);
+    done()
   });
 
   const user = {
@@ -29,14 +32,7 @@ describe('user register', () => {
     name: 'exampleGrande',
     role: 'client',
   };
-  // test('Name should have at least 12 characters', async () => {
-  //   const name = 'abcdefghijk';
 
-  //   await request(app)
-  //     .post('/user')
-  //     .send({ ...user, name })
-  //     .expect(422, { message: nameError });
-  // });
 
   // test('Name should not have number', async () => {
   //   const name = 'Nome Qualquer2';
@@ -81,9 +77,9 @@ describe('user register', () => {
   //     .expect(409, { message: emailDuplicatedError });
   // });
 
-  test('Is possible create an commom user', () => {
+  test('Is possible create an commom user', async (done) => {
     try {
-      request(server)
+      await request(server)
         .post('/user')
         .send(user)
         .then(({ body }) => {
@@ -91,10 +87,11 @@ describe('user register', () => {
           expect(typeof body.id).toMatch('number');
           expect(body.name).toBe(resultObj.name);
           expect(body.token).toMatch(resultObj.token);
+          done()
         })
-        .catch((err) => console.log(err));
+
     } catch (error) {
-      expect(error).toBe(error);
+      console.log(error)
     }
   });
 });

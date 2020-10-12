@@ -1,4 +1,4 @@
-require('dotenv/config');
+// require('dotenv/config');
 const mysqlx = require('@mysql/xdevapi');
 
 // const { HOSTNAME, MYSQL_USER, MYSQL_PASSWORD, PORT_DB } = process.env;
@@ -7,7 +7,7 @@ const config = {
   user: 'root',
   password: 'root',
   port: 33060,
-  socketPath: '/var/run/mysqld/mysqld.sock',
+  // socketPath: '/var/run/mysqld/mysqld.sock',
 };
 
 const usersConstric = `(
@@ -73,6 +73,7 @@ async function createTestTable(session, name, tableConstrict) {
 }
 
 async function dropTestTable(session, name) {
+  // console.log(name)
   return session.sql(`DROP TABLE IF EXISTS ${name}`).execute();
 }
 
@@ -107,9 +108,9 @@ const restartDb = async () => mysqlx
     populateTestTable(session, productsPopulate),
   ]))
   .catch((err) => {
-    console.log('kkk');
     console.log(err);
     session.close();
+    process.exit(1);
   });
 
 const closeTestDB = async (server) => {
@@ -118,7 +119,7 @@ const closeTestDB = async (server) => {
   await session.close();
   await session.done();
   // await session.is_open()
-  server.close();
+  // server.close();
 
   // console.log(session)
 };
