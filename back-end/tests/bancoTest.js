@@ -114,7 +114,6 @@ const restartDb = async () => mysqlx
   });
 
 const closeTestDB = async () => {
-
   await dropTestTable(session, 'sales_products');
   await dropTestTable(session, 'products');
   await dropTestTable(session, 'sales');
