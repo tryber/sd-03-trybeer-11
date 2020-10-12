@@ -107,7 +107,7 @@ const restartDb = async () => mysqlx
     populateTestTable(session, productsPopulate),
   ]))
   .catch((err) => {
-    console.log('kkk')
+    console.log('kkk');
     console.log(err);
     session.close();
   });
