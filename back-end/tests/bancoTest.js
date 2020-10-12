@@ -113,7 +113,7 @@ const restartDb = async () => mysqlx
     process.exit(1);
   });
 
-const closeTestDB = async (server) => {
+const closeTestDB = async () => {
   // console.log(session)
 
   await session.close();
