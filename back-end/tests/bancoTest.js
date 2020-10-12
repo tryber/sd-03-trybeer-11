@@ -1,12 +1,12 @@
-// require('dotenv/config');
+require('dotenv/config');
 const mysqlx = require('@mysql/xdevapi');
 
-// const { HOSTNAME, MYSQL_USER, MYSQL_PASSWORD, PORT_DB } = process.env;
+const { HOSTNAME, MYSQL_USER, MYSQL_PASSWORD, PORT_DB } = process.env;
 const config = {
-  host: 'localhost',
-  user: 'root',
-  password: 'root',
-  port: 33060,
+  host: HOSTNAME,
+  user: MYSQL_USER,
+  password: MYSQL_PASSWORD,
+  port: PORT_DB,
   // socketPath: '/var/run/mysqld/mysqld.sock',
 };
 
