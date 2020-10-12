@@ -344,6 +344,20 @@ const products = [{
   sellingQnt: 10,
 }];
 
+const productsIdInvalid = [{
+  name: 'Skol Lata 250ml',
+  price: 2.20,
+  urlImage: 'http://localhost:3001/images/Skol Lata 350ml.jpg',
+  sellingQnt: 10,
+}];
+
+const productsQntInvalid = [{
+  id: '1',
+  name: 'Skol Lata 250ml',
+  price: 2.20,
+  urlImage: 'http://localhost:3001/images/Skol Lata 350ml.jpg',
+}];
+
 describe('sale getAll', () => {
   let token;
   let server;
@@ -370,12 +384,44 @@ describe('sale getAll', () => {
     token = body.token;
   });
 
-  test('create sale', async () => {
+  test('create successful sale', async () => {
     expect(token).not.toBeUndefined();
     await request(app).post('/sales')
       .send({ totalPrice, deliveryAddress, deliveryNumber, products })
       .set('Authorization', token)
       .expect({ message: 'Venda processada!' });
+  });
+
+  test('create failed sale', async () => {
+    expect(token).not.toBeUndefined();
+    await request(app).post('/sales')
+      .send({ deliveryAddress, deliveryNumber, products })
+      .set('Authorization', token)
+      .expect({ message: 'preço total inválido' });
+  });
+
+  test('create failed sale', async () => {
+    expect(token).not.toBeUndefined();
+    await request(app).post('/sales')
+      .send({ totalPrice, deliveryNumber, products })
+      .set('Authorization', token)
+      .expect({ message: 'endereço necessário' });
+  });
+
+  test('create failed sale', async () => {
+    expect(token).not.toBeUndefined();
+    await request(app).post('/sales')
+      .send({ totalPrice, deliveryAddress, deliveryNumber, products: productsIdInvalid })
+      .set('Authorization', token)
+      .expect({ message: 'product id inválido' });
+  });
+
+  test('create failed sale', async () => {
+    expect(token).not.toBeUndefined();
+    await request(app).post('/sales')
+      .send({ totalPrice, deliveryAddress, deliveryNumber, products: productsQntInvalid })
+      .set('Authorization', token)
+      .expect({ message: 'quantidade inválida' });
   });
 
   test('get all sales', async () => {
