@@ -5,7 +5,6 @@ const { restartDb, closeTestDB } = require('./bancoTest');
 afterAll((done) => done());
 describe('user register', () => {
   let server;
-  // let agent;
   beforeAll(async () => {
     await restartDb();
     server = app.listen(4000);
