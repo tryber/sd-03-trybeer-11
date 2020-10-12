@@ -9,7 +9,7 @@ describe('user register', () => {
     server = app.listen(4000);
   });
 
-  afterAll(async (done) => {
+  afterEach(async (done) => {
     console.log('lll')
     await closeTestDB(server);
     server.allowHalfOpen = false;
